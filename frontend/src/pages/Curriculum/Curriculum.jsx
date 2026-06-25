@@ -1,117 +1,100 @@
-import {
-  BookOpen,
-  CheckCircle,
-  GraduationCap,
-  Brain,
-  Cpu,
-} from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, CheckCircle, Brain, Cpu, GraduationCap } from "lucide-react";
 
-const curriculumLevels = [
+const grades = [
   {
-    title: "Primary School",
-    classes: "Class 3 - 5",
-    description:
-      "Introduction to robotics, basic electronics, logical thinking and creativity.",
     icon: Brain,
+    label: "Grade 3–5",
+    title: "Primary Level",
+    color: "bg-emerald-50 text-emerald-600",
+    topics: ["Basic Electronics", "Simple Machines", "Logical Thinking", "Block Coding", "Creative Robotics"],
   },
   {
-    title: "Middle School",
-    classes: "Class 6 - 8",
-    description:
-      "Sensors, motors, block coding, problem solving and STEM projects.",
     icon: Cpu,
+    label: "Grade 6–8",
+    title: "Middle Level",
+    color: "bg-blue-50 text-blue-600",
+    topics: ["Sensors & Motors", "Arduino Basics", "Coding with Python", "STEM Projects", "Robotics Competitions"],
   },
   {
-    title: "Senior School",
-    classes: "Class 9 - 12",
-    description:
-      "Advanced robotics, programming, AI concepts, IoT and innovation projects.",
     icon: GraduationCap,
+    label: "Grade 9–12",
+    title: "Senior Level",
+    color: "bg-purple-50 text-purple-600",
+    topics: ["Advanced Robotics", "AI & Machine Learning", "IoT Projects", "PCB Design", "Industry Applications"],
   },
 ];
 
 const features = [
-  "CBSE & STEM aligned curriculum",
-  "Project-based learning approach",
-  "Teacher guides and lesson plans",
-  "Assessment and evaluation modules",
-  "Competition preparation support",
-  "Hands-on practical activities",
+  "NEP 2020 & CBSE Aligned",
+  "Project-Based Learning",
+  "Teacher Guides & Lesson Plans",
+  "Assessment & Evaluation Modules",
+  "Competition Preparation",
+  "Hands-On Practical Activities",
 ];
 
 export default function Curriculum() {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white">
+
       {/* Hero */}
-      <section className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <BookOpen size={60} className="mx-auto mb-6" />
-
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-24">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <span className="inline-block bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
             STEM Curriculum
+          </span>
+          <h1 className="text-5xl font-bold mb-6">
+            Age-Wise{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+              Robotics Curriculum
+            </span>
           </h1>
-
-          <p className="max-w-3xl mx-auto text-lg opacity-90">
-            Structured robotics and STEM curriculum designed to build
-            creativity, innovation and problem-solving skills for students.
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Structured STEM curriculum for Grade 3 to 12 — aligned with NEP 2020,
+            designed to build creativity, innovation and problem-solving skills.
           </p>
         </div>
       </section>
 
-      {/* Curriculum Levels */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-4xl font-bold text-center text-slate-900">
-          Learning Levels
-        </h2>
-
-        <div className="grid md:grid-cols-3 gap-8 mt-14">
-          {curriculumLevels.map((level) => {
-            const Icon = level.icon;
-
-            return (
-              <div
-                key={level.title}
-                className="border rounded-2xl p-8 hover:shadow-xl transition"
-              >
-                <div className="w-14 h-14 bg-cyan-100 rounded-xl flex items-center justify-center">
-                  <Icon className="text-cyan-600" size={28} />
+      {/* Grade Cards */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-slate-900 mb-3">Learning Levels</h2>
+            <p className="text-slate-500">Each level is designed for the cognitive abilities of that age group.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {grades.map(({ icon: Icon, label, title, color, topics }) => (
+              <div key={label} className="border border-slate-200 rounded-2xl p-8 hover:shadow-lg hover:border-cyan-300 transition">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${color}`}>
+                  <Icon size={24} />
                 </div>
-
-                <h3 className="text-2xl font-semibold mt-5">
-                  {level.title}
-                </h3>
-
-                <p className="text-cyan-600 font-medium mt-2">
-                  {level.classes}
-                </p>
-
-                <p className="text-slate-600 mt-4">
-                  {level.description}
-                </p>
+                <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full">{label}</span>
+                <h3 className="text-xl font-bold text-slate-900 mt-3 mb-4">{title}</h3>
+                <ul className="space-y-2">
+                  {topics.map((t) => (
+                    <li key={t} className="flex items-center gap-2 text-sm text-slate-600">
+                      <CheckCircle size={14} className="text-cyan-500 flex-shrink-0" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="bg-slate-50 py-20">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-slate-900">
-            What's Included?
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6 mt-12">
-            {features.map((feature) => (
-              <div
-                key={feature}
-                className="bg-white border rounded-xl p-5 flex items-center gap-3"
-              >
-                <CheckCircle
-                  size={20}
-                  className="text-cyan-600 flex-shrink-0"
-                />
-                <span>{feature}</span>
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-10">What's Included</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {features.map((f) => (
+              <div key={f} className="flex items-center gap-3 bg-white border border-slate-200 rounded-xl p-4 hover:border-cyan-300 transition">
+                <CheckCircle size={18} className="text-cyan-600 flex-shrink-0" />
+                <span className="text-slate-700 font-medium text-sm">{f}</span>
               </div>
             ))}
           </div>
@@ -120,22 +103,17 @@ export default function Curriculum() {
 
       {/* CTA */}
       <section className="py-20">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-12 text-center text-white">
-            <h2 className="text-4xl font-bold mb-4">
-              Ready to Introduce STEM Learning?
-            </h2>
-
-            <p className="text-lg opacity-90">
-              Bring future-ready robotics education to your school.
-            </p>
-
-            <button className="mt-8 bg-white text-cyan-600 px-8 py-4 rounded-xl font-semibold">
-              Get Started
-            </button>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-12 text-white">
+            <h2 className="text-3xl font-bold mb-4">Introduce STEM to Your School</h2>
+            <p className="text-white/80 mb-8">Get the full curriculum guide and a free demo session for your teachers.</p>
+            <Link to="/contact" className="inline-flex items-center gap-2 bg-white text-cyan-600 hover:bg-slate-50 px-8 py-4 rounded-xl font-semibold transition">
+              Get Curriculum Guide <ArrowRight size={18} />
+            </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

@@ -1,18 +1,14 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-const Layout = ({ children }) => {
+export default function Layout({ children }) {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
-
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-[64px]">
         {children}
       </main>
-
       <Footer />
     </div>
   );
-};
-
-export default Layout;
+}
