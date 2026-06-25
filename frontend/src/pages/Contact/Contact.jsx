@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle, Clock } from "lucide-react";
-import { submitContact } from "../../services/contactService";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", value: "+91 99999 99999", href: "tel:+919999999999" },
@@ -17,21 +16,59 @@ const inquiryTypes = [
 ];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", schoolName: "", city: "", message: "", type: "general" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    schoolName: "",
+    city: "",
+    message: "",
+    type: "general",
+  });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (e) =>
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
     try {
-      await submitContact(form);
-      setSuccess(true);
-      setForm({ name: "", email: "", phone: "", schoolName: "", city: "", message: "", type: "general" });
+      const formData = new FormData();
+      formData.append("access_key", "fc21808f-9972-47f8-9d3c-36601afe9914");
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append("phone", form.phone);
+      formData.append("School Name", form.schoolName);
+      formData.append("city", form.city);
+      formData.append("Inquiry Type", form.type);
+      formData.append("message", form.message);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          schoolName: "",
+          city: "",
+          message: "",
+          type: "general",
+        });
+      } else {
+        setError("Something went wrong. Please try again or call us directly.");
+      }
     } catch {
       setError("Something went wrong. Please try again or call us directly.");
     } finally {
@@ -54,7 +91,7 @@ export default function Contact() {
         }
       `}</style>
 
-      {/* ============ HERO ============ */}
+      {/* ── HERO ── */}
       <section className="relative overflow-hidden bg-[#061B33] py-24 lg:py-28">
         <svg
           className="absolute inset-0 w-full h-full opacity-[0.16]"
@@ -79,11 +116,10 @@ export default function Contact() {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             Contact Us
           </span>
-
           <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-white">
-            Let&rsquo;s build something <span className="text-cyan-400">amazing together</span>
+            Let&rsquo;s build something{" "}
+            <span className="text-cyan-400">amazing together</span>
           </h1>
-
           <p className="mt-6 text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Reach out to discuss robotics lab setup, training programs,
             curriculum, or any STEM partnership for your school.
@@ -91,7 +127,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* ============ CONTENT ============ */}
+      {/* ── CONTENT ── */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-5 gap-10">
@@ -114,10 +150,15 @@ export default function Contact() {
                     className="group flex items-start gap-4 p-4 border border-slate-200 rounded-2xl hover:border-cyan-300 hover:shadow-md transition-all duration-300"
                   >
                     <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-cyan-500 transition-colors duration-300">
-                      <Icon size={18} className="text-cyan-300 group-hover:text-white transition-colors duration-300" />
+                      <Icon
+                        size={18}
+                        className="text-cyan-300 group-hover:text-white transition-colors duration-300"
+                      />
                     </div>
                     <div>
-                      <div className="text-xs text-slate-400 font-medium mb-0.5">{label}</div>
+                      <div className="text-xs text-slate-400 font-medium mb-0.5">
+                        {label}
+                      </div>
                       {href ? (
                         <a
                           href={href}
@@ -128,7 +169,9 @@ export default function Contact() {
                           {value}
                         </a>
                       ) : (
-                        <div className="text-slate-900 font-medium text-sm">{value}</div>
+                        <div className="text-slate-900 font-medium text-sm">
+                          {value}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -141,8 +184,12 @@ export default function Contact() {
                   <Clock size={18} className="text-cyan-600" />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400 font-medium mb-0.5">Office Hours</div>
-                  <div className="text-slate-900 font-medium text-sm">Mon – Sat, 9:30 AM – 6:30 PM</div>
+                  <div className="text-xs text-slate-400 font-medium mb-0.5">
+                    Office Hours
+                  </div>
+                  <div className="text-slate-900 font-medium text-sm">
+                    Mon – Sat, 9:30 AM – 6:30 PM
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,7 +201,9 @@ export default function Contact() {
                   <div className="w-16 h-16 rounded-full bg-cyan-50 flex items-center justify-center mb-5">
                     <CheckCircle size={32} className="text-cyan-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#0b2545] mb-2">Message sent</h3>
+                  <h3 className="text-xl font-bold text-[#0b2545] mb-2">
+                    Message sent!
+                  </h3>
                   <p className="text-slate-500 text-sm max-w-xs">
                     Thanks for reaching out — we&rsquo;ll get back to you within 24 hours.
                   </p>
@@ -167,27 +216,78 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <h3 className="text-xl font-bold text-[#0b2545] mb-6">Send us a message</h3>
+                  <h3 className="text-xl font-bold text-[#0b2545] mb-6">
+                    Send us a message
+                  </h3>
 
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name *" className={inputCls} />
-                    <input name="phone" value={form.phone} onChange={handleChange} required placeholder="Phone number *" className={inputCls} />
+                    <input
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Your name *"
+                      className={inputCls}
+                    />
+                    <input
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="Phone number *"
+                      className={inputCls}
+                    />
                   </div>
 
-                  <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="Email address *" className={inputCls} />
+                  <input
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Email address *"
+                    className={inputCls}
+                  />
 
                   <div className="grid sm:grid-cols-2 gap-4">
-                    <input name="schoolName" value={form.schoolName} onChange={handleChange} placeholder="School name" className={inputCls} />
-                    <input name="city" value={form.city} onChange={handleChange} placeholder="City" className={inputCls} />
+                    <input
+                      name="schoolName"
+                      value={form.schoolName}
+                      onChange={handleChange}
+                      placeholder="School name"
+                      className={inputCls}
+                    />
+                    <input
+                      name="city"
+                      value={form.city}
+                      onChange={handleChange}
+                      placeholder="City"
+                      className={inputCls}
+                    />
                   </div>
 
-                  <select name="type" value={form.type} onChange={handleChange} className={inputCls}>
+                  <select
+                    name="type"
+                    value={form.type}
+                    onChange={handleChange}
+                    className={inputCls}
+                  >
                     {inquiryTypes.map((t) => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
+                      <option key={t.value} value={t.value}>
+                        {t.label}
+                      </option>
                     ))}
                   </select>
 
-                  <textarea name="message" value={form.message} onChange={handleChange} required rows={4} placeholder="Your message *" className={inputCls} />
+                  <textarea
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    required
+                    rows={4}
+                    placeholder="Your message *"
+                    className={inputCls}
+                  />
 
                   {error && (
                     <p className="text-red-500 text-sm">{error}</p>
@@ -198,17 +298,22 @@ export default function Contact() {
                     disabled={loading}
                     className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-60 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
                   >
-                    {loading ? "Sending..." : <><Send size={16} /> Send Message</>}
+                    {loading ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        <Send size={16} /> Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               )}
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ============ MAP ============ */}
+      {/* ── MAP ── */}
       <section className="pb-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
