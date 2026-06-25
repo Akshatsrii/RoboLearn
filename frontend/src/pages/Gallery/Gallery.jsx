@@ -28,27 +28,45 @@ export default function Gallery() {
   const filtered = active === "All" ? display : display.filter((i) => i.category === active);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white text-slate-900">
+      <style>{`
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        .anim-fadeup { animation: fadeUp .7s ease both; }
+        .circuit-line { stroke-dasharray: 6 6; stroke-dashoffset: 240; animation: dash 3s linear forwards 0.3s; }
+        @media (prefers-reduced-motion: reduce) {
+          .anim-fadeup, .circuit-line { animation: none !important; }
+        }
+      `}</style>
 
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <span className="inline-block bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+      {/* ============ HERO ============ */}
+      <section className="relative overflow-hidden bg-[#061B33] py-24 lg:py-28">
+        <svg className="absolute inset-0 w-full h-full opacity-[0.16]" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none">
+          <g stroke="#22d3ee" strokeWidth="1.2">
+            <path className="circuit-line" d="M0 90 H260 V210 H520" />
+            <path className="circuit-line" d="M1200 60 H880 V180 H640" />
+          </g>
+          <g fill="#22d3ee">
+            <circle cx="260" cy="90" r="4" /><circle cx="520" cy="210" r="4" />
+            <circle cx="880" cy="60" r="4" /><circle cx="640" cy="180" r="4" />
+          </g>
+        </svg>
+
+        <div className="relative max-w-4xl mx-auto px-6 text-center anim-fadeup">
+          <span className="inline-flex items-center gap-2 bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 px-4 py-1.5 rounded-full text-sm font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             Gallery
           </span>
-          <h1 className="text-5xl font-bold mb-6">
-            Our{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Labs & Activities
-            </span>
+          <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-white">
+            Our <span className="text-cyan-400">labs &amp; activities</span>
           </h1>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Photos from robotics labs, student workshops, competitions and school events across India.
+          <p className="mt-6 text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Photos from robotics labs, student workshops, competitions, and school events across India.
           </p>
         </div>
       </section>
 
-      {/* Filter + Grid */}
+      {/* ============ FILTER + GRID ============ */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-10 flex-wrap">
@@ -56,10 +74,10 @@ export default function Gallery() {
               <button
                 key={c}
                 onClick={() => setActive(c)}
-                className={`px-5 py-2 rounded-xl text-sm font-medium capitalize transition ${
+                className={`px-5 py-2 rounded-xl text-sm font-medium capitalize transition-colors ${
                   active === c
-                    ? "bg-cyan-600 text-white"
-                    : "border border-slate-200 text-slate-600 hover:border-cyan-300"
+                    ? "bg-[#0b2545] text-white"
+                    : "border border-slate-200 text-slate-600 hover:border-cyan-300 hover:text-cyan-600"
                 }`}
               >
                 {c}
@@ -68,16 +86,29 @@ export default function Gallery() {
           </div>
 
           {loading ? (
-            <div className="text-center py-20 text-slate-400">Loading gallery...</div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="rounded-2xl border border-slate-200 overflow-hidden animate-pulse">
+                  <div className="h-64 bg-slate-100" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 w-20 bg-slate-100 rounded-full" />
+                    <div className="h-4 w-2/3 bg-slate-100 rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-20 text-slate-500">No photos in this category yet — check back soon.</div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((item) => (
-                <div key={item._id} className="group overflow-hidden rounded-2xl border border-slate-200 hover:shadow-xl transition">
+                <div key={item._id} className="group overflow-hidden rounded-2xl border border-slate-200 hover:border-cyan-300 hover:shadow-xl transition-all duration-300">
                   <div className="overflow-hidden h-64">
                     <img
                       src={item.imageUrl}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
                     />
                   </div>
                   <div className="p-4">
@@ -90,7 +121,6 @@ export default function Gallery() {
           )}
         </div>
       </section>
-
     </div>
   );
 }
