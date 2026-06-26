@@ -28,6 +28,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api", chatRoutes);
+
 
 app.get("/", (req, res) => {
   res.json({ message: "RoboLearn Backend Running", version: "1.0.0" });
