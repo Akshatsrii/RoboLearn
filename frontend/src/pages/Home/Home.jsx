@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import TestimonialsSection from "../../components/sections/TestimonialsSection";
+
 import {
   ArrowRight,
   Cpu,
@@ -304,6 +306,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+{/* Testimonials */}
+<TestimonialsSection />
 
       {/* ============ CTA ============ */}
       <section className="py-24">
