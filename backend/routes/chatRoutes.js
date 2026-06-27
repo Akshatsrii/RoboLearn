@@ -4,6 +4,6 @@ const { handleChatMessage } = require("../controllers/chatController");
 const router = express.Router();
 
 // POST /api/chat
-router.post("/chat", handleChatMessage);
+router.post("/", handleChatMessage);
 
 module.exports = router;

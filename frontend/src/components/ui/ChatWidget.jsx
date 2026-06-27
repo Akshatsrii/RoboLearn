@@ -34,19 +34,19 @@ export default function ChatWidget() {
     setLoading(true);
 
     try {
-      // Sends full history (minus the welcome message) so Gemini has context.
-      const history = nextMessages.slice(1).map((m) => ({ role: m.role, text: m.text }));
+      const history = nextMessages.slice(1);
       const reply = await sendChatMessage(history);
       setMessages((prev) => [...prev, { role: "bot", text: reply }]);
-    } catch {
+    } catch (error) {
+      console.error(error);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: "Sorry, I couldn't reach the server just now. Please try again, or contact us directly." },
+        { role: "bot", text: "Sorry, I couldn't generate a response. Please try again." },
       ]);
     } finally {
       setLoading(false);
     }
-  };
+  }; // ← yeh brace missing tha
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -179,6 +179,7 @@ export default function ChatWidget() {
             </div>
             <p className="text-[11px] text-slate-400 mt-2 text-center">Powered by Gemini · Replies may be inaccurate</p>
           </div>
+
         </div>
       )}
     </>
