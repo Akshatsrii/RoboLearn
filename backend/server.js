@@ -9,8 +9,7 @@ const productRoutes = require("./routes/productRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
 const contactRoutes = require("./routes/contactRoutes");
-import chatRoutes from "./routes/chatRoutes.js";
-
+const chatRoutes = require("./routes/chatRoutes");
 
 dotenv.config();
 
