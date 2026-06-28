@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, ArrowRight, Clock, Search } from "lucide-react";
-import { getBlogs } from "../../services/blogService";
+import { getBlogs } from "../services/blogService";
 
 const staticBlogs = [
   { _id: 1, title: "Benefits of Robotics Education in Schools", category: "robotics", excerpt: "How robotics helps students develop critical thinking, problem-solving and teamwork skills from an early age.", readTime: 5, publishedAt: "2026-06-01" },

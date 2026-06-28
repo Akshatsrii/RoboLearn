@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getGallery } from "../../services/galleryService";
+import { getGallery } from "../services/galleryService";
 
 const categories = ["All", "labs", "workshops", "events", "competitions"];
 

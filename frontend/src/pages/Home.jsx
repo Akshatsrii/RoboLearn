@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import TestimonialsSection from "../../components/sections/TestimonialsSection";
+import TestimonialsSection from "../components/sections/TestimonialsSection";
 
 import {
   ArrowRight,

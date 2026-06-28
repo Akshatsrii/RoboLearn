@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Cpu, Bot, Zap, Wifi, Package } from "lucide-react";
-import { getProducts } from "../../services/productService";
+import { getProducts } from "../services/productService";
 
 const staticProducts = [
   { icon: Bot, title: "Kids Robotics Kit", category: "Beginner", desc: "Perfect starter kit for Grade 3–5. Build simple robots with guided activities.", price: "Contact for Price" },

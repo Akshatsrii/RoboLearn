@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle, Clock } from "lucide-react";
-import { submitContact } from "../../services/contactService";
+import { submitContact } from "../services/contactService";
 
 const contactInfo = [
   { icon: Phone, label: "Phone", value: "+91 99999 99999", href: "tel:+919999999999" },
