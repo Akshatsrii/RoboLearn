@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FileText, Download, Search, BookOpen, ClipboardList, GraduationCap, Wrench } from "lucide-react";
-import { getResources } from "../../services/resourceService";
+import { getResources } from "../services/resourceService";
 
 const categories = ["All", "Brochures", "Curriculum Guides", "Case Studies", "Setup Guides"];
 

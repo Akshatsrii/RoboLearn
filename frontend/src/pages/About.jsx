@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, Eye, Heart, Award, Users, School, CheckCircle2, ShieldCheck, Linkedin } from "lucide-react";
+import { ArrowRight, Target, Eye, Heart, Award, Users, School, CheckCircle2, ShieldCheck, ExternalLink } from "lucide-react";
 import SEO from "../components/SEO";
 
 const values = [
@@ -65,24 +65,16 @@ export default function About() {
 
       {/* ============ HERO ============ */}
       <section className="relative overflow-hidden bg-[#061B33] py-28 lg:py-32">
-        <svg
-          className="absolute inset-0 w-full h-full opacity-[0.16]"
-          viewBox="0 0 1200 600"
-          preserveAspectRatio="xMidYMid slice"
-          fill="none"
-        >
+        <svg className="absolute inset-0 w-full h-full opacity-[0.16]" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none">
           <g stroke="#22d3ee" strokeWidth="1.2">
             <path className="circuit-line" d="M0 100 H260 V220 H520" />
             <path className="circuit-line" d="M1200 60 H880 V180 H640" />
             <path className="circuit-line" d="M0 500 H300 V380 H560" />
           </g>
           <g fill="#22d3ee">
-            <circle cx="260" cy="100" r="4" />
-            <circle cx="520" cy="220" r="4" />
-            <circle cx="880" cy="60" r="4" />
-            <circle cx="640" cy="180" r="4" />
-            <circle cx="300" cy="500" r="4" />
-            <circle cx="560" cy="380" r="4" />
+            <circle cx="260" cy="100" r="4" /><circle cx="520" cy="220" r="4" />
+            <circle cx="880" cy="60" r="4" /><circle cx="640" cy="180" r="4" />
+            <circle cx="300" cy="500" r="4" /><circle cx="560" cy="380" r="4" />
           </g>
         </svg>
 
@@ -91,12 +83,10 @@ export default function About() {
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             About RoboLearn
           </span>
-
           <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-white">
             Building India&rsquo;s next generation of{" "}
             <span className="text-cyan-400">innovators</span>
           </h1>
-
           <p className="mt-6 text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
             RoboLearn is a Rajasthan-based robotics and STEM education company
             dedicated to helping schools build future-ready learning environments.
@@ -109,22 +99,19 @@ export default function About() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
-                Our Story
-              </span>
+              <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Our Story</span>
               <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
                 Started with a simple gap we couldn&rsquo;t ignore
               </h2>
               <p className="mt-5 text-slate-600 leading-relaxed">
                 RoboLearn was founded on a simple belief — every school in India
                 deserves access to quality robotics and STEM education. We saw a
-                widening gap between what schools were teaching and what the
-                future demanded.
+                widening gap between what schools were teaching and what the future demanded.
               </p>
               <p className="mt-4 text-slate-600 leading-relaxed">
-                Starting from Rajasthan, we&rsquo;ve helped 50+ schools set up
-                robotics labs, trained 10,000+ students, and given hundreds of
-                teachers the confidence to teach technology hands-on.
+                Starting from Rajasthan, we&rsquo;ve helped 50+ schools set up robotics labs,
+                trained 10,000+ students, and given hundreds of teachers the confidence
+                to teach technology hands-on.
               </p>
               <Link
                 to="/contact"
@@ -144,7 +131,6 @@ export default function About() {
                   loading="lazy"
                 />
               </div>
-
               <div className="absolute -bottom-7 -left-7 bg-white rounded-2xl border border-slate-200 shadow-xl p-5 grid grid-cols-2 gap-4 w-[260px] anim-float-slow">
                 {stats.map(([v, l]) => (
                   <div key={l} className="text-center">
@@ -162,22 +148,15 @@ export default function About() {
       <section className="py-24 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
-              Our Journey
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
-              From 3 schools to a movement
-            </h2>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Our Journey</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">From 3 schools to a movement</h2>
           </div>
 
           <div className="mt-14 relative">
             <div className="hidden md:block absolute left-1/2 top-3 bottom-3 w-px bg-slate-200" />
             <div className="space-y-10 md:space-y-0">
               {timeline.map((item, i) => (
-                <div
-                  key={item.year}
-                  className={`md:grid md:grid-cols-2 md:gap-10 items-center ${i !== 0 ? "md:mt-10" : ""}`}
-                >
+                <div key={item.year} className={`md:grid md:grid-cols-2 md:gap-10 items-center ${i !== 0 ? "md:mt-10" : ""}`}>
                   <div className={i % 2 === 0 ? "md:text-right" : "md:order-2 md:text-left"}>
                     <div className="inline-block bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
                       <span className="text-cyan-600 font-bold text-sm tracking-wide">{item.year}</span>
@@ -196,12 +175,8 @@ export default function About() {
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
-              What drives us
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
-              Mission, vision, and purpose
-            </h2>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">What drives us</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">Mission, vision, and purpose</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mt-14">
@@ -225,14 +200,10 @@ export default function About() {
       <section className="py-24 bg-slate-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
-              Meet the Team
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
-              The people behind RoboLearn
-            </h2>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Meet the Team</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">The people behind RoboLearn</h2>
             <p className="mt-4 text-slate-600">
-              A small, hands-on team of educators and engineers who've each spent years in classrooms and labs.
+              A small, hands-on team of educators and engineers who&rsquo;ve each spent years in classrooms and labs.
             </p>
           </div>
 
@@ -252,7 +223,7 @@ export default function About() {
                   aria-label={`${name} on LinkedIn`}
                   className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-50 text-cyan-600 hover:bg-cyan-100 transition-colors mt-4"
                 >
-                  <Linkedin size={14} />
+                  <ExternalLink size={14} />
                 </a>
               </div>
             ))}
@@ -267,12 +238,8 @@ export default function About() {
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">
-              Why Choose Us
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-              Numbers schools trust
-            </h2>
+            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">Why Choose Us</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">Numbers schools trust</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mt-14">
@@ -292,10 +259,7 @@ export default function About() {
 
           <div className="mt-12 flex flex-wrap justify-center gap-3">
             {["CBSE-aligned", "On-site & remote support", "AMC included"].map((tag) => (
-              <span
-                key={tag}
-                className="flex items-center gap-2 bg-white/5 border border-white/10 text-slate-200 text-sm px-4 py-2 rounded-full"
-              >
+              <span key={tag} className="flex items-center gap-2 bg-white/5 border border-white/10 text-slate-200 text-sm px-4 py-2 rounded-full">
                 <CheckCircle2 size={14} className="text-cyan-400" />
                 {tag}
               </span>
@@ -311,12 +275,8 @@ export default function About() {
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">
-              Certifications & Awards
-            </span>
-            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-              Recognized standards, not just promises
-            </h2>
+            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">Certifications & Awards</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">Recognized standards, not just promises</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
@@ -345,19 +305,13 @@ export default function About() {
                 <circle cx="380" cy="180" r="120" fill="white" />
               </svg>
             </div>
-
-            <h2 className="relative text-3xl md:text-4xl font-bold">
-              Ready to partner with us?
-            </h2>
-            <p className="relative mt-4 text-cyan-50/90">
-              Let&rsquo;s build a robotics lab for your school together.
-            </p>
+            <h2 className="relative text-3xl md:text-4xl font-bold">Ready to partner with us?</h2>
+            <p className="relative mt-4 text-cyan-50/90">Let&rsquo;s build a robotics lab for your school together.</p>
             <Link
               to="/contact"
               className="relative inline-flex items-center gap-2 bg-white text-[#0b2545] hover:bg-cyan-50 px-8 py-4 rounded-xl font-semibold mt-8 transition-colors"
             >
-              Get Free Consultation
-              <ArrowRight size={18} />
+              Get Free Consultation <ArrowRight size={18} />
             </Link>
           </div>
         </div>

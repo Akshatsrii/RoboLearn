@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Target, Lightbulb, Settings, TrendingUp, School } from "lucide-react";
-import { getCaseStudies } from "../../services/caseStudyService";
+import { getCaseStudies } from "../services/caseStudyService";
 
 const staticCaseStudies = [
   {

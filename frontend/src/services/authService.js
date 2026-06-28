@@ -1,16 +1,10 @@
-import axios from "axios";
+import api from "./api";
 
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+export const loginUser = (email, password) =>
+  api.post("/auth/login", { email, password }).then(r => r.data);
 
-export const authApi = axios.create({ baseURL: API_BASE });
+export const registerUser = (name, email, password) =>
+  api.post("/auth/register", { name, email, password }).then(r => r.data);
 
-// Attach token to every request automatically
-authApi.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
-
-export const loginRequest = (email, password) => authApi.post("/auth/login", { email, password });
-export const registerRequest = (name, email, password) => authApi.post("/auth/register", { name, email, password });
-export const getMeRequest = () => authApi.get("/auth/me");
+export const getMe = () =>
+  api.get("/auth/me").then(r => r.data);

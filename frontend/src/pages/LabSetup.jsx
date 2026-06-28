@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Cpu, Monitor, Wrench, GraduationCap, Shield, Settings, ChevronDown, Send, CheckCircle2 } from "lucide-react";
-import { submitContact } from "../../services/contactService";
+import { submitContact } from "../services/contactService";
 
 const features = [
   "Complete Lab Design & Layout Planning",
