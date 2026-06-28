@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Cpu, Bot, Zap, Wifi, Package } from "lucide-react";
-import { getProducts } from "../services/productService";
+import { getProducts } from "../../services/productService";
 
 const staticProducts = [
   { icon: Bot, title: "Kids Robotics Kit", category: "Beginner", desc: "Perfect starter kit for Grade 3–5. Build simple robots with guided activities.", price: "Contact for Price" },
@@ -105,7 +105,7 @@ export default function Products() {
               {filtered.map((p, i) => {
                 const Icon = p.icon || Package;
                 return (
-                  <div key={p._id || i} className="group border border-slate-200 rounded-2xl p-6 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300">
+                  <Link key={p._id || i} to={`/products/${p._id || i}`} className="group border border-slate-200 rounded-2xl p-6 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300">
                     <div className="w-12 h-12 rounded-xl bg-[#0b2545] flex items-center justify-center mb-4 group-hover:bg-cyan-500 transition-colors duration-300">
                       <Icon size={22} className="text-cyan-300 group-hover:text-white transition-colors duration-300" />
                     </div>
@@ -115,7 +115,7 @@ export default function Products() {
                     <h3 className="font-semibold text-slate-900 mb-2">{p.name || p.title}</h3>
                     <p className="text-slate-500 text-sm leading-relaxed mb-4">{p.description || p.desc}</p>
                     <div className="text-sm font-semibold text-cyan-600">{p.price ? `₹${p.price}` : "Contact for Price"}</div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

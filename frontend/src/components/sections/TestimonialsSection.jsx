@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Quote, ChevronLeft, ChevronRight, ShieldCheck, Award, Star } from "lucide-react";
+import { getPublicTestimonials, getPartners } from "../../services/testimonialService";
 
-const testimonials = [
+const staticTestimonials = [
   {
     name: "Dr. Anita Sharma",
     role: "Principal, Sunrise Public School",
@@ -22,7 +23,7 @@ const testimonials = [
   },
 ];
 
-const partnerSchools = [
+const staticPartnerSchools = [
   "Sunrise Public School",
   "Greenfield Academy",
   "Vidya Niketan School",
@@ -38,7 +39,25 @@ const certifications = [
 ];
 
 export default function TestimonialsSection() {
+  const [testimonials, setTestimonials] = useState(staticTestimonials);
+  const [partnerSchools, setPartnerSchools] = useState(staticPartnerSchools);
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    getPublicTestimonials()
+      .then((res) => {
+        if (res.data?.data?.length > 0) setTestimonials(res.data.data);
+      })
+      .catch(() => {}); // keep static fallback on failure
+
+    getPartners()
+      .then((res) => {
+        if (res.data?.data?.length > 0) {
+          setPartnerSchools(res.data.data.map((p) => p.schoolName));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const next = () => setIndex((i) => (i + 1) % testimonials.length);
   const prev = () => setIndex((i) => (i - 1 + testimonials.length) % testimonials.length);

@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Cpu, Monitor, Wrench, GraduationCap, Shield, Settings } from "lucide-react";
+import { ArrowRight, CheckCircle, Cpu, Monitor, Wrench, GraduationCap, Shield, Settings, ChevronDown, Send, CheckCircle2 } from "lucide-react";
+import { submitContact } from "../../services/contactService";
 
 const features = [
   "Complete Lab Design & Layout Planning",
@@ -27,7 +29,41 @@ const process = [
   { num: "05", title: "Student Launch", desc: "First session with students — hands-on from day one." },
 ];
 
+const faqs = [
+  { q: "How long does a full lab setup take?", a: "Most labs are designed and installed within 3–4 weeks of the initial consultation, depending on room readiness and equipment availability." },
+  { q: "Do you provide maintenance after installation?", a: "Yes — every lab includes an Annual Maintenance Contract (AMC) covering hardware checks, software updates, and on-call troubleshooting." },
+  { q: "What if our teachers have never used Arduino or Python before?", a: "That's exactly what our Teacher Training program is for. We start from the basics and certify teachers to run sessions independently." },
+  { q: "Can the lab be customized for our budget?", a: "Yes. During the consultation, we propose 2–3 package options scaled to your budget, room size, and grade levels." },
+  { q: "Do you support Raspberry Pi-based setups too?", a: "Yes — our hardware setup covers Arduino, ESP32, and Raspberry Pi, so labs can support both beginner and advanced projects." },
+];
+
 export default function LabSetup() {
+  const [openFaq, setOpenFaq] = useState(0);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", schoolName: "", city: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    try {
+      await submitContact({ ...form, type: "consultation" });
+      setSuccess(true);
+      setForm({ name: "", email: "", phone: "", schoolName: "", city: "", message: "" });
+    } catch {
+      setError("Something went wrong. Please try again or call us directly.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const inputCls =
+    "w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-colors text-sm";
+
   return (
     <div className="bg-white text-slate-900">
       <style>{`
@@ -143,6 +179,102 @@ export default function LabSetup() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FAQ ============ */}
+      <section className="py-24">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">FAQ</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">Common questions, answered</h2>
+          </div>
+
+          <div className="mt-12 space-y-3">
+            {faqs.map((item, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={item.q} className="border border-slate-200 rounded-2xl overflow-hidden">
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? -1 : i)}
+                    className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-slate-50 transition-colors"
+                  >
+                    <span className="font-medium text-[#0b2545] text-sm">{item.q}</span>
+                    <ChevronDown
+                      size={18}
+                      className={`text-slate-400 flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-cyan-600" : ""}`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-4 text-sm text-slate-500 leading-relaxed">
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CONSULTATION FORM ============ */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="text-center max-w-xl mx-auto mb-12">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Get Started</span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">Request a free lab consultation</h2>
+            <p className="mt-4 text-slate-600">Tell us about your school and we'll get back to you within 24 hours.</p>
+          </div>
+
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+            {success ? (
+              <div className="flex flex-col items-center justify-center py-10 text-center">
+                <div className="w-16 h-16 rounded-full bg-cyan-50 flex items-center justify-center mb-5">
+                  <CheckCircle2 size={32} className="text-cyan-600" />
+                </div>
+                <h3 className="text-xl font-bold text-[#0b2545] mb-2">Request received</h3>
+                <p className="text-slate-500 text-sm max-w-xs">
+                  Thanks for reaching out — our team will contact you within 24 hours.
+                </p>
+                <button onClick={() => setSuccess(false)} className="mt-7 text-cyan-600 font-semibold text-sm hover:underline">
+                  Submit another request
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name *" className={inputCls} />
+                  <input name="phone" value={form.phone} onChange={handleChange} required placeholder="Phone number *" className={inputCls} />
+                </div>
+
+                <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="Email address *" className={inputCls} />
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input name="schoolName" value={form.schoolName} onChange={handleChange} placeholder="School name" className={inputCls} />
+                  <input name="city" value={form.city} onChange={handleChange} placeholder="City" className={inputCls} />
+                </div>
+
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder="Tell us about your space, budget, or timeline (optional)"
+                  className={inputCls}
+                />
+
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-60 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+                >
+                  {loading ? "Sending..." : <><Send size={16} /> Request Consultation</>}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>

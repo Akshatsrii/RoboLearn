@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Target, Eye, Heart, Award, Users, School, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Target, Eye, Heart, Award, Users, School, CheckCircle2, ShieldCheck, Linkedin } from "lucide-react";
+import SEO from "../components/SEO";
 
 const values = [
   { icon: Target, title: "Mission", desc: "Empower every Indian school with practical robotics and STEM education that builds real-world skills." },
@@ -11,6 +12,20 @@ const whyUs = [
   { icon: School, title: "50+ Schools", desc: "Trusted by principals and management across Rajasthan and beyond." },
   { icon: Users, title: "10,000+ Students", desc: "Hands-on training delivered to students across all grade levels." },
   { icon: Award, title: "Expert Team", desc: "Industry professionals with deep experience in robotics and STEM education." },
+];
+
+const team = [
+  { name: "Aditya Rathore", role: "Founder & CEO", photo: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80" },
+  { name: "Meera Joshi", role: "Head of Curriculum", photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80" },
+  { name: "Karan Vyas", role: "Lead Robotics Trainer", photo: "https://images.unsplash.com/photo-1601455763557-db1bea8a9a5a?auto=format&fit=crop&w=400&q=80" },
+  { name: "Simran Kaur", role: "Teacher Training Lead", photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" },
+];
+
+const certifications = [
+  { icon: ShieldCheck, label: "ISO 9001 Certified" },
+  { icon: Award, label: "CBSE Recommended Partner" },
+  { icon: Award, label: "NEP 2020 Aligned Curriculum" },
+  { icon: ShieldCheck, label: "State STEM Excellence Award 2025" },
 ];
 
 const stats = [
@@ -29,6 +44,11 @@ const timeline = [
 export default function About() {
   return (
     <div className="bg-white text-slate-900">
+      <SEO
+        title="About Us"
+        description="RoboLearn is a Rajasthan-based robotics and STEM education company helping schools build future-ready learning environments."
+        path="/about"
+      />
       <style>{`
         @keyframes floatSlow { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
         @keyframes floatSlower { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-9px); } }
@@ -201,6 +221,45 @@ export default function About() {
         </div>
       </section>
 
+      {/* ============ TEAM ============ */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
+              Meet the Team
+            </span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
+              The people behind RoboLearn
+            </h2>
+            <p className="mt-4 text-slate-600">
+              A small, hands-on team of educators and engineers who've each spent years in classrooms and labs.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+            {team.map(({ name, role, photo }) => (
+              <div
+                key={name}
+                className="group bg-white border border-slate-200 rounded-2xl p-6 text-center hover:border-cyan-300 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-20 h-20 rounded-full overflow-hidden mx-auto border-4 border-slate-100 group-hover:border-cyan-100 transition-colors duration-300">
+                  <img src={photo} alt={name} className="w-full h-full object-cover" loading="lazy" />
+                </div>
+                <h3 className="font-semibold text-[#0b2545] mt-4">{name}</h3>
+                <p className="text-slate-500 text-sm mt-1">{role}</p>
+                <a
+                  href="#"
+                  aria-label={`${name} on LinkedIn`}
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-50 text-cyan-600 hover:bg-cyan-100 transition-colors mt-4"
+                >
+                  <Linkedin size={14} />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ WHY CHOOSE US ============ */}
       <section className="py-24 bg-[#061B33] relative overflow-hidden">
         <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl" />
@@ -240,6 +299,37 @@ export default function About() {
                 <CheckCircle2 size={14} className="text-cyan-400" />
                 {tag}
               </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CERTIFICATIONS & AWARDS ============ */}
+      <section className="py-24 bg-[#061B33] relative overflow-hidden">
+        <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="absolute -left-24 bottom-0 w-72 h-72 rounded-full bg-cyan-500/5 blur-3xl" />
+
+        <div className="relative max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">
+              Certifications & Awards
+            </span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
+              Recognized standards, not just promises
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+            {certifications.map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="flex flex-col items-center text-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.07] transition-all"
+              >
+                <div className="w-12 h-12 rounded-xl bg-cyan-400/10 flex items-center justify-center">
+                  <Icon size={22} className="text-cyan-400" />
+                </div>
+                <span className="text-slate-200 text-sm font-medium leading-snug">{label}</span>
+              </div>
             ))}
           </div>
         </div>
