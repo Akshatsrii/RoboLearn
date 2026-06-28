@@ -1,14 +1,14 @@
-import express from "express";
-import { resourceController } from "../controllers/resourceController.js";
-import { createCrudRouter } from "../utils/crudFactory.js";
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const express = require("express");
+const { resourceController } = require("../controllers/resourceController");
+const { createCrudRouter } = require("../utils/crudFactory");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // Public — increments download counter (no auth needed)
 router.post("/:id/download", resourceController.trackDownload);
 
-export default createCrudRouter(resourceController, {
+module.exports = createCrudRouter(resourceController, {
   router,
   protectWrites: [protect, adminOnly],
 });
