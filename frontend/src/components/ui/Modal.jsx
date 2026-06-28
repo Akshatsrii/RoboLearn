@@ -1,106 +1,64 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { X } from "lucide-react";
 
-// ── Modal ──
-export const Modal = ({ isOpen, onClose, title, children, size = "md", className = "" }) => {
-  const handleKeyDown = useCallback(
-    (e) => { if (e.key === "Escape") onClose(); },
-    [onClose]
-  );
+const sizeStyles = {
+  sm: "max-w-sm",
+  md: "max-w-lg",
+  lg: "max-w-2xl",
+  xl: "max-w-4xl",
+};
 
+/**
+ * <Modal isOpen={open} onClose={() => setOpen(false)} title="Edit Product" size="md">
+ *   ...your form/content...
+ * </Modal>
+ */
+export const Modal = ({ isOpen, onClose, title, size = "md", children, footer }) => {
   useEffect(() => {
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
-    }
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e) => e.key === "Escape" && onClose?.();
+    window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, [isOpen, handleKeyDown]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const sizes = { sm: "max-w-md", md: "max-w-lg", lg: "max-w-2xl", xl: "max-w-4xl", full: "max-w-7xl" };
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)" }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
       <div
-        className={`w-full ${sizes[size] || sizes.md} rounded-[20px] border border-white/10 overflow-hidden animate-fade-in-up ${className}`}
-        style={{ background: "linear-gradient(135deg, #111827, #1a2340)", boxShadow: "0 24px 64px rgba(0,0,0,0.5)" }}
+        className="absolute inset-0 bg-[#061B33]/50 backdrop-blur-sm animate-[fadeIn_.15s_ease]"
+        onClick={onClose}
+      />
+      <div
+        className={`relative bg-white rounded-2xl shadow-2xl w-full ${sizeStyles[size]} max-h-[85vh] overflow-y-auto animate-[modalPop_.2s_ease]`}
+        onClick={(e) => e.stopPropagation()}
       >
+        <style>{`
+          @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes modalPop { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        `}</style>
+
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-            <h3 className="text-lg font-bold text-white">{title}</h3>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/10 transition-colors text-white/60 hover:text-white"
-            >
-              <X size={18} />
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 sticky top-0 bg-white">
+            <h2 className="font-bold text-[#0b2545]">{title}</h2>
+            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
+              <X size={20} />
             </button>
           </div>
         )}
-        <div className="p-6">{children}</div>
+
+        <div className="px-6 py-5">{children}</div>
+
+        {footer && (
+          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100">
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );
-};
-
-// ── Toast ──
-export const Toast = ({ toasts = [], onRemove }) => (
-  <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none">
-    {toasts.map((toast) => {
-      const styles = {
-        success: { border: "rgba(16,185,129,0.4)", icon: "✓", color: "#34d399" },
-        error: { border: "rgba(239,68,68,0.4)", icon: "✕", color: "#f87171" },
-        info: { border: "rgba(37,99,235,0.4)", icon: "ℹ", color: "#60a5fa" },
-        warning: { border: "rgba(245,158,11,0.4)", icon: "⚠", color: "#fbbf24" },
-      };
-      const s = styles[toast.type] || styles.info;
-
-      return (
-        <div
-          key={toast.id}
-          className="pointer-events-auto flex items-center gap-3 px-5 py-4 rounded-[12px] border animate-fade-in-up min-w-[300px] max-w-[400px]"
-          style={{
-            background: "linear-gradient(135deg, #111827, #1a2340)",
-            borderColor: s.border,
-            boxShadow: `0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px ${s.border}`,
-          }}
-        >
-          <span className="text-lg flex-shrink-0" style={{ color: s.color }}>{s.icon}</span>
-          <p className="text-sm text-white/90 flex-1">{toast.message}</p>
-          {onRemove && (
-            <button
-              onClick={() => onRemove(toast.id)}
-              className="text-white/40 hover:text-white transition-colors flex-shrink-0"
-            >
-              <X size={14} />
-            </button>
-          )}
-        </div>
-      );
-    })}
-  </div>
-);
-
-// ── useToast hook ──
-import { useState } from "react";
-
-export const useToast = () => {
-  const [toasts, setToasts] = useState([]);
-
-  const addToast = (message, type = "info", duration = 4000) => {
-    const id = Date.now();
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => removeToast(id), duration);
-  };
-
-  const removeToast = (id) => setToasts((prev) => prev.filter((t) => t.id !== id));
-
-  return { toasts, removeToast, success: (m) => addToast(m, "success"), error: (m) => addToast(m, "error"), info: (m) => addToast(m, "info"), warning: (m) => addToast(m, "warning") };
 };
