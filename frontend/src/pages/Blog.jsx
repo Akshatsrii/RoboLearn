@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, ArrowRight, Clock, Search } from "lucide-react";
-import { getBlogs } from "../services/blogService";
+import { getBlogs } from "../../services/blogService";
 
 const staticBlogs = [
   { _id: 1, title: "Benefits of Robotics Education in Schools", category: "robotics", excerpt: "How robotics helps students develop critical thinking, problem-solving and teamwork skills from an early age.", readTime: 5, publishedAt: "2026-06-01" },
@@ -141,10 +141,10 @@ export default function Blog() {
                   </span>
                 </div>
 
-                <button className="group flex items-center gap-1.5 text-cyan-600 font-semibold mt-7 hover:gap-2.5 transition-all">
+                <Link to={`/blog/${featured._id}`} className="group flex items-center gap-1.5 text-cyan-600 font-semibold mt-7 hover:gap-2.5 transition-all">
                   Read Full Article
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                </button>
+                </Link>
               </div>
 
               <div className="relative rounded-2xl overflow-hidden shadow-lg">
@@ -204,7 +204,8 @@ export default function Blog() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {filtered.map((blog) => (
-                <div
+                <Link
+                  to={`/blog/${blog._id}`}
                   key={blog._id}
                   className="group border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300"
                 >
@@ -232,11 +233,11 @@ export default function Blog() {
                       </span>
                     </div>
 
-                    <button className="flex items-center gap-1 text-cyan-600 text-sm font-semibold hover:gap-2 transition-all">
+                    <span className="flex items-center gap-1 text-cyan-600 text-sm font-semibold group-hover:gap-2 transition-all">
                       Read More <ArrowRight size={14} />
-                    </button>
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

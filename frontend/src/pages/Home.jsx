@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import TestimonialsSection from "../components/sections/TestimonialsSection";
-
 import {
   ArrowRight,
   Cpu,
@@ -11,7 +9,21 @@ import {
   FlaskConical,
   CheckCircle2,
   Quote,
+  Lightbulb,
+  Puzzle,
+  Rocket,
+  Brain,
+  School,
+  Heart,
+  Building2,
+  ClipboardList,
+  Map,
+  Wrench,
+  Headphones,
 } from "lucide-react";
+import AnimatedCounter from "../components/AnimatedCounter";
+import TestimonialsSection from "../components/sections/TestimonialsSection";
+import SEO from "../components/SEO";
 
 /* ---------------------------------------------------------
    Content
@@ -60,10 +72,49 @@ const whyChooseUs = [
 ];
 
 const stats = [
-  ["50+", "Schools Equipped"],
-  ["10,000+", "Students Trained"],
-  ["20+", "Certified Trainers"],
-  ["15+", "Cities Reached"],
+  { end: 50, suffix: "+", label: "Schools Equipped" },
+  { end: 10000, suffix: "+", label: "Students Trained" },
+  { end: 100, suffix: "+", label: "Workshops Conducted" },
+  { end: 20, suffix: "+", label: "Certified Trainers" },
+  { end: 15, suffix: "+", label: "Cities Reached" },
+];
+
+const whyRobotics = [
+  { icon: Brain, title: "Critical Thinking", desc: "Students learn to break down real problems and reason through solutions, not just memorize answers." },
+  { icon: Puzzle, title: "Hands-On Problem Solving", desc: "Building and debugging a robot teaches patience and logic in a way no textbook chapter can." },
+  { icon: Rocket, title: "Future-Ready Skills", desc: "Coding, electronics, and AI basics prepare students for careers that don't fully exist yet." },
+  { icon: Lightbulb, title: "Creativity in Action", desc: "Open-ended projects let students design their own solutions instead of following one fixed path." },
+];
+
+const targetAudience = [
+  {
+    icon: School,
+    title: "Principals",
+    desc: "A turnkey program that boosts your school's STEM credentials without adding to your admin workload.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Teachers",
+    desc: "Structured lesson plans and certification so you can teach robotics with confidence, not just supervise it.",
+  },
+  {
+    icon: Heart,
+    title: "Parents",
+    desc: "Visible, hands-on learning that shows up in your child's confidence, curiosity, and report card.",
+  },
+  {
+    icon: Building2,
+    title: "School Management",
+    desc: "A measurable, budget-friendly investment with clear ROI in enrollment, reputation, and outcomes.",
+  },
+];
+
+const processSteps = [
+  { icon: ClipboardList, title: "Consult", desc: "We understand your school's space, budget, and goals." },
+  { icon: Map, title: "Plan", desc: "Custom lab design, equipment list, and curriculum mapping." },
+  { icon: Wrench, title: "Install", desc: "Professional setup of hardware, software, and safety systems." },
+  { icon: GraduationCap, title: "Train", desc: "Hands-on certification for teachers and a launch session for students." },
+  { icon: Headphones, title: "Support", desc: "Ongoing AMC, troubleshooting, and curriculum refreshes." },
 ];
 
 /* ---------------------------------------------------------
@@ -73,6 +124,11 @@ const stats = [
 export default function Home() {
   return (
     <div className="bg-white text-slate-900">
+      <SEO
+        title="Robotics & STEM Education for Schools"
+        description="Complete robotics lab setup, teacher training, student programs, and CBSE-aligned STEM curriculum for schools across India. Trusted by 50+ schools."
+        path="/"
+      />
       <style>{`
         @keyframes floatSlow { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-14px); } }
         @keyframes floatSlower { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-9px); } }
@@ -192,6 +248,24 @@ export default function Home() {
                 <p className="text-xs text-slate-500 mt-1">Teacher satisfaction</p>
               </div>
             </div>
+
+            {/* Animated stats strip — embedded in hero, per Day-6 spec */}
+            <div className="mt-12 grid grid-cols-3 gap-3 max-w-md mx-auto">
+              {[
+                { end: 50, suffix: "+", label: "Schools" },
+                { end: 10000, suffix: "+", label: "Students" },
+                { end: 100, suffix: "+", label: "Workshops" },
+              ].map((s) => (
+                <div key={s.label} className="text-center bg-white/5 border border-white/10 rounded-xl py-3">
+                  <AnimatedCounter
+                    end={s.end}
+                    suffix={s.suffix}
+                    className="block text-xl font-bold text-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-400 mt-1">{s.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -199,16 +273,79 @@ export default function Home() {
       {/* ============ STATS ============ */}
       <section className="py-14 bg-slate-50 border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map(([value, label]) => (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {stats.map(({ end, suffix, label }) => (
               <div
                 key={label}
                 className="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:border-cyan-200 hover:shadow-md transition-all"
               >
-                <h3 className="text-3xl md:text-4xl font-bold text-[#0b2545]">
-                  {value}
-                </h3>
+                <AnimatedCounter
+                  end={end}
+                  suffix={suffix}
+                  className="block text-3xl md:text-4xl font-bold text-[#0b2545]"
+                />
                 <p className="text-slate-500 mt-2 text-sm font-medium">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ WHY ROBOTICS EDUCATION ============ */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
+              Why Robotics Education
+            </span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
+              More than a subject — a way of thinking
+            </h2>
+            <p className="mt-4 text-slate-600">
+              Robotics gives students a hands-on reason to care about Math, Science, and Logic.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+            {whyRobotics.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-xl bg-cyan-50 flex items-center justify-center group-hover:bg-[#0b2545] transition-colors duration-300">
+                  <Icon className="text-cyan-600 group-hover:text-cyan-300 transition-colors duration-300" size={22} />
+                </div>
+                <h3 className="text-base font-semibold mt-5 text-[#0b2545]">{title}</h3>
+                <p className="mt-2.5 text-slate-600 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ TARGET AUDIENCE ============ */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
+              Who It's For
+            </span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
+              Built around everyone in the school ecosystem
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+            {targetAudience.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="group bg-white border border-slate-200 rounded-2xl p-7 text-center hover:border-cyan-300 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-[#0b2545] flex items-center justify-center mx-auto group-hover:bg-cyan-500 transition-colors duration-300">
+                  <Icon size={24} className="text-cyan-300 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-lg font-semibold mt-5 text-[#0b2545]">{title}</h3>
+                <p className="mt-2.5 text-slate-500 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -252,6 +389,38 @@ export default function Home() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ PROCESS TIMELINE ============ */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
+              How It Works
+            </span>
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">
+              From first call to a running lab
+            </h2>
+          </div>
+
+          <div className="relative mt-16">
+            {/* connecting line (desktop only) */}
+            <div className="hidden lg:block absolute top-7 left-0 right-0 h-px bg-slate-200" />
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4">
+              {processSteps.map(({ icon: Icon, title, desc }, i) => (
+                <div key={title} className="relative text-center">
+                  <div className="relative z-10 w-14 h-14 rounded-2xl bg-[#0b2545] flex items-center justify-center mx-auto shadow-sm">
+                    <Icon size={22} className="text-cyan-300" />
+                  </div>
+                  <span className="block text-xs font-bold text-cyan-600 mt-3">Step {i + 1}</span>
+                  <h3 className="font-semibold text-[#0b2545] mt-1">{title}</h3>
+                  <p className="text-slate-500 text-sm mt-1.5 leading-relaxed max-w-[180px] mx-auto">{desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -306,9 +475,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
-{/* Testimonials */}
-<TestimonialsSection />
+
+      {/* ============ TESTIMONIALS + PARTNERS + CERTIFICATIONS ============ */}
+      <TestimonialsSection />
 
       {/* ============ CTA ============ */}
       <section className="py-24">
