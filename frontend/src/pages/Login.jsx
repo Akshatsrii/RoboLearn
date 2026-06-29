@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Zap, Mail, Lock, Loader2 } from "lucide-react";
+import { Zap, Mail, Lock, Loader2, User, ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const redirectTo = location.state?.from || "/";
+  const redirectTo = location.state?.from || "/dashboard";
 
+  const [mode, setMode] = useState("user"); // "user" | "admin"
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,18 +17,46 @@ export default function Login() {
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const user = await login(form.email, form.password);
-      navigate(user.role === "admin" ? "/admin/dashboard" : redirectTo);
-    } catch (err) {
-      setError(err.response?.data?.message || "Invalid email or password");
-    } finally {
-      setLoading(false);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+
+  try {
+    // ===== Temporary Admin Login =====
+    if (mode === "admin") {
+      if (
+        form.email === "admin@robolearn.com" &&
+        form.password === "admin123"
+      ) {
+        const adminUser = {
+          id: "1",
+          name: "Administrator",
+          email: "admin@robolearn.com",
+          role: "admin",
+        };
+
+        localStorage.setItem("token", "temp-admin-token");
+        localStorage.setItem("user", JSON.stringify(adminUser));
+
+        navigate("/admin/dashboard");
+        return;
+      } else {
+        setError("Invalid Admin Email or Password");
+        return;
+      }
     }
-  };
+
+    // ===== Normal User Login =====
+    const user = await login(form.email, form.password);
+
+    navigate(user.role === "admin" ? "/admin/dashboard" : redirectTo);
+
+  } catch (err) {
+    setError(err.response?.data?.message || "Invalid email or password");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6 py-16">
@@ -72,7 +101,29 @@ export default function Login() {
         {/* Right — Form */}
         <div className="p-8 sm:p-10 flex flex-col justify-center">
           <h1 className="text-2xl font-bold text-[#0b2545] mb-1">Sign in</h1>
-          <p className="text-sm text-slate-500 mb-7">Welcome back! Please enter your details.</p>
+          <p className="text-sm text-slate-500 mb-6">Choose how you'd like to sign in.</p>
+
+          {/* Mode tabs */}
+          <div className="grid grid-cols-2 gap-2 bg-slate-100 rounded-xl p-1.5 mb-6">
+            <button
+              type="button"
+              onClick={() => { setMode("user"); setError(""); }}
+              className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+                mode === "user" ? "bg-white text-[#0b2545] shadow-sm" : "text-slate-500 hover:text-slate-700"
+              }`}
+            >
+              <User size={15} /> User Login
+            </button>
+            <button
+              type="button"
+              onClick={() => { setMode("admin"); setError(""); }}
+              className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+                mode === "admin" ? "bg-white text-[#0b2545] shadow-sm" : "text-slate-500 hover:text-slate-700"
+              }`}
+            >
+              <ShieldCheck size={15} /> Admin Login
+            </button>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
@@ -108,16 +159,23 @@ export default function Login() {
               disabled={loading}
               className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-60 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
             >
-              {loading ? <Loader2 size={16} className="animate-spin" /> : "Sign In"}
+              {loading ? <Loader2 size={16} className="animate-spin" /> : mode === "admin" ? "Sign In as Admin" : "Sign In"}
             </button>
           </form>
 
-          <p className="text-sm text-slate-500 text-center mt-6">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-cyan-600 font-semibold hover:text-cyan-700">
-              Create one
-            </Link>
-          </p>
+          {mode === "user" && (
+            <p className="text-sm text-slate-500 text-center mt-6">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-cyan-600 font-semibold hover:text-cyan-700">
+                Create one
+              </Link>
+            </p>
+          )}
+          {mode === "admin" && (
+            <p className="text-xs text-slate-400 text-center mt-6">
+              Admin accounts are created by an existing admin — contact your site administrator if you need access.
+            </p>
+          )}
         </div>
       </div>
     </div>

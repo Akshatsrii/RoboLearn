@@ -4,6 +4,7 @@ import {
   Zap, LayoutDashboard, Package, FileText, Image, GraduationCap,
   Users, LogOut, Menu, X,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 const navItems = [
   { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
@@ -18,12 +19,11 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const adminUser = JSON.parse(localStorage.getItem("admin_user") || "{}");
+  const { user: adminUser, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_token");
-    localStorage.removeItem("admin_user");
-    navigate("/admin/login");
+    logout();
+    navigate("/login");
   };
 
   const SidebarContent = () => (

@@ -15,9 +15,10 @@ const login = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (!user || !(await user.comparePassword(password))) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid email or password" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
     }
 
     const token = signToken(user);
@@ -33,30 +34,48 @@ const login = async (req, res) => {
       },
     });
   } catch (err) {
-    return res
-      .status(500)
-      .json({ success: false, message: err.message });
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
 // POST /api/auth/register
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, adminCode } = req.body;
 
     const exists = await User.findOne({ email });
 
     if (exists) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Email already in use" });
+      return res.status(400).json({
+        success: false,
+        message: "Email already in use",
+      });
+    }
+
+    let role = "user";
+
+    if (adminCode) {
+      if (
+        !process.env.ADMIN_SIGNUP_CODE ||
+        adminCode !== process.env.ADMIN_SIGNUP_CODE
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "Invalid admin invite code",
+        });
+      }
+
+      role = "admin";
     }
 
     const user = await User.create({
       name,
       email,
       password,
-      role: "user",
+      role,
     });
 
     const token = signToken(user);
@@ -72,9 +91,10 @@ const register = async (req, res) => {
       },
     });
   } catch (err) {
-    return res
-      .status(400)
-      .json({ success: false, message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -86,9 +106,10 @@ const createStaffUser = async (req, res) => {
     const exists = await User.findOne({ email });
 
     if (exists) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Email already in use" });
+      return res.status(400).json({
+        success: false,
+        message: "Email already in use",
+      });
     }
 
     const user = await User.create({
@@ -108,9 +129,10 @@ const createStaffUser = async (req, res) => {
       },
     });
   } catch (err) {
-    return res
-      .status(400)
-      .json({ success: false, message: err.message });
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -125,6 +147,6 @@ const getMe = async (req, res) => {
 module.exports = {
   login,
   register,
-  getMe,
   createStaffUser,
+  getMe,
 };

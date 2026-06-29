@@ -1,54 +1,56 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { getMe, loginUser, registerUser } from "../services/authService";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { loginRequest, registerRequest, getMeRequest } from "../services/authService";
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore session on page refresh
+  // On first load, if a token exists, fetch the current user to restore session.
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) { setLoading(false); return; }
-    getMe()
-      .then((u) => setUser(u))
-      .catch(() => localStorage.removeItem("token"))
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    getMeRequest()
+      .then((res) => setUser(res.data.user))
+      .catch(() => {
+        localStorage.removeItem("token");
+        setUser(null);
+      })
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (email, password) => {
-    const { token, user: u } = await loginUser(email, password);
-    localStorage.setItem("token", token);
-    setUser(u);
-    return u;
-  };
+  const login = useCallback(async (email, password) => {
+    const { data } = await loginRequest(email, password);
+    localStorage.setItem("token", data.token);
+    setUser(data.user);
+    return data.user;
+  }, []);
 
-  const register = async (name, email, password) => {
-    const { token, user: u } = await registerUser(name, email, password);
-    localStorage.setItem("token", token);
-    setUser(u);
-    return u;
-  };
+  const register = useCallback(async (name, email, password, adminCode) => {
+    const { data } = await registerRequest(name, email, password, adminCode);
+    localStorage.setItem("token", data.token);
+    setUser(data.user);
+    return data.user;
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
     setUser(null);
-  };
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, loading, login, register, logout }}
-    >
+    <AuthContext.Provider value={{ user, loading, isAuthenticated: !!user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => {
+export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
   return ctx;
-};
-
-export default AuthContext;
+}
