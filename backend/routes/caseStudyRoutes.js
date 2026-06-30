@@ -1,11 +1,8 @@
-import express from "express";
-import { caseStudyController } from "../controllers/caseStudyController.js";
-import { createCrudRouter } from "../utils/crudFactory.js";
-import { protect, adminOnly } from "../middleware/authMiddleware.js";
+const express = require("express");
+const { caseStudyController } = require("../controllers/caseStudyController");
+const { createCrudRouter } = require("../utils/crudFactory");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-export default createCrudRouter(caseStudyController, {
-  router,
-  protectWrites: [protect, adminOnly],
-});
+module.exports = createCrudRouter(caseStudyController, { router, protectWrites: [protect, adminOnly] });
