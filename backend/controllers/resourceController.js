@@ -1,12 +1,11 @@
-import Resource from "../models/Resource.js";
-import { createCrudController } from "../utils/crudFactory.js";
+const Resource = require("../models/Resource");
+const { createCrudController } = require("../utils/crudFactory");
 
 const baseController = createCrudController(Resource, {
   searchFields: ["title", "description"],
   filterFields: ["category"],
 });
 
-// POST /api/resources/:id/download — increments download counter, used when the user clicks Download
 const trackDownload = async (req, res) => {
   try {
     const resource = await Resource.findByIdAndUpdate(
@@ -21,4 +20,4 @@ const trackDownload = async (req, res) => {
   }
 };
 
-export const resourceController = { ...baseController, trackDownload };
+module.exports = { resourceController: { ...baseController, trackDownload } };

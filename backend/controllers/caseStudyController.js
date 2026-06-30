@@ -1,7 +1,9 @@
-import CaseStudy from "../models/CaseStudy.js";
-import { createCrudController } from "../utils/crudFactory.js";
+const CaseStudy = require("../models/CaseStudy");
+const { createCrudController } = require("../utils/crudFactory");
 
-export const caseStudyController = createCrudController(CaseStudy, {
+const caseStudyController = createCrudController(CaseStudy, {
   searchFields: ["schoolName", "location"],
   filterFields: ["isPublished"],
 });
+
+module.exports = { caseStudyController };
