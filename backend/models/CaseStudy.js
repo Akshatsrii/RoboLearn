@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const caseStudySchema = new mongoose.Schema(
   {
@@ -9,10 +9,10 @@ const caseStudySchema = new mongoose.Schema(
     solution: { type: String, required: true },
     implementation: { type: String, required: true },
     result: { type: String, required: true },
-    metric: { type: String, default: "" }, // e.g. "3x STEM enrollment"
+    metric: { type: String, default: "" },
     isPublished: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("CaseStudy", caseStudySchema);
+module.exports = mongoose.model("CaseStudy", caseStudySchema);

@@ -1,5 +1,4 @@
-
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const resourceSchema = new mongoose.Schema(
   {
@@ -11,10 +10,10 @@ const resourceSchema = new mongoose.Schema(
       required: true,
     },
     fileUrl: { type: String, required: true },
-    fileSize: { type: String, default: "" }, // e.g. "2.4 MB"
+    fileSize: { type: String, default: "" },
     downloadCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-export default mongoose.model("Resource", resourceSchema);
+module.exports = mongoose.model("Resource", resourceSchema);

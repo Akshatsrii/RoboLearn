@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Cpu, Users, Trophy, Zap, BookOpen, Settings, Wifi, CircuitBoard, Factory, Sliders } from "lucide-react";
+import { ArrowRight, CheckCircle, Cpu, Users, Trophy, Zap, BookOpen, Settings, Wifi, CircuitBoard, Factory, Sliders, GraduationCap } from "lucide-react";
+import { getCourses } from "../services/courseService";
 
 // Day 13 — Student Training (Beginner)
 const beginnerPrograms = [
@@ -34,6 +36,17 @@ const benefits = [
 ];
 
 export default function Training() {
+  const [adminCourses, setAdminCourses] = useState([]);
+
+  useEffect(() => {
+    getCourses({ isActive: true, limit: 50 })
+      .then((res) => setAdminCourses(res.data?.data || []))
+      .catch(() => setAdminCourses([])); // static curated sections still render regardless
+  }, []);
+
+  const adminStudentCourses = adminCourses.filter((c) => c.audience === "student");
+  const adminTeacherCourses = adminCourses.filter((c) => c.audience === "teacher");
+
   return (
     <div className="bg-white text-slate-900">
       <style>{`
@@ -137,6 +150,34 @@ export default function Training() {
         </div>
       </section>
 
+      {/* ============ MORE COURSES (admin-managed) ============ */}
+      {adminStudentCourses.length > 0 && (
+        <section className="py-24 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center">
+                <GraduationCap size={20} className="text-cyan-300" />
+              </div>
+              <h2 className="text-3xl font-bold text-[#0b2545]">More Courses</h2>
+            </div>
+            <p className="text-slate-600 mb-12 max-w-xl">Additional programs added by our team — updated regularly.</p>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {adminStudentCourses.map((c) => (
+                <div key={c._id} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-sm transition-all">
+                  {c.level && (
+                    <span className="text-xs font-semibold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full">{c.level}</span>
+                  )}
+                  <h3 className="font-semibold text-slate-900 mt-3 mb-2">{c.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{c.description}</p>
+                  {c.duration && <p className="text-xs text-slate-400 mt-3">Duration: {c.duration}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ============ TEACHER TRAINING ============ */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6">
@@ -158,6 +199,24 @@ export default function Training() {
           </div>
         </div>
       </section>
+
+      {/* ============ MORE TEACHER COURSES (admin-managed) ============ */}
+      {adminTeacherCourses.length > 0 && (
+        <section className="py-24">
+          <div className="max-w-6xl mx-auto px-6">
+            <h2 className="text-2xl font-bold text-[#0b2545] mb-8">More Teacher Programs</h2>
+            <div className="grid md:grid-cols-2 gap-5">
+              {adminTeacherCourses.map((c) => (
+                <div key={c._id} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-sm transition-all">
+                  <h3 className="font-semibold text-[#0b2545] mb-2">{c.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{c.description}</p>
+                  {c.duration && <p className="text-xs text-slate-400 mt-3">Duration: {c.duration}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ============ WHY OUR TRAINING ============ */}
       <section className="py-24 bg-[#061B33] relative overflow-hidden">

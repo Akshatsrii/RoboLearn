@@ -10,7 +10,14 @@ const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
+const curriculumRoutes = require("./routes/curriculumRoutes");
+const courseRoutes = require("./routes/courseRoutes");
+const testimonialRoutes = require("./routes/testimonialRoutes");
+const partnerRoutes = require("./routes/partnerRoutes");
 const contactRoutes = require("./routes/contactRoutes");
+const caseStudyRoutes = require("./routes/caseStudyRoutes");
+const resourceRoutes = require("./routes/resourceRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
@@ -30,7 +37,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/curriculum", curriculumRoutes);
+app.use("/api/courses", courseRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/partners", partnerRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/case-studies", caseStudyRoutes);
+app.use("/api/resources", resourceRoutes);
+app.use("/api/upload", uploadRoutes);
 app.use("/api", chatRoutes);
 
 app.get("/", (req, res) => {
