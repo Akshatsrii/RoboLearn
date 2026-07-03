@@ -2,18 +2,18 @@ import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_URL || "/api";
 
-// Used for admin CRUD calls (Products, Blogs, Gallery, Courses, Leads).
-// Auth itself (login/logout/session) is handled by the unified AuthContext —
-// this just reads the same token that AuthContext stores, under the "token" key.
 export const adminApi = axios.create({ baseURL: API_BASE });
 
+// Always read token fresh from localStorage on every request
 adminApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
-// Auto-logout on 401 (expired/invalid token) — send back to the unified login page.
+// On 401 — clear token and redirect to unified login
 adminApi.interceptors.response.use(
   (res) => res,
   (err) => {
