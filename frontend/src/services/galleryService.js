@@ -1,6 +1,6 @@
-import api from "./api";
+import axios from "axios";
 
-export const getGallery = (params) => api.get("/gallery", { params });
-export const createGalleryItem = (data) => api.post("/gallery", data);
-export const updateGalleryItem = (id, data) => api.put(`/gallery/${id}`, data);
-export const deleteGalleryItem = (id) => api.delete(`/gallery/${id}`);
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
+export const getGallery = (params = {}) => axios.get(`${API_BASE}/gallery`, { params });
+export const getGalleryItem = (id) => axios.get(`${API_BASE}/gallery/${id}`);

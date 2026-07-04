@@ -1,13 +1,6 @@
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import axios from "axios";
 
-const handle = async (res) => {
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Request failed");
-  return data;
-};
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
 
-export const getPublicTestimonials = () =>
-  fetch(`${API}/testimonials/public`).then(handle);
-
-export const getPartners = () =>
-  fetch(`${API}/partners`).then(handle);
+export const getPublicTestimonials = () => axios.get(`${API_BASE}/testimonials/public`);
+export const getPartners = () => axios.get(`${API_BASE}/partners`, { params: { isActive: true, limit: 20 } });

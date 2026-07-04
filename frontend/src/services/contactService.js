@@ -1,5 +1,5 @@
-import api from "./api";
+import axios from "axios";
 
-export const submitContact = (data) => api.post("/contact/submit", data);
-export const getContacts = (params) => api.get("/contact", { params });
-export const updateContactStatus = (id, data) => api.patch(`/contact/${id}/status`, data);
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
+
+export const submitContact = (data) => axios.post(`${API_BASE}/contact/submit`, data);
