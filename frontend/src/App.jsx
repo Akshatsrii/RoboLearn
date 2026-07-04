@@ -4,8 +4,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./components/ui/Toast";
 
 // layouts
-import Navbar from "./layouts/Navbar";
-import Footer from "./layouts/Footer";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 import ChatWidget from "./components/ui/ChatWidget";
 
 // public pages
