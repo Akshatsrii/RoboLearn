@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Zap, User, LogOut, LayoutDashboard, ChevronDown, ShoppingBag } from "lucide-react";
+import { Menu, X, Zap, User, LogOut, LayoutDashboard, ChevronDown, ShoppingBag, Heart } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -24,6 +25,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { cartCount, setIsCartOpen } = useCart();
+  const { wishlistCount } = useWishlist();
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -123,19 +125,21 @@ export default function Navbar() {
               Free Consultation
             </Link>
 
-            {/* Desktop Cart Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
+            </button>
+
+            {/* Desktop Wishlist Button */}
+            <Link
+              to="/wishlist"
               className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-50 rounded-lg transition-colors shrink-0"
-              aria-label="Open cart"
+              aria-label="Open wishlist"
             >
-              <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
-                  {cartCount}
+              <Heart size={20} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+                  {wishlistCount}
                 </span>
               )}
-            </button>
+            </Link>
 
             {isAuthenticated ? (
               <div className="relative" ref={menuRef}>
@@ -184,18 +188,20 @@ export default function Navbar() {
 
           {/* Mobile Right: Cart + Toggle */}
           <div className="lg:hidden flex items-center gap-2">
-            <button
-              onClick={() => setIsCartOpen(true)}
+            </button>
+
+            <Link
+              to="/wishlist"
               className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition-colors"
-              aria-label="Open cart"
+              aria-label="Open wishlist"
             >
-              <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-cyan-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                  {cartCount}
+              <Heart size={20} />
+              {wishlistCount > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {wishlistCount}
                 </span>
               )}
-            </button>
+            </Link>
 
             <button
               onClick={() => setIsOpen(!isOpen)}

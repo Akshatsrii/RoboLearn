@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Package, Search, SlidersHorizontal, ShoppingCart, Star } from "lucide-react";
+import { ArrowRight, Package, Search, SlidersHorizontal, ShoppingCart, Star, Heart, X, Scale, CheckCircle2 } from "lucide-react";
 import { getProducts } from "../services/productService";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 const categories = ["All", "Beginner", "Intermediate", "Advanced"];
 const priceRanges = [
@@ -18,7 +19,13 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activePriceRange, setActivePriceRange] = useState(0); // Index of priceRange
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Compare states
+  const [compareList, setCompareList] = useState([]);
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
+
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   useEffect(() => {
     getProducts()
@@ -48,6 +55,66 @@ export default function Products() {
       return matchCat && matchPrice && matchSearch;
     });
   }, [products, activeCategory, activePriceRange, searchQuery]);
+
+  // Compare handlers
+  const handleToggleCompare = (product, checked) => {
+    if (checked) {
+      if (compareList.length >= 3) {
+        alert("You can compare up to 3 products at a time.");
+        return;
+      }
+      setCompareList((prev) => [...prev, product]);
+    } else {
+      setCompareList((prev) => prev.filter((item) => item._id !== product._id));
+    }
+  };
+
+  const handleRemoveFromCompare = (productId) => {
+    setCompareList((prev) => prev.filter((item) => item._id !== productId));
+  };
+
+  // Mock specs data for comparison
+  const getCompareSpecs = (p) => {
+    if (p._id === "1") {
+      return {
+        micro: "Snap-fit Connectors (App guided)",
+        age: "Ages 8-11",
+        inclusions: "LED modules, Motors, Chassis, Battery connector",
+        sensors: "Ultrasonic sensor"
+      };
+    }
+    if (p._id === "2") {
+      return {
+        micro: "ATMega328p Uno-compatible",
+        age: "Ages 11-14",
+        inclusions: "Servo motor, RGB LED, remote controllers, breadboard",
+        sensors: "DHT11 Temp, IR Receiver, Ultrasonic"
+      };
+    }
+    if (p._id === "3") {
+      return {
+        micro: "ESP32 Camera Module (AI acceleration)",
+        age: "Ages 14-18",
+        inclusions: "ESP32 CAM, custom AI Shield, Python workspace license",
+        sensors: "High-resolution Camera sensor"
+      };
+    }
+    if (p._id === "4") {
+      return {
+        micro: "ESP32 Wi-Fi Node Module",
+        age: "Ages 14-18",
+        inclusions: "ESP32 Wifi dev board, relay modules, buzzer system",
+        sensors: "DHT22, Soil Moisture sensor, light sensor"
+      };
+    }
+    // Default fallback
+    return {
+      micro: "Arduino Uno board base",
+      age: "Ages 10+",
+      inclusions: "Breadboard, jumper wires, starter accessories",
+      sensors: "Basic touch and light sensors"
+    };
+  };
 
   return (
     <div className="bg-slate-50 text-slate-900 min-h-screen">
@@ -86,7 +153,7 @@ export default function Products() {
       </section>
 
       {/* MAIN CONTAINER */}
-      <section className="py-12">
+      <section className="py-12 pb-32">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-[260px_1fr] gap-8 items-start">
             
@@ -181,10 +248,12 @@ export default function Products() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filtered.map((p) => {
                     const price = p.price || (p.category === "Advanced" ? 5499 : p.category === "Intermediate" ? 3999 : 2499);
+                    const isLiked = isInWishlist(p._id);
+                    const isCompared = compareList.some((item) => item._id === p._id);
                     return (
                       <div
                         key={p._id}
-                        className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                        className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative"
                       >
                         <div>
                           {/* Image Container */}
@@ -199,6 +268,29 @@ export default function Products() {
                             <span className="absolute top-3 left-3 text-[10px] font-bold text-cyan-700 bg-white border border-cyan-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
                               {p.category || p.level}
                             </span>
+
+                            {/* Wishlist toggle */}
+                            <button
+                              onClick={() => toggleWishlist(p)}
+                              className="absolute top-3 right-3 bg-white hover:bg-red-50 text-slate-400 hover:text-red-500 p-2 rounded-xl transition border border-slate-100 shadow-sm"
+                              aria-label="Add to wishlist"
+                            >
+                              <Heart size={14} className={isLiked ? "text-red-500 fill-red-500" : ""} />
+                            </button>
+                          </div>
+
+                          {/* Compare checkbox */}
+                          <div className="flex items-center gap-1.5 mb-2.5">
+                            <input
+                              type="checkbox"
+                              id={`compare-${p._id}`}
+                              checked={isCompared}
+                              onChange={(e) => handleToggleCompare(p, e.target.checked)}
+                              className="w-3.5 h-3.5 border-slate-300 rounded text-cyan-600 focus:ring-cyan-500 shrink-0 cursor-pointer"
+                            />
+                            <label htmlFor={`compare-${p._id}`} className="text-[10px] text-slate-400 font-semibold cursor-pointer hover:text-slate-600">
+                              Compare Product
+                            </label>
                           </div>
 
                           {/* Ratings */}
@@ -243,6 +335,146 @@ export default function Products() {
           </div>
         </div>
       </section>
+
+      {/* Floating Compare Tray */}
+      {compareList.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-slate-200 shadow-2xl py-4 px-6 flex items-center justify-between gap-4 animate-fadeUp">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#0b2545]">
+              <Scale size={16} className="text-cyan-600" />
+              Compare Products ({compareList.length}/3)
+            </div>
+            <div className="flex gap-2">
+              {compareList.map((item) => (
+                <div key={item._id} className="flex items-center gap-2 bg-slate-100 border border-slate-200/50 rounded-xl pl-2 pr-1.5 py-1 text-xs font-semibold text-slate-700">
+                  <span className="truncate max-w-[100px]">{item.name || item.title}</span>
+                  <button onClick={() => handleRemoveFromCompare(item._id)} className="text-slate-400 hover:text-slate-600 transition">
+                    <X size={12} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setCompareList([])}
+              className="text-slate-500 hover:text-slate-800 text-xs font-semibold px-4 py-2"
+            >
+              Clear All
+            </button>
+            <button
+              onClick={() => setCompareModalOpen(true)}
+              className="bg-[#0b2545] hover:bg-cyan-600 text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow-md flex items-center gap-1.5"
+            >
+              <Scale size={14} />
+              Compare Now
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Comparison Modal */}
+      {compareModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-[#061B33]/50 backdrop-blur-sm" onClick={() => setCompareModalOpen(false)} />
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 sticky top-0 bg-white z-10">
+              <h3 className="font-bold text-[#0b2545] text-lg flex items-center gap-2">
+                <Scale className="text-cyan-600" size={20} />
+                STEM Kit Comparison
+              </h3>
+              <button onClick={() => setCompareModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <div className="grid grid-cols-[150px_1fr] md:grid-cols-[200px_repeat(auto-fit,minmax(180px,1fr))] border-collapse text-xs md:text-sm">
+                
+                {/* Headers / Images */}
+                <div className="p-3 bg-slate-50/50 font-bold text-slate-400 uppercase tracking-wider flex items-center">Product</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-l border-slate-100 text-center">
+                    <div className="w-16 h-16 mx-auto rounded-lg overflow-hidden bg-slate-50 border border-slate-100 mb-3">
+                      <img src={item.imageUrl || item.image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"} alt={item.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="font-bold text-slate-800 line-clamp-1">{item.name || item.title}</span>
+                  </div>
+                ))}
+
+                {/* Pricing row */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Price</div>
+                {compareList.map((item) => {
+                  const price = item.price || (item.category === "Advanced" ? 5499 : item.category === "Intermediate" ? 3999 : 2499);
+                  return (
+                    <div key={item._id} className="p-4 border-t border-l border-slate-100 font-bold text-cyan-600 text-center">
+                      ₹{price}
+                    </div>
+                  );
+                })}
+
+                {/* Level / Category */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Age Level</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600">
+                    <span className="font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded uppercase tracking-wider text-[10px]">
+                      {item.category || item.level}
+                    </span>
+                  </div>
+                ))}
+
+                {/* Microcontroller */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Controller Core</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600">
+                    {getCompareSpecs(item).micro}
+                  </div>
+                ))}
+
+                {/* Target Age */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Target Grades</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600">
+                    {getCompareSpecs(item).age}
+                  </div>
+                ))}
+
+                {/* Sensors */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Key Sensors</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600">
+                    {getCompareSpecs(item).sensors}
+                  </div>
+                ))}
+
+                {/* Package Inclusions */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Box Inclusions</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600 text-xs">
+                    {getCompareSpecs(item).inclusions}
+                  </div>
+                ))}
+
+                {/* Cart Action */}
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Buy</div>
+                {compareList.map((item) => (
+                  <div key={item._id} className="p-4 border-t border-l border-slate-100 flex justify-center">
+                    <button
+                      onClick={() => {
+                        addToCart(item, 1);
+                        setCompareModalOpen(false);
+                      }}
+                      className="bg-[#0b2545] hover:bg-cyan-600 text-white font-semibold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1 shadow-sm"
+                    >
+                      <ShoppingCart size={12} /> Add
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* CTA */}
       <section className="py-24 bg-white border-t border-slate-100">
