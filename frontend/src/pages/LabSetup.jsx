@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Cpu, Monitor, Wrench, GraduationCap, Shield, Settings, ChevronDown, Send, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle, Cpu, Monitor, Wrench, GraduationCap, Shield, Settings, ChevronDown, Send, CheckCircle2, Calculator, School, Layers, Hammer } from "lucide-react";
 import { submitContact } from "../services/contactService";
+import SEO from "../components/SEO";
 
 const features = [
   "Complete Lab Design & Layout Planning",
@@ -37,12 +38,58 @@ const faqs = [
   { q: "Do you support Raspberry Pi-based setups too?", a: "Yes — our hardware setup covers Arduino, ESP32, and Raspberry Pi, so labs can support both beginner and advanced projects." },
 ];
 
+// Lab packages configuration for the planner
+const labPackages = {
+  atl: {
+    name: "Atal Tinkering Lab (ATL)",
+    basePrice: 1200000, // Government standard is ₹10L - ₹20L
+    pricePerStudent: 8000,
+    minSpace: 1000,
+    items: [
+      { name: "STEM Innovation kits (P1, P2, P3)", qty: "10-20 Sets" },
+      { name: "DIY 3D Printer & Filaments", qty: "1 Unit" },
+      { name: "Electronic components & soldering tools", qty: "Assorted" },
+      { name: "Power tools & Mechanical assembly bench", qty: "1 Set" },
+      { name: "Safety shields & Fire protection kits", qty: "4 Units" }
+    ]
+  },
+  robotics: {
+    name: "Robotics Core Lab",
+    basePrice: 450000,
+    pricePerStudent: 4500,
+    minSpace: 600,
+    items: [
+      { name: "RoboLearn Arduino Starter kits", qty: "1 Set per 2 students" },
+      { name: "RoboLearn Advanced IoT & Sensor kits", qty: "5 Sets" },
+      { name: "Chassis plates, gears, wheels, and links", qty: "Bulk" },
+      { name: "Soldering workstations & Multimeters", qty: "3 Units" },
+      { name: "Instructional charts & Wall prints", qty: "Complete Pack" }
+    ]
+  },
+  ai_coding: {
+    name: "Coding & AI Lab",
+    basePrice: 300000,
+    pricePerStudent: 3000,
+    minSpace: 500,
+    items: [
+      { name: "ESP32 Camera Modules & Shields", qty: "1 Set per 2 students" },
+      { name: "Edge Computing Development kits", qty: "4 Units" },
+      { name: "Syllabus books & Code repositories", qty: "Licensed" },
+      { name: "Block coding companion app setups", qty: "Unlimited" }
+    ]
+  }
+};
+
 export default function LabSetup() {
   const [openFaq, setOpenFaq] = useState(0);
   const [form, setForm] = useState({ name: "", email: "", phone: "", schoolName: "", city: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  // Planner states
+  const [selectedLab, setSelectedLab] = useState("atl");
+  const [studentCapacity, setStudentCapacity] = useState(40);
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
@@ -61,11 +108,33 @@ export default function LabSetup() {
     }
   };
 
+  // Lab calculations
+  const plannerResult = useMemo(() => {
+    const pkg = labPackages[selectedLab];
+    const estimatedCost = pkg.basePrice + (studentCapacity * pkg.pricePerStudent);
+    const spaceRequired = Math.max(pkg.minSpace, studentCapacity * 20); // 20 sq ft per student
+    const kitsCount = Math.ceil(studentCapacity / 2);
+    const teacherTrainingHrs = studentCapacity > 50 ? 40 : 24;
+
+    return {
+      estimatedCost: estimatedCost.toLocaleString("en-IN"),
+      spaceRequired,
+      kitsCount,
+      teacherTrainingHrs,
+      items: pkg.items
+    };
+  }, [selectedLab, studentCapacity]);
+
   const inputCls =
     "w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-colors text-sm";
 
   return (
-    <div className="bg-white text-slate-900">
+    <div className="bg-slate-50 text-slate-900 min-h-screen">
+      <SEO
+        title="Robotics & STEM Lab Setup for Schools"
+        description="End-to-end Atal Tinkering Lab (ATL), robotics, and Coding/AI lab setups with budget calculators, NITI Aayog equipment compliance, and teacher certifications."
+        path="/lab-setup"
+      />
       <style>{`
         @keyframes dash { to { stroke-dashoffset: 0; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -97,32 +166,143 @@ export default function LabSetup() {
             Robotics Lab Setup
           </span>
           <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] text-white">
-            Complete <span className="text-cyan-400">robotics lab</span> for your school
+            Complete <span className="text-cyan-400">Robotics Lab</span> for Schools
           </h1>
           <p className="mt-6 text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            End-to-end lab design, hardware installation, software setup,
-            teacher training, and annual maintenance — all under one contract.
+            NITI Aayog aligned ATL packages, advanced robotics kits, custom layouts, teacher certification development, and complete equipment provisioning.
           </p>
-          <Link
-            to="/contact"
-            className="group inline-flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-[#061B33] px-7 py-3.5 rounded-xl font-semibold mt-9 transition-colors"
-          >
-            Get Free Lab Consultation
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </Link>
+        </div>
+      </section>
+
+      {/* ============ CALCULATOR SECTION ============ */}
+      <section className="py-20 max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase flex items-center justify-center gap-1.5">
+            <Calculator size={15} /> Lab Planner
+          </span>
+          <h2 className="mt-3 text-3xl font-bold text-[#0b2545]">Interactive Lab Budget Calculator</h2>
+          <p className="mt-3 text-slate-600 text-sm">
+            Select your target lab configuration and student capacity to calculate estimated package costs and hardware specifications.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-10 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+          {/* Planner Controls */}
+          <div className="space-y-8">
+            {/* Lab Type Tabs */}
+            <div>
+              <label className="block text-xs font-bold text-[#0b2545] uppercase tracking-wider mb-4">1. Select Lab Type</label>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {[
+                  { id: "atl", label: "ATL Lab", icon: School, desc: "CBSE & NITI Aayog standards" },
+                  { id: "robotics", label: "Robotics Core", icon: Layers, desc: "Starter kits & sensors" },
+                  { id: "ai_coding", label: "Coding & AI", icon: Cpu, desc: "Camera & ML shields" }
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setSelectedLab(item.id)}
+                    className={`flex flex-col text-left p-4 border rounded-2xl transition-all duration-200 ${
+                      selectedLab === item.id
+                        ? "border-cyan-500 bg-cyan-50/20 ring-1 ring-cyan-500"
+                        : "border-slate-200 hover:bg-slate-50"
+                    }`}
+                  >
+                    <item.icon size={20} className={selectedLab === item.id ? "text-cyan-600" : "text-slate-500"} />
+                    <span className="block text-sm font-bold text-[#0b2545] mt-3">{item.label}</span>
+                    <span className="block text-[10px] text-slate-400 mt-1 leading-snug">{item.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Capacity Slider */}
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <label className="block text-xs font-bold text-[#0b2545] uppercase tracking-wider">2. Student Capacity</label>
+                <span className="bg-cyan-50 text-cyan-700 text-sm font-bold px-3 py-1 rounded-full border border-cyan-100">
+                  {studentCapacity} Students
+                </span>
+              </div>
+              <input
+                type="range"
+                min="20"
+                max="100"
+                step="5"
+                value={studentCapacity}
+                onChange={(e) => setStudentCapacity(Number(e.target.value))}
+                className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-cyan-600 border border-slate-200"
+              />
+              <div className="flex justify-between text-[10px] font-semibold text-slate-400 mt-2">
+                <span>20 Students (Min)</span>
+                <span>60 Students</span>
+                <span>100 Students (Max)</span>
+              </div>
+            </div>
+
+            {/* Equipment checklist */}
+            <div>
+              <h4 className="text-xs font-bold text-[#0b2545] uppercase tracking-wider mb-4">Package Equipment Checklist</h4>
+              <div className="border border-slate-100 rounded-2xl overflow-hidden divide-y divide-slate-100 text-xs">
+                {plannerResult.items.map((item) => (
+                  <div key={item.name} className="flex justify-between items-center px-4 py-3 bg-slate-50/50">
+                    <span className="font-semibold text-slate-700">{item.name}</span>
+                    <span className="text-cyan-600 font-bold bg-cyan-50 px-2 py-0.5 rounded border border-cyan-100">{item.qty}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Planner Outcome */}
+          <div className="bg-slate-50 border border-slate-200/50 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <h3 className="font-bold text-[#0b2545] text-base mb-4 pb-2 border-b border-slate-200/60">Estimated Proposal</h3>
+              
+              <div className="space-y-5">
+                <div>
+                  <span className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Package Cost</span>
+                  <span className="text-3xl font-extrabold text-cyan-600 mt-1 block">₹{plannerResult.estimatedCost}</span>
+                  <span className="block text-[10px] text-slate-400 mt-1 leading-normal">
+                    *Approximate cost based on baseline components and selected capacity. Final quotes vary by installation requirements.
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200/60 text-sm">
+                  <div>
+                    <span className="block text-xs font-semibold text-slate-400">Space Needed</span>
+                    <span className="font-bold text-slate-800 mt-1 block">{plannerResult.spaceRequired} Sq. Ft.</span>
+                  </div>
+                  <div>
+                    <span className="block text-xs font-semibold text-slate-400">Hardware Kits</span>
+                    <span className="font-bold text-slate-800 mt-1 block">{plannerResult.kitsCount} Kits (1:2 ratio)</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="block text-xs font-semibold text-slate-400">Teacher Certifications</span>
+                    <span className="font-bold text-slate-800 mt-1 block">{plannerResult.teacherTrainingHrs} Hours of intensive development</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="#consultation-form"
+              className="w-full bg-[#0b2545] hover:bg-cyan-600 text-white py-3.5 rounded-xl font-semibold mt-8 flex items-center justify-center gap-2 transition shadow-md text-sm"
+            >
+              Request Proposal for This Package
+            </a>
+          </div>
         </div>
       </section>
 
       {/* ============ WHAT WE PROVIDE ============ */}
-      <section className="py-24">
+      <section className="py-24 bg-white border-t border-b border-slate-200/60">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-14 items-start">
             <div>
               <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">What's Included</span>
               <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[#0b2545]">A world-class robotics lab, fully managed</h2>
               <p className="mt-4 text-slate-600 leading-relaxed">
-                We handle everything — from lab design and equipment procurement
-                to installation, training, and long-term maintenance support.
+                RoboLearn is an end-to-end laboratory provider. We do not just sell boxes; we configure workstations, layout networking hubs, wire safety triggers, and support CBSE-mandated structures.
               </p>
               <div className="space-y-3 mt-8">
                 {features.map((f) => (
@@ -146,7 +326,7 @@ export default function LabSetup() {
 
               <div className="grid grid-cols-2 gap-4 mt-4">
                 {equipment.map(({ icon: Icon, title, desc }) => (
-                  <div key={title} className="group border border-slate-200 rounded-2xl p-5 hover:border-cyan-300 hover:shadow-sm transition-all duration-300">
+                  <div key={title} className="group border border-slate-200 bg-slate-50/50 rounded-2xl p-5 hover:border-cyan-300 hover:shadow-sm transition-all duration-300">
                     <div className="w-10 h-10 rounded-lg bg-[#0b2545] flex items-center justify-center mb-3 group-hover:bg-cyan-500 transition-colors duration-300">
                       <Icon size={18} className="text-cyan-300 group-hover:text-white transition-colors duration-300" />
                     </div>
@@ -184,7 +364,7 @@ export default function LabSetup() {
       </section>
 
       {/* ============ FAQ ============ */}
-      <section className="py-24">
+      <section className="py-24 bg-white">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto">
             <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">FAQ</span>
@@ -219,7 +399,7 @@ export default function LabSetup() {
       </section>
 
       {/* ============ CONSULTATION FORM ============ */}
-      <section className="py-24 bg-slate-50">
+      <section id="consultation-form" className="py-24 bg-slate-50">
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center max-w-xl mx-auto mb-12">
             <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Get Started</span>
@@ -275,24 +455,6 @@ export default function LabSetup() {
                 </button>
               </form>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ CTA ============ */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0b2545] via-[#0e3a63] to-cyan-600 p-12 text-white">
-            <div className="absolute inset-0 opacity-10">
-              <svg className="w-full h-full" viewBox="0 0 400 200" preserveAspectRatio="none">
-                <circle cx="40" cy="40" r="90" fill="white" /><circle cx="380" cy="180" r="120" fill="white" />
-              </svg>
-            </div>
-            <h2 className="relative text-3xl md:text-4xl font-bold">Ready to build your robotics lab?</h2>
-            <p className="relative mt-4 text-cyan-50/90">Get a customized lab proposal for your school — free of charge.</p>
-            <Link to="/contact" className="relative inline-flex items-center gap-2 bg-white text-[#0b2545] hover:bg-cyan-50 px-8 py-4 rounded-xl font-semibold mt-8 transition-colors">
-              Get Free Consultation <ArrowRight size={18} />
-            </Link>
           </div>
         </div>
       </section>
