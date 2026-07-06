@@ -61,9 +61,11 @@ export default function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <ToastProvider>
-          <BrowserRouter>
-            <Routes>
+        <CartProvider>
+          <ToastProvider>
+            <BrowserRouter>
+              <CartDrawer />
+              <Routes>
               {/* Public */}
               <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
               <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
@@ -78,6 +80,7 @@ export default function App() {
               <Route path="/case-studies" element={<PublicLayout><CaseStudies /></PublicLayout>} />
               <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
               <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+              <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
 
               {/* Auth */}
               <Route path="/login" element={<Login />} />
@@ -122,6 +125,7 @@ export default function App() {
             </Routes>
           </BrowserRouter>
         </ToastProvider>
+        </CartProvider>
       </AuthProvider>
     </HelmetProvider>
   );
