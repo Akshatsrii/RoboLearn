@@ -186,10 +186,20 @@ export default function ProductDetail() {
     );
   }
 
+  const getDeliveryEstimate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 4);
+    return today.toLocaleDateString("en-IN", { weekday: 'long', month: 'short', day: 'numeric' });
+  };
+
   const mockPrice = product.price || 2499;
 
   return (
     <div className="bg-slate-50 text-slate-900 min-h-screen pt-20 pb-16">
+      <style>{`
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        .anim-fadeup { animation: fadeUp .7s ease both; }
+      `}</style>
       <SEO title={product.name || product.title} description={product.description || product.desc} path={`/products/${id}`} />
       
       <div className="max-w-6xl mx-auto px-6 py-6">
@@ -248,9 +258,15 @@ export default function ProductDetail() {
 
             {/* Price & E-com Actions */}
             <div className="mt-8 border-t border-slate-100 pt-5">
-              <div className="flex items-baseline gap-2 mb-4">
+              <div className="flex items-baseline gap-2 mb-1">
                 <span className="text-2xl font-extrabold text-[#0b2545]">₹{mockPrice}</span>
                 <span className="text-xs text-slate-400 font-medium">(Incl. 18% GST)</span>
+              </div>
+
+              {/* Estimated Delivery Tracker */}
+              <div className="mt-2.5 mb-6 bg-cyan-50/50 border border-cyan-100/50 rounded-xl p-3 flex items-center gap-2 text-xs text-cyan-800">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse shrink-0" />
+                <span>Express Shipping: Get it by <strong>{getDeliveryEstimate()}</strong>! (Ships within 24 Hours)</span>
               </div>
 
               <div className="flex flex-wrap gap-4 items-center">
@@ -287,6 +303,36 @@ export default function ProductDetail() {
                 >
                   Buy Now
                 </button>
+              </div>
+
+              {/* B2B Bulk pricing tier */}
+              <div className="mt-6 border-t border-slate-100 pt-5 text-xs">
+                <h4 className="font-bold text-[#0b2545] uppercase tracking-wider mb-2">Bulk Institutional Pricing Tiers</h4>
+                <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center text-slate-500 font-medium">
+                  <div>
+                    <span className="block text-slate-400 font-bold">QTY</span>
+                    <span className="text-[#0b2545] font-semibold">10-20 units</span>
+                  </div>
+                  <div>
+                    <span className="block text-slate-400 font-bold">DISCOUNT</span>
+                    <span className="text-cyan-600 font-bold">10% Off</span>
+                  </div>
+                  <div>
+                    <span className="block text-slate-400 font-bold">CODE</span>
+                    <span className="text-slate-700 font-semibold font-mono">STEM10</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center text-slate-500 font-medium mt-1.5">
+                  <div>
+                    <span className="text-[#0b2545] font-semibold">20+ units</span>
+                  </div>
+                  <div>
+                    <span className="text-cyan-600 font-bold">15% Off</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-700 font-semibold font-mono">Contact Sales</span>
+                  </div>
+                </div>
               </div>
 
               {/* Lab Quote Alternate */}

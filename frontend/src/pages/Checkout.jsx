@@ -54,14 +54,33 @@ function CheckoutInner() {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  
+  const [couponCode, setCouponCode] = useState("");
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [couponError, setCouponError] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleApplyCoupon = (e) => {
+    e.preventDefault();
+    setCouponError("");
+    setCouponSuccess("");
+    const code = couponCode.trim().toUpperCase();
+    if (code === "STEM20") {
+      setDiscountPercent(20);
+      setCouponSuccess("STEM20 coupon applied! 20% discount deducted.");
+    } else if (code === "FIRST10") {
+      setDiscountPercent(10);
+      setCouponSuccess("FIRST10 coupon applied! 10% discount deducted.");
+    } else {
+      setDiscountPercent(0);
+      setCouponError("Invalid coupon code.");
+    }
   };
 
   const shippingCost = 150;
   const taxCost = Math.round(cartTotal * 0.18); // 18% GST typical for hardware in India
-  const grandTotal = cartTotal + shippingCost + taxCost;
+  const discountAmount = Math.round(cartTotal * (discountPercent / 100));
+  const grandTotal = cartTotal + shippingCost + taxCost - discountAmount;
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
