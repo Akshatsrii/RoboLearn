@@ -86,10 +86,26 @@ export default function App() {
               <Route path="/case-studies" element={<PublicLayout><CaseStudies /></PublicLayout>} />
               <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
               <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
-              <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
-              <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
-              <Route path="/track-order" element={<PublicLayout><TrackOrder /></PublicLayout>} />
-              <Route path="/track-order/:id" element={<PublicLayout><TrackOrder /></PublicLayout>} />
+              <Route path="/checkout" element={
+                <RequireAuth>
+                  <PublicLayout><Checkout /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/wishlist" element={
+                <RequireAuth>
+                  <PublicLayout><Wishlist /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/track-order" element={
+                <RequireAuth>
+                  <PublicLayout><TrackOrder /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/track-order/:id" element={
+                <RequireAuth>
+                  <PublicLayout><TrackOrder /></PublicLayout>
+                </RequireAuth>
+              } />
 
               {/* Auth */}
               <Route path="/login" element={<Login />} />

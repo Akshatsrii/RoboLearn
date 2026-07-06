@@ -15,9 +15,13 @@ export function AuthProvider({ children }) {
       return;
     }
     getMeRequest()
-      .then((res) => setUser(res.data.user))
+      .then((res) => {
+        setUser(res.data.user);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      })
       .catch(() => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setUser(null);
       })
       .finally(() => setLoading(false));
@@ -26,6 +30,7 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     const { data } = await loginRequest(email, password);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
     setUser(data.user);
     return data.user;
   }, []);
@@ -33,12 +38,14 @@ export function AuthProvider({ children }) {
   const register = useCallback(async (name, email, password, adminCode) => {
     const { data } = await registerRequest(name, email, password, adminCode);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
     setUser(data.user);
     return data.user;
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   }, []);
 
