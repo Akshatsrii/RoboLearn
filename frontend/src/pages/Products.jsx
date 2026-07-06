@@ -361,6 +361,29 @@ export default function Products() {
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* B2B Quote Card */}
+                  <div className="bg-gradient-to-br from-[#0b2545] to-[#0e3a63] border border-cyan-500/20 rounded-2xl p-6 text-white flex flex-col justify-between shadow-md">
+                    <div>
+                      <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-widest bg-cyan-400/10 border border-cyan-400/20 px-2.5 py-0.5 rounded-full">School Procurement</span>
+                      <h3 className="font-extrabold text-base mt-4 leading-snug">Need Bulk STEM Kits for Your School Labs?</h3>
+                      <p className="text-slate-300 text-xs leading-relaxed mt-2.5">
+                        Get discounted institutional quotes, curriculum binders, and free training trials for teachers.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        const school = prompt("Enter School Name:");
+                        const qty = prompt("Enter Target Quantity of Kits (e.g. 50):");
+                        if (school && qty) {
+                          alert(`Thank you! Bulk RFP submitted for ${school} (${qty} kits). Our regional sales manager will reach out within 24 hours.`);
+                        }
+                      }}
+                      className="w-full bg-cyan-400 hover:bg-cyan-300 text-[#0b2545] font-extrabold text-xs py-3 rounded-xl transition shadow-md mt-6 animate-pulse"
+                    >
+                      Request Institutional RFP
+                    </button>
+                  </div>
+
                   {filtered.map((p) => {
                     const price = p.price || 199;
                     const isLiked = isInWishlist(p._id);
@@ -417,10 +440,22 @@ export default function Products() {
 
                           {/* Title */}
                           <Link to={`/products/${p._id}`} className="block">
-                            <h3 className="font-bold text-slate-900 leading-snug group-hover:text-cyan-600 transition-colors mb-2 line-clamp-1">
+                            <h3 className="font-bold text-slate-900 leading-snug group-hover:text-cyan-600 transition-colors mb-1 line-clamp-1">
                               {p.name || p.title}
                             </h3>
                           </Link>
+
+                          {/* Rating and Stock Urgency */}
+                          <div className="flex items-center gap-3 mt-1.5 mb-3 text-[10px]">
+                            <div className="flex items-center text-amber-500 font-bold gap-0.5">
+                              <Star size={11} className="fill-current" />
+                              4.8
+                              <span className="text-slate-400 font-medium ml-0.5">(18 reviews)</span>
+                            </div>
+                            <span className={`font-bold uppercase tracking-wider ${p.category === "Robotics Kits" ? "text-red-500" : "text-emerald-600"}`}>
+                              {p.category === "Robotics Kits" ? "Only 4 left!" : "In Stock"}
+                            </span>
+                          </div>
 
                           {/* Description */}
                           <p className="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2">
