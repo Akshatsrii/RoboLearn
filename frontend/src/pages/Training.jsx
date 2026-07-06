@@ -4,12 +4,11 @@ import { ArrowRight, CheckCircle, Cpu, Users, Trophy, Zap, BookOpen, Settings, W
 import { getCourses } from "../services/courseService";
 import SEO from "../components/SEO";
 
-// Curated programs
 const beginnerPrograms = [
-  { icon: Zap, title: "Beginner Robotics", desc: "Introduction to robotics concepts, mechanics, and how a robot senses and acts." },
-  { icon: Cpu, title: "Arduino", desc: "Hands-on Arduino programming — inputs, outputs, sensors, and your first working circuits." },
-  { icon: CircuitBoard, title: "Embedded Systems", desc: "How microcontrollers think — memory, I/O pins, and real-time control basics." },
-  { icon: BookOpen, title: "AI Basics", desc: "An approachable first look at how machines learn, with simple hands-on demos." },
+  { icon: Zap, title: "Beginner Robotics (Embedded Systems)", desc: "Introduction to digital gates, transistor relays, breadboard setups, and mechanical assembly designs." },
+  { icon: Cpu, title: "AI & IoT Basics (Robotics)", desc: "Integrating sensor node calibrations, real-time wireless links, and camera vision trackers." },
+  { icon: CircuitBoard, title: "Arduino Programming (IoT)", desc: "Write textual C++ algorithms for sensory feedback loops, serial triggers, and PWM motor controllers." },
+  { icon: BookOpen, title: "Project-Based Learning (Introduction to Controls & PCB Design)", desc: "Laying out multi-layer schematics, fabricating circuit prototype boards, and configuring PID feedback controls." },
 ];
 
 const advancedPrograms = [

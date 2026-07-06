@@ -5,12 +5,119 @@ import { getProducts } from "../services/productService";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 
-const categories = ["All", "Beginner", "Intermediate", "Advanced"];
+const categories = ["All", "Robotics Kits", "Experimental Tools", "Educational Products"];
 const priceRanges = [
   { label: "All Prices", min: 0, max: Infinity },
-  { label: "Under ₹3,000", min: 0, max: 3000 },
-  { label: "₹3,000 - ₹5,000", min: 3000, max: 5000 },
-  { label: "Over ₹5,000", min: 5000, max: Infinity },
+  { label: "Under ₹1,000", min: 0, max: 1000 },
+  { label: "₹1,000 - ₹3,000", min: 1000, max: 3000 },
+  { label: "Over ₹3,000", min: 3000, max: Infinity },
+];
+
+const fallbackProducts = [
+  // Robotics Kits
+  {
+    _id: "1",
+    name: "Kids Robotics Kit",
+    category: "Robotics Kits",
+    level: "Beginner Kit",
+    price: 2499,
+    description: "Introductory physical computing building blocks, snap-fit chassis assembly, no soldering.",
+    imageUrl: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "2",
+    name: "Arduino Learning Kit",
+    category: "Robotics Kits",
+    level: "Intermediate Kit",
+    price: 3999,
+    description: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.",
+    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "3",
+    name: "AI Starter Kit",
+    category: "Robotics Kits",
+    level: "Advanced Kit",
+    price: 5499,
+    description: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "4",
+    name: "IoT Experiment Kit",
+    category: "Robotics Kits",
+    level: "Advanced Kit",
+    price: 4899,
+    description: "Cloud communications node module with temperature, light, and soil humidity telemetry.",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+  },
+
+  // Experimental Tools
+  {
+    _id: "5",
+    name: "Ultrasonic Distance Sensor HC-SR04",
+    category: "Experimental Tools",
+    level: "Sensors",
+    price: 180,
+    description: "High accuracy ultrasonic distance measuring sensor compatible with Arduino and Raspberry Pi.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "6",
+    name: "High Torque DC Geared Motor 150RPM",
+    category: "Experimental Tools",
+    level: "Motors (Actuators)",
+    price: 320,
+    description: "12V high-torque metal gear motor suitable for robotics chassis and remote control vehicles.",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "7",
+    name: "Arduino Uno R3 Board (ATmega328P)",
+    category: "Experimental Tools",
+    level: "Controllers",
+    price: 650,
+    description: "Standard microcontroller development board for general electronics prototyping.",
+    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "8",
+    name: "Digital Multimeter & Temperature Probe",
+    category: "Experimental Tools",
+    level: "STEM Equipment",
+    price: 1450,
+    description: "Essential lab measurement tool for diagnostic testing of voltages, currents, and resistance parameters.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+  },
+
+  // Educational Products
+  {
+    _id: "9",
+    name: "Block Coding Software Companion Starter",
+    category: "Educational Products",
+    level: "Coding Kits",
+    price: 1999,
+    description: "Visual Scratch 3.0 drag-and-drop course guide block modules mapped to beginner kit setups.",
+    imageUrl: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "10",
+    name: "EdgeAI Vision Model Training Pack",
+    category: "Educational Products",
+    level: "AI Learning Kits",
+    price: 2999,
+    description: "Interactive kit for training custom neural networks on microcontrollers with camera captures.",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+  },
+  {
+    _id: "11",
+    name: "Smart Agriculture IoT telemetry Binders",
+    category: "Educational Products",
+    level: "IoT Learning Kits",
+    price: 3499,
+    description: "Complete greenhouse telemetry automation setup files, charts dashboards, and humidity triggers.",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+  }
 ];
 
 export default function Products() {
@@ -29,21 +136,29 @@ export default function Products() {
 
   useEffect(() => {
     getProducts()
-      .then((res) => setProducts(res.data?.data || []))
-      .catch(() => setProducts([]))
+      .then((res) => {
+        const dbItems = res.data?.data || [];
+        // Map database courses to fallbacks if they have no custom values
+        if (dbItems.length > 0) {
+          setProducts(dbItems);
+        } else {
+          setProducts(fallbackProducts);
+        }
+      })
+      .catch(() => setProducts(fallbackProducts))
       .finally(() => setLoading(false));
   }, []);
 
   const filtered = useMemo(() => {
-    return products.filter((p) => {
+    const list = products.length > 0 ? products : fallbackProducts;
+    return list.filter((p) => {
       // Category filter
       const matchCat =
         activeCategory === "All" ||
-        p.category === activeCategory ||
-        p.level === activeCategory.toLowerCase();
+        p.category === activeCategory;
 
       // Price filter
-      const price = p.price || (p.category === "Advanced" ? 5499 : p.category === "Intermediate" ? 3999 : 2499);
+      const price = p.price || 199;
       const range = priceRanges[activePriceRange];
       const matchPrice = price >= range.min && price <= range.max;
 
@@ -75,7 +190,8 @@ export default function Products() {
 
   // Mock specs data for comparison
   const getCompareSpecs = (p) => {
-    if (p._id === "1") {
+    const idStr = String(p._id);
+    if (idStr === "1") {
       return {
         micro: "Snap-fit Connectors (App guided)",
         age: "Ages 8-11",
@@ -83,7 +199,7 @@ export default function Products() {
         sensors: "Ultrasonic sensor"
       };
     }
-    if (p._id === "2") {
+    if (idStr === "2") {
       return {
         micro: "ATMega328p Uno-compatible",
         age: "Ages 11-14",
@@ -91,7 +207,7 @@ export default function Products() {
         sensors: "DHT11 Temp, IR Receiver, Ultrasonic"
       };
     }
-    if (p._id === "3") {
+    if (idStr === "3") {
       return {
         micro: "ESP32 Camera Module (AI acceleration)",
         age: "Ages 14-18",
@@ -99,7 +215,7 @@ export default function Products() {
         sensors: "High-resolution Camera sensor"
       };
     }
-    if (p._id === "4") {
+    if (idStr === "4") {
       return {
         micro: "ESP32 Wi-Fi Node Module",
         age: "Ages 14-18",
@@ -107,12 +223,11 @@ export default function Products() {
         sensors: "DHT22, Soil Moisture sensor, light sensor"
       };
     }
-    // Default fallback
     return {
-      micro: "Arduino Uno board base",
-      age: "Ages 10+",
-      inclusions: "Breadboard, jumper wires, starter accessories",
-      sensors: "Basic touch and light sensors"
+      micro: "Module Core Component",
+      age: "All Grades",
+      inclusions: "Standard connecting terminals",
+      sensors: "Digital output feeds"
     };
   };
 
@@ -166,7 +281,7 @@ export default function Products() {
 
               {/* Category */}
               <div>
-                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Grade Level</h4>
+                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Product Category</h4>
                 <div className="space-y-1.5">
                   {categories.map((c) => (
                     <button
@@ -247,13 +362,13 @@ export default function Products() {
               ) : (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filtered.map((p) => {
-                    const price = p.price || (p.category === "Advanced" ? 5499 : p.category === "Intermediate" ? 3999 : 2499);
+                    const price = p.price || 199;
                     const isLiked = isInWishlist(p._id);
                     const isCompared = compareList.some((item) => item._id === p._id);
                     return (
                       <div
                         key={p._id}
-                        className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative"
+                        className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative text-sm"
                       >
                         <div>
                           {/* Image Container */}
@@ -264,9 +379,9 @@ export default function Products() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               loading="lazy"
                             />
-                            {/* Level Badge */}
+                            {/* Category Badge */}
                             <span className="absolute top-3 left-3 text-[10px] font-bold text-cyan-700 bg-white border border-cyan-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              {p.category || p.level}
+                              {p.category}
                             </span>
 
                             {/* Wishlist toggle */}
@@ -293,13 +408,12 @@ export default function Products() {
                             </label>
                           </div>
 
-                          {/* Ratings */}
-                          <div className="flex items-center gap-1 mb-2">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star key={i} size={12} className={i < 4 ? "text-amber-400 fill-amber-400" : "text-slate-200"} />
-                            ))}
-                            <span className="text-[10px] text-slate-400 font-semibold ml-1">(4.0)</span>
-                          </div>
+                          {/* Type / Level sublabel */}
+                          {p.level && (
+                            <span className="text-[10px] font-bold text-slate-400 block mb-1 uppercase tracking-wide">
+                              {p.level}
+                            </span>
+                          )}
 
                           {/* Title */}
                           <Link to={`/products/${p._id}`} className="block">
@@ -405,7 +519,7 @@ export default function Products() {
                 {/* Pricing row */}
                 <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Price</div>
                 {compareList.map((item) => {
-                  const price = item.price || (item.category === "Advanced" ? 5499 : item.category === "Intermediate" ? 3999 : 2499);
+                  const price = item.price || 199;
                   return (
                     <div key={item._id} className="p-4 border-t border-l border-slate-100 font-bold text-cyan-600 text-center">
                       ₹{price}
@@ -414,11 +528,11 @@ export default function Products() {
                 })}
 
                 {/* Level / Category */}
-                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Age Level</div>
+                <div className="p-3 border-t border-slate-100 bg-slate-50/50 font-bold text-[#0b2545] flex items-center">Product Type</div>
                 {compareList.map((item) => (
                   <div key={item._id} className="p-4 border-t border-l border-slate-100 text-center text-slate-600">
                     <span className="font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded uppercase tracking-wider text-[10px]">
-                      {item.category || item.level}
+                      {item.level || item.category}
                     </span>
                   </div>
                 ))}
