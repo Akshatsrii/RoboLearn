@@ -63,11 +63,12 @@ export default function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <CartProvider>
-          <ToastProvider>
-            <BrowserRouter>
-              <CartDrawer />
-              <Routes>
+        <WishlistProvider>
+          <CartProvider>
+            <ToastProvider>
+              <BrowserRouter>
+                <CartDrawer />
+                <Routes>
               {/* Public */}
               <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
               <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
@@ -83,6 +84,7 @@ export default function App() {
               <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
               <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
               <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
+              <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
 
               {/* Auth */}
               <Route path="/login" element={<Login />} />
@@ -126,8 +128,9 @@ export default function App() {
               } />
             </Routes>
           </BrowserRouter>
-        </ToastProvider>
-        </CartProvider>
+            </ToastProvider>
+          </CartProvider>
+        </WishlistProvider>
       </AuthProvider>
     </HelmetProvider>
   );
