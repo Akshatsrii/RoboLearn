@@ -77,6 +77,19 @@ We analyze the latest CBSE and NEP guidelines recommending hands-on project asse
     content: `Why is robotics becoming central to modern curricula? Unlike flat computer screens, a robot operates in the real physical world, which has friction, gravity, and noise.
 
 Debugging a physical system teaches kids patience and resilience. They learn that coding is not just about syntax; it is about building feedback loops that correct physical errors. We detail five key academic benefits including logic, spatial visualization, team work, and early mechanical intuition.`
+  },
+  {
+    _id: "blog_6",
+    title: "Introduction to Robotics",
+    category: "robotics",
+    excerpt: "A beginner's guide to understanding basic robotic actuators, feedback control loops, and microcontrollers.",
+    coverImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+    publishedAt: "2026-06-01",
+    readTime: 5,
+    author: "Simran Kaur",
+    content: `Robotics is the intersection of science, engineering, and logic. In this introductory post, we cover what makes a machine a robot: the Sense-Think-Act paradigm.
+
+To understand robotics, one must understand how a machine interacts with its surroundings. Sensors gather data (Sense), microprocessors compute instructions (Think), and actuators perform movements (Act). By learning this feedback loop, students gain an intuitive grasp of how automated systems shape our modern world.`
   }
 ];
 

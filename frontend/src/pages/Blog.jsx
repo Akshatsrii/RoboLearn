@@ -69,6 +69,17 @@ const fallbackBlogs = [
     readTime: 7,
     author: "Rajesh Kumar",
     content: "Building physical devices that respond to code sparks a deep curiosity, encouraging students to pursue science and core engineering careers."
+  },
+  {
+    _id: "blog_6",
+    title: "Introduction to Robotics",
+    category: "robotics",
+    excerpt: "A beginner's guide to understanding basic robotic actuators, feedback control loops, and microcontrollers.",
+    coverImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+    publishedAt: "2026-06-01",
+    readTime: 5,
+    author: "Simran Kaur",
+    content: "Robotics is the intersection of science, engineering, and logic. In this introductory post, we cover what makes a machine a robot: the Sense-Think-Act paradigm."
   }
 ];
 
