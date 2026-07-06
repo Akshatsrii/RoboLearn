@@ -27,6 +27,7 @@ import Resources from "./pages/Resources";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
+import AddCourse from "./pages/AddCourse";
 
 // auth pages
 import Login from "./pages/Login";
@@ -74,6 +75,7 @@ export default function App() {
               <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
               <Route path="/lab-setup" element={<PublicLayout><LabSetup /></PublicLayout>} />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
+              <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
               <Route path="/products/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
               <Route path="/curriculum" element={<PublicLayout><Curriculum /></PublicLayout>} />
