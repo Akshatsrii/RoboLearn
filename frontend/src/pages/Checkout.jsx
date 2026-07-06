@@ -80,6 +80,9 @@ function CheckoutInner() {
   const shippingCost = 150;
   const taxCost = Math.round(cartTotal * 0.18); // 18% GST typical for hardware in India
   const discountAmount = Math.round(cartTotal * (discountPercent / 100));
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   const grandTotal = cartTotal + shippingCost + taxCost - discountAmount;
 
   const handlePlaceOrder = async (e) => {
@@ -431,12 +434,40 @@ function CheckoutInner() {
                   ))}
                 </div>
 
+                {/* Coupon Code Engine */}
+                <div className="border-t border-slate-100 pt-4 mt-4">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Discount Coupon Code</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      placeholder="e.g. STEM20 / FIRST10"
+                      className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-cyan-500"
+                    />
+                    <button
+                      onClick={handleApplyCoupon}
+                      className="bg-[#0b2545] hover:bg-cyan-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {couponError && <p className="text-red-500 text-[10px] font-semibold mt-1">{couponError}</p>}
+                  {couponSuccess && <p className="text-emerald-600 text-[10px] font-semibold mt-1">{couponSuccess}</p>}
+                </div>
+
                 {/* Cost Breakdown */}
-                <div className="border-t border-slate-100 pt-4 mt-4 space-y-2.5 text-sm">
+                <div className="border-t border-slate-100 pt-4 mt-4 space-y-2.5 text-xs sm:text-sm">
                   <div className="flex justify-between text-slate-500">
                     <span>Items Subtotal:</span>
                     <span className="font-semibold text-slate-800">₹{cartTotal}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-600 font-semibold">
+                      <span>Promo Discount ({discountPercent}%):</span>
+                      <span>- ₹{discountAmount}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-slate-500">
                     <span className="flex items-center gap-1">Shipping &amp; Delivery: <Truck size={14} /></span>
                     <span className="font-semibold text-slate-800">₹{shippingCost}</span>
@@ -458,10 +489,18 @@ function CheckoutInner() {
                   </div>
                 )}
 
-                {/* Secure Badge */}
-                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 flex items-center gap-3 mt-6 text-xs text-slate-500">
-                  <ShieldCheck className="text-emerald-500 shrink-0" size={18} />
-                  <span>Secure 256-bit SSL encrypted checkout powered by Stripe.</span>
+                {/* Secure Badge & Secure Seals */}
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 mt-6 text-[11px] text-slate-500 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="text-emerald-500 shrink-0" size={16} />
+                    <span>Secure 256-bit SSL encrypted transaction powered by Stripe.</span>
+                  </div>
+                  <div className="flex justify-center items-center gap-3 pt-2.5 border-t border-slate-200/50 opacity-70">
+                    <span className="font-bold text-[9px] uppercase tracking-wider text-slate-400">Accepted Payments:</span>
+                    <div className="flex gap-2 text-[10px] font-black text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-100">Visa</div>
+                    <div className="flex gap-2 text-[10px] font-black text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-100">MasterCard</div>
+                    <div className="flex gap-2 text-[10px] font-black text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-100">UPI / RuPay</div>
+                  </div>
                 </div>
 
                 {/* Submit button */}
