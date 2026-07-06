@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Cpu, Users, Trophy, Zap, BookOpen, Settings, Wifi, CircuitBoard, Factory, Sliders, GraduationCap, Calendar, Compass, Medal } from "lucide-react";
+import { ArrowRight, CheckCircle, Cpu, Users, Trophy, Zap, BookOpen, Settings, Wifi, CircuitBoard, Factory, Sliders, GraduationCap, Calendar, Compass, Medal, Plus } from "lucide-react";
 import { getCourses } from "../services/courseService";
 import SEO from "../components/SEO";
 
@@ -140,13 +140,25 @@ export default function Training() {
 
       {/* ============ STUDENT TRAINING — BEGINNER ============ */}
       <section className="py-16 max-w-6xl mx-auto px-6">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center">
-            <Trophy size={20} className="text-cyan-300" />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center">
+                <Trophy size={20} className="text-cyan-300" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#0b2545]">Student Core Training</h2>
+            </div>
+            <p className="text-slate-500 text-sm">Foundational programs introducing young minds to mechanical structures, sensors, and coding.</p>
           </div>
-          <h2 className="text-2xl font-bold text-[#0b2545]">Student Core Training</h2>
+
+          <Link
+            to="/training/add-course"
+            className="inline-flex items-center justify-center gap-2 bg-[#0b2545] hover:bg-cyan-600 text-white px-5 py-3 rounded-xl font-bold text-sm transition shadow-md shrink-0"
+          >
+            Add School Course
+            <Plus size={16} />
+          </Link>
         </div>
-        <p className="text-slate-500 text-sm mb-10 max-w-xl">Foundational programs introducing young minds to mechanical structures, sensors, and coding.</p>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {beginnerPrograms.map(({ icon: Icon, title, desc }, i) => (
@@ -287,6 +299,71 @@ export default function Training() {
           ))}
         </div>
       </section>
+
+      {/* ============ SCHOOL PROPOSED STUDENT COURSES ============ */}
+      {adminStudentCourses.length > 0 && (
+        <section className="py-16 max-w-6xl mx-auto px-6 border-t border-slate-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center">
+              <GraduationCap size={20} className="text-cyan-300" />
+            </div>
+            <h2 className="text-2xl font-bold text-[#0b2545]">School Proposed Programs</h2>
+          </div>
+          <p className="text-slate-500 text-sm mb-10 max-w-xl">Curriculums submitted by partner schools and educators, live on the platform.</p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {adminStudentCourses.map((c) => (
+              <div key={c._id} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-md transition-all">
+                <span className="text-[10px] font-bold text-cyan-600 bg-cyan-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">{c.level || "Custom"}</span>
+                <h3 className="font-bold text-slate-900 mt-3 mb-2 text-base">{c.title}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed mb-4">{c.description}</p>
+                {c.duration && <p className="text-[11px] text-slate-400 font-semibold">Duration: {c.duration}</p>}
+                {c.syllabus?.length > 0 && (
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-1.5">
+                    {c.syllabus.map((s, idx) => (
+                      <span key={idx} className="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ============ SCHOOL PROPOSED TEACHER COURSES ============ */}
+      {adminTeacherCourses.length > 0 && (
+        <section className="py-16 max-w-6xl mx-auto px-6 border-t border-slate-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 bg-[#0b2545] rounded-xl flex items-center justify-center">
+              <Users size={20} className="text-cyan-300" />
+            </div>
+            <h2 className="text-2xl font-bold text-[#0b2545]">Additional Teacher Certification Modules</h2>
+          </div>
+          <p className="text-slate-500 text-sm mb-10 max-w-xl">Curriculums submitted by partner school teachers and coordinators.</p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {adminTeacherCourses.map((c) => (
+              <div key={c._id} className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-md transition-all">
+                <h3 className="font-bold text-[#0b2545] mb-2 text-base">{c.title}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed mb-4">{c.description}</p>
+                {c.duration && <p className="text-[11px] text-slate-400 font-semibold">Duration: {c.duration}</p>}
+                {c.syllabus?.length > 0 && (
+                  <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-1.5">
+                    {c.syllabus.map((s, idx) => (
+                      <span key={idx} className="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ============ WHY OUR TRAINING ============ */}
       <section className="py-24 bg-[#061B33] relative overflow-hidden">

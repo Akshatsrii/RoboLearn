@@ -429,6 +429,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ FEATURED ROBOTICS KITS ============ */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">STEM Catalog</span>
+            <h2 className="text-3xl font-extrabold text-[#0b2545] mt-3">Featured Robotics Kits</h2>
+            <p className="text-slate-500 text-sm mt-2">Classroom-tested electronics, sensors, and microcontroller compiling kits mapping directly to CBSE standards.</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { id: "1", name: "Kids Robotics Kit", category: "Beginner", price: 2499, desc: "Introductory physical computing building blocks, snap-fit chassis assembly, no soldering.", img: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80" },
+              { id: "2", name: "Arduino Learning Kit", category: "Intermediate", price: 3999, desc: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.", img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" },
+              { id: "3", name: "AI Starter Kit", category: "Advanced", price: 5499, desc: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80" },
+              { id: "4", name: "IoT Experiment Kit", category: "Advanced", price: 4899, desc: "Cloud communications node module with temperature, light, and soil humidity telemetry.", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" }
+            ].map((kit) => (
+              <div key={kit.id} className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                  <div className="w-full h-36 rounded-xl overflow-hidden mb-4 bg-slate-50 border border-slate-100">
+                    <img src={kit.img} alt={kit.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <span className="text-[9px] font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full uppercase tracking-wider mb-2.5 inline-block">{kit.category}</span>
+                  <h3 className="font-bold text-slate-900 leading-snug group-hover:text-cyan-600 transition-colors mb-2 text-sm">{kit.name}</h3>
+                  <p className="text-slate-500 text-[11px] leading-relaxed mb-4 line-clamp-2">{kit.desc}</p>
+                </div>
+                <div className="flex items-center justify-between pt-3 border-t border-slate-50 mt-auto">
+                  <span className="font-bold text-[#0b2545] text-sm">₹{kit.price}</span>
+                  <Link to={`/products/${kit.id}`} className="text-xs font-bold text-cyan-600 hover:text-cyan-700 flex items-center gap-1">
+                    Details <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/products" className="inline-flex items-center gap-2 bg-[#0b2545] hover:bg-cyan-600 text-white px-8 py-3.5 rounded-xl font-semibold transition-colors shadow-md text-sm">
+              Explore STEM Shop <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ============ WHY CHOOSE US ============ */}
       <section className="py-24 bg-[#061B33] relative overflow-hidden">
         <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl" />
@@ -540,7 +583,7 @@ export default function Home() {
       {/* ============ CTA ============ */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0b2545] via-[#0e3a63] to-cyan-600 p-12 md:p-16 text-center text-white">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0b2545] via-[#0e3a63] to-cyan-600 p-12 md:p-16 text-center text-white shadow-xl">
             <div className="absolute inset-0 opacity-10">
               <svg className="w-full h-full" viewBox="0 0 400 200" preserveAspectRatio="none">
                 <circle cx="40" cy="40" r="90" fill="white" />
@@ -548,19 +591,19 @@ export default function Home() {
               </svg>
             </div>
 
-            <h2 className="relative text-3xl md:text-5xl font-bold">
-              Ready to set up your robotics lab?
+            <h2 className="relative text-3xl md:text-5xl font-black">
+              Ready to Transform Your School into a Future Skills Learning Center?
             </h2>
 
-            <p className="relative mt-4 text-lg text-cyan-50/90">
-              Get a free consultation and lab plan for your school — no obligation.
+            <p className="relative mt-4 text-cyan-50/90 text-sm max-w-xl mx-auto">
+              Get an end-to-end lab consultation proposal and demo kit compilation for your school gate.
             </p>
 
             <Link
               to="/contact"
-              className="relative inline-flex items-center gap-2 bg-white text-[#0b2545] px-8 py-4 rounded-xl font-semibold mt-9 hover:bg-cyan-50 transition-colors"
+              className="relative inline-flex items-center gap-2 bg-white text-[#0b2545] px-8 py-4 rounded-xl font-bold mt-9 hover:bg-cyan-50 transition-colors shadow-md text-sm"
             >
-              Contact Us
+              Book Free Consultation
               <ArrowRight size={18} />
             </Link>
           </div>
