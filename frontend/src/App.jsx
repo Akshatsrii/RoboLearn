@@ -2,11 +2,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./components/ui/Toast";
+import { CartProvider } from "./context/CartContext";
 
 // layouts
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import ChatWidget from "./components/ui/ChatWidget";
+import CartDrawer from "./components/cart/CartDrawer";
 
 // public pages
 import Home from "./pages/Home";
@@ -22,6 +24,7 @@ import BlogDetail from "./pages/BlogDetail";
 import CaseStudies from "./pages/CaseStudies";
 import Resources from "./pages/Resources";
 import Contact from "./pages/Contact";
+import Checkout from "./pages/Checkout";
 
 // auth pages
 import Login from "./pages/Login";

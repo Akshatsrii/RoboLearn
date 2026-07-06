@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Zap, User, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
+import { Menu, X, Zap, User, LogOut, LayoutDashboard, ChevronDown, ShoppingBag } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -22,6 +23,7 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+  const { cartCount, setIsCartOpen } = useCart();
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -121,6 +123,20 @@ export default function Navbar() {
               Free Consultation
             </Link>
 
+            {/* Desktop Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-50 rounded-lg transition-colors shrink-0"
+              aria-label="Open cart"
+            >
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
             {isAuthenticated ? (
               <div className="relative" ref={menuRef}>
                 <button
@@ -166,15 +182,30 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition"
-            aria-label="Toggle menu"
-            aria-expanded={isOpen}
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Mobile Right: Cart + Toggle */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Open cart"
+            >
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 bg-cyan-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 transition"
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
 
         </div>
       </nav>
