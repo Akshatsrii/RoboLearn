@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./components/ui/Toast";
 import { CartProvider } from "./context/CartContext";
+import { WishlistProvider } from "./context/WishlistContext";
 
 // layouts
 import Navbar from "./components/layout/Navbar";
@@ -25,6 +26,7 @@ import CaseStudies from "./pages/CaseStudies";
 import Resources from "./pages/Resources";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
+import Wishlist from "./pages/Wishlist";
 
 // auth pages
 import Login from "./pages/Login";

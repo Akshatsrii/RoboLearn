@@ -125,6 +125,18 @@ export default function Navbar() {
               Free Consultation
             </Link>
 
+            {/* Desktop Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-50 rounded-lg transition-colors shrink-0"
+              aria-label="Open cart"
+            >
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-cyan-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
             {/* Desktop Wishlist Button */}
@@ -188,8 +200,21 @@ export default function Navbar() {
 
           {/* Mobile Right: Cart + Toggle */}
           <div className="lg:hidden flex items-center gap-2">
+            {/* Mobile Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Open cart"
+            >
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 bg-cyan-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
+            {/* Mobile Wishlist Link */}
             <Link
               to="/wishlist"
               className="relative p-2 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition-colors"
