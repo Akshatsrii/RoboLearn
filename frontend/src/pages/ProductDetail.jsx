@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Bot, Package, Loader2, Star, Plus, Minus, ShoppingCart, FileText, Code2, Youtube, ShieldAlert } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Bot, Package, Loader2, Star, Plus, Minus, ShoppingCart, FileText, Code2, Video, ShieldAlert } from "lucide-react";
 import { getProduct, getProducts } from "../services/productService";
 import { useCart } from "../context/CartContext";
 import SEO from "../components/SEO";
@@ -308,10 +308,10 @@ export default function ProductDetail() {
                 </a>
 
                 <a href="#tutorial-video" className="flex items-center gap-3 p-4 border border-slate-100 rounded-2xl hover:border-cyan-200 hover:bg-slate-50/50 transition sm:col-span-2">
-                  <Youtube className="text-red-500" size={24} />
+                  <Video className="text-cyan-600" size={24} />
                   <div>
                     <span className="block font-bold text-slate-800 text-sm">Step-by-Step Unboxing &amp; Assembly Video Guide</span>
-                    <span className="block text-xs text-slate-400 mt-0.5">YouTube Streaming video tutorial</span>
+                    <span className="block text-xs text-slate-400 mt-0.5">Streaming video tutorial</span>
                   </div>
                 </a>
               </div>
