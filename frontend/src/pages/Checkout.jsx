@@ -1,10 +1,43 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
-import { CheckCircle2, ChevronRight, CreditCard, ShieldCheck, MapPin, Truck, AlertCircle, ShoppingBag } from "lucide-react";
+import { CheckCircle2, ChevronRight, CreditCard, ShieldCheck, MapPin, Truck, AlertCircle, ShoppingBag, Loader2 } from "lucide-react";
 import SEO from "../components/SEO";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { createPaymentIntent } from "../services/paymentService";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51MockKeyRoboLearn12345");
+
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      color: "#0f172a",
+      fontFamily: "Inter, sans-serif",
+      fontSmoothing: "antialiased",
+      fontSize: "14px",
+      "::placeholder": {
+        color: "#94a3b8"
+      }
+    },
+    invalid: {
+      color: "#ef4444",
+      iconColor: "#ef4444"
+    }
+  }
+};
 
 export default function Checkout() {
+  return (
+    <Elements stripe={stripePromise}>
+      <CheckoutInner />
+    </Elements>
+  );
+}
+
+function CheckoutInner() {
+  const stripe = useStripe();
+  const elements = useElements();
   const { cart, cartTotal, clearCart } = useCart();
   const [form, setForm] = useState({
     name: "",
@@ -20,29 +53,105 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [paymentError, setPaymentError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = (e) => {
+  const shippingCost = 150;
+  const taxCost = Math.round(cartTotal * 0.18); // 18% GST typical for hardware in India
+  const grandTotal = cartTotal + shippingCost + taxCost;
+
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (cart.length === 0) return;
 
     setLoading(true);
+    setPaymentError("");
 
-    // Simulate order placement
-    setTimeout(() => {
+    // Validate checkout form fields
+    if (!form.name || !form.email || !form.phone || !form.address || !form.city || !form.state || !form.zip) {
+      setPaymentError("Please fill out all required shipping fields.");
       setLoading(false);
-      setOrderPlaced(true);
-      setOrderId("ROBO-" + Math.floor(100000 + Math.random() * 900000));
-      clearCart();
-    }, 2000);
-  };
+      return;
+    }
 
-  const shippingCost = 150;
-  const taxCost = Math.round(cartTotal * 0.18); // 18% GST typical for hardware in India
-  const grandTotal = cartTotal + shippingCost + taxCost;
+    try {
+      if (paymentMethod === "card") {
+        if (!stripe || !elements) {
+          setPaymentError("Stripe payment subsystem has not loaded. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        // 1. Create payment intent on backend
+        const intentRes = await createPaymentIntent({
+          amount: grandTotal,
+          email: form.email,
+          metadata: {
+            schoolName: form.schoolName || "",
+            phone: form.phone
+          }
+        });
+
+        const { clientSecret, isMock } = intentRes.data;
+
+        // 2. If backend is running in mock mode (no STRIPE_SECRET_KEY), skip Stripe network API calls
+        if (isMock) {
+          setTimeout(() => {
+            setOrderPlaced(true);
+            setOrderId("ROBO-MOCK-" + Math.floor(100000 + Math.random() * 900000));
+            clearCart();
+            setLoading(false);
+          }, 1500);
+          return;
+        }
+
+        // 3. Complete actual Stripe payment
+        const cardElement = elements.getElement(CardElement);
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: form.name,
+              email: form.email,
+              phone: form.phone,
+              address: {
+                line1: form.address,
+                city: form.city,
+                state: form.state,
+                postal_code: form.zip,
+                country: "IN"
+              }
+            }
+          }
+        });
+
+        if (result.error) {
+          setPaymentError(result.error.message);
+          setLoading(false);
+        } else if (result.paymentIntent.status === "succeeded") {
+          setOrderPlaced(true);
+          setOrderId("ROBO-" + result.paymentIntent.id.substring(3, 10).toUpperCase());
+          clearCart();
+          setLoading(false);
+        }
+      } else {
+        // Mock success for UPI or COD
+        setTimeout(() => {
+          setOrderPlaced(true);
+          setOrderId("ROBO-" + Math.floor(100000 + Math.random() * 900000));
+          clearCart();
+          setLoading(false);
+        }, 2000);
+      }
+    } catch (err) {
+      console.error(err);
+      setPaymentError(err.response?.data?.message || "An unexpected error occurred during processing.");
+      setLoading(false);
+    }
+  };
 
   if (orderPlaced) {
     const deliveryDate = new Date();
@@ -51,19 +160,25 @@ export default function Checkout() {
     return (
       <div className="bg-slate-50 min-h-screen pt-24 pb-16 flex items-center justify-center px-6">
         <SEO title="Order Success" description="Thank you for ordering your STEM kits from RoboLearn" path="/checkout" />
-        <div className="w-full max-w-lg bg-white border border-slate-200 rounded-3xl p-8 text-center shadow-lg">
-          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="w-full max-w-lg bg-white border border-slate-200 rounded-3xl p-8 text-center shadow-lg animate-fadeUp">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-100">
             <CheckCircle2 size={36} />
           </div>
           <h1 className="text-2xl font-bold text-[#0b2545]">Order Placed Successfully!</h1>
           <p className="text-sm text-slate-500 mt-2">
-            Thank you for shopping with RoboLearn. Your order has been placed and is being processed.
+            Thank you for shopping with RoboLearn. Your payment has been processed securely.
           </p>
 
-          <div className="mt-6 border-t border-b border-slate-100 py-4 space-y-2 text-left text-sm">
+          <div className="mt-6 border-t border-b border-slate-100 py-4 space-y-2.5 text-left text-sm">
             <div className="flex justify-between">
               <span className="text-slate-500">Order ID:</span>
-              <span className="font-semibold text-slate-800">{orderId}</span>
+              <span className="font-bold text-slate-800">{orderId}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-500">Payment Status:</span>
+              <span className="font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded text-xs uppercase tracking-wider">
+                Paid / Confirmed
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Estimated Delivery:</span>
@@ -233,29 +348,40 @@ export default function Checkout() {
 
                 <div className="space-y-3">
                   {[
-                    { id: "card", label: "Credit / Debit Card", desc: "Pay securely with Visa, Mastercard, or RuPay." },
-                    { id: "upi", label: "UPI (Google Pay / PhonePe)", desc: "Quick checkout using your UPI ID." },
+                    { id: "card", label: "Credit / Debit Card (Stripe)", desc: "Pay securely with international cards via Stripe." },
+                    { id: "upi", label: "UPI (Google Pay / PhonePe)", desc: "Quick checkout using mock UPI simulator." },
                     { id: "cod", label: "Cash on Delivery (COD) / Pay on Delivery", desc: "Pay cash at your school gate on kit delivery." }
                   ].map((method) => (
-                    <label
-                      key={method.id}
-                      className={`flex items-start gap-4 p-4 border rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors ${
-                        paymentMethod === method.id ? "border-cyan-500 bg-cyan-50/20" : "border-slate-200"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        value={method.id}
-                        checked={paymentMethod === method.id}
-                        onChange={() => setPaymentMethod(method.id)}
-                        className="mt-1 accent-cyan-600 shrink-0"
-                      />
-                      <div>
-                        <span className="block text-sm font-bold text-[#0b2545]">{method.label}</span>
-                        <span className="block text-xs text-slate-500 mt-1 leading-normal">{method.desc}</span>
-                      </div>
-                    </label>
+                    <div key={method.id} className="space-y-4">
+                      <label
+                        className={`flex items-start gap-4 p-4 border rounded-2xl cursor-pointer hover:bg-slate-50 transition-colors ${
+                          paymentMethod === method.id ? "border-cyan-500 bg-cyan-50/20" : "border-slate-200"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value={method.id}
+                          checked={paymentMethod === method.id}
+                          onChange={() => setPaymentMethod(method.id)}
+                          className="mt-1 accent-cyan-600 shrink-0"
+                        />
+                        <div>
+                          <span className="block text-sm font-bold text-[#0b2545]">{method.label}</span>
+                          <span className="block text-xs text-slate-500 mt-1 leading-normal">{method.desc}</span>
+                        </div>
+                      </label>
+
+                      {/* Card element panel */}
+                      {paymentMethod === "card" && method.id === "card" && (
+                        <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl mx-1 animate-fadeUp">
+                          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Card Details</label>
+                          <div className="bg-white border border-slate-200 rounded-xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-cyan-500/40 focus-within:border-cyan-500 transition">
+                            <CardElement options={CARD_ELEMENT_OPTIONS} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -306,10 +432,17 @@ export default function Checkout() {
                   </div>
                 </div>
 
+                {paymentError && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 mt-5 flex items-start gap-2.5 text-xs text-red-600">
+                    <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                    <span>{paymentError}</span>
+                  </div>
+                )}
+
                 {/* Secure Badge */}
                 <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 flex items-center gap-3 mt-6 text-xs text-slate-500">
                   <ShieldCheck className="text-emerald-500 shrink-0" size={18} />
-                  <span>Your connection is securely encrypted. Goods are eligible for tax exemption under school code.</span>
+                  <span>Secure 256-bit SSL encrypted checkout powered by Stripe.</span>
                 </div>
 
                 {/* Submit button */}
@@ -319,7 +452,11 @@ export default function Checkout() {
                   disabled={loading}
                   className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-60 text-white py-3.5 rounded-xl font-semibold mt-6 flex items-center justify-center gap-2 transition shadow-md"
                 >
-                  {loading ? "Placing Order..." : `Place Order (₹${grandTotal})`}
+                  {loading ? (
+                    <><Loader2 size={16} className="animate-spin" /> Processing Payment...</>
+                  ) : (
+                    `Pay & Place Order (₹${grandTotal})`
+                  )}
                 </button>
               </div>
             </div>
