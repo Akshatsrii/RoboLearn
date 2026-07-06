@@ -12,7 +12,7 @@ const navLinks = [
   { label: "Training", path: "/training" },
   { label: "Products", path: "/products" },
   { label: "Curriculum", path: "/curriculum" },
-  { label: "Gallery", path: "/gallery" },
+  { label: "Track Order", path: "/track-order" },
   { label: "Blog", path: "/blog" },
   { label: "Contact", path: "/contact" },
 ];

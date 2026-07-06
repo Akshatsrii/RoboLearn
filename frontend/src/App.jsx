@@ -28,6 +28,7 @@ import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
 import AddCourse from "./pages/AddCourse";
+import TrackOrder from "./pages/TrackOrder";
 
 // auth pages
 import Login from "./pages/Login";
@@ -87,6 +88,8 @@ export default function App() {
               <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
               <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
               <Route path="/wishlist" element={<PublicLayout><Wishlist /></PublicLayout>} />
+              <Route path="/track-order" element={<PublicLayout><TrackOrder /></PublicLayout>} />
+              <Route path="/track-order/:id" element={<PublicLayout><TrackOrder /></PublicLayout>} />
 
               {/* Auth */}
               <Route path="/login" element={<Login />} />
