@@ -31,44 +31,44 @@ import SEO from "../components/SEO";
 
 const services = [
   {
-    icon: Cpu,
-    title: "Robotics Lab Setup",
-    desc: "End-to-end lab installation — hardware, wiring, and workstation layout designed for classrooms.",
+    icon: Wrench,
+    title: "Robotics Lab Design and Installation",
+    desc: "End-to-end lab installation — layout customization, heavy wiring, and workstation setups designed for school safety.",
   },
   {
     icon: GraduationCap,
     title: "Student Training",
-    desc: "Hands-on robotics and STEM sessions that move students from theory to working builds.",
+    desc: "Hands-on robotics and coding sessions that move students from basics to advanced industrial expert projects.",
   },
   {
     icon: Users,
-    title: "Teacher Development",
-    desc: "Certification-backed training so teachers can run the lab independently, year after year.",
+    title: "Teacher Training",
+    desc: "Detailed instructional development and certification so your local school teachers can run lab operations independently.",
+  },
+  {
+    icon: FlaskConical,
+    title: "Robotics Kits Supply",
+    desc: "Procuring and compilation of durable school hardware kits, sensors, motors, and microcontrollers.",
   },
   {
     icon: BookOpen,
     title: "STEM Curriculum",
-    desc: "Grade-wise curriculum mapped to CBSE outcomes, with ready lesson plans and rubrics.",
+    desc: "Complete grade-wise learning frameworks, outcome binders, rubrics, and NEP 2020 syllabus binders.",
   },
   {
-    icon: FlaskConical,
-    title: "Robotics Kits",
-    desc: "Durable, classroom-tested kits — from beginner Arduino sets to advanced IoT modules.",
-  },
-  {
-    icon: Award,
-    title: "Competition Prep",
-    desc: "Structured coaching for robotics olympiads, hackathons, and national-level competitions.",
+    icon: Headphones,
+    title: "Annual Maintenance Support",
+    desc: "On-call debugging, technical audits, replacement of component boards, and software IDE package updates.",
   },
 ];
 
 const whyChooseUs = [
-  "Complete robotics lab setup, on schedule",
-  "Teacher training that builds real independence",
-  "Project-based student learning programs",
-  "Curriculum integration with measurable outcomes",
-  "Dedicated competition preparation tracks",
-  "Annual maintenance & on-call technical support",
+  "End-to-End Lab Setup",
+  "Expert Trainers",
+  "Age-Wise Curriculum",
+  "Hands-On Learning",
+  "Robotics Competitions",
+  "Ongoing Support",
 ];
 
 const stats = [
@@ -181,15 +181,15 @@ export default function Home() {
             </span>
 
             <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] text-white">
-              Build the lab.
+              Empowering Schools with
               <br />
-              <span className="text-cyan-400">Train the minds.</span>
+              <span className="text-cyan-400">Future-Ready STEM</span>
+              <br />
+              <span className="text-xl sm:text-2xl font-bold text-slate-300 tracking-wide block mt-2">(Core Engineering) Education</span>
             </h1>
 
             <p className="mt-6 text-lg text-slate-300 max-w-lg leading-relaxed">
-              Complete robotics lab setup, teacher training, student programs,
-              and CBSE-aligned STEM curriculum — delivered as one connected
-              system for your school.
+              Complete Robotics Lab Setup, Student Training, Teacher Development, and STEM Learning Solutions.
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -197,16 +197,20 @@ export default function Home() {
                 to="/contact"
                 className="group inline-flex items-center justify-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-[#061B33] px-8 py-4 rounded-xl font-semibold transition-colors"
               >
-                Get Free Consultation
+                Schedule a Demo
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
 
-              <Link
-                to="/lab-setup"
+              <a
+                href="#curriculum-brochure"
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert("RoboLearn Curriculum & Lab Installation Brochure Downloaded! (Sample PDF)");
+                }}
                 className="inline-flex items-center justify-center gap-2 border border-white/25 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/5 transition-colors"
               >
-                Explore Labs
-              </Link>
+                Download Brochure
+              </a>
             </div>
 
             <div className="mt-10 flex items-center gap-6 text-slate-400 text-sm">
@@ -471,6 +475,60 @@ export default function Home() {
               <p className="text-xs text-slate-600 max-w-[180px] leading-snug">
                 "Our students built and presented their own bots in 6 weeks."
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ SUCCESS STORIES & CASE STUDIES ============ */}
+      <section className="py-24 bg-white border-t border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Impact &amp; Case Studies</span>
+            <h2 className="text-3xl font-extrabold text-[#0b2545] mt-3">Success Stories from Our Schools</h2>
+            <p className="text-slate-500 text-sm mt-2">See how implementing physical computing labs transformed teaching outcomes.</p>
+          </div>
+
+          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="text-xs font-bold text-cyan-600 uppercase tracking-widest bg-cyan-50 px-3 py-1 rounded-full border border-cyan-100">Featured Institution</span>
+              <h3 className="text-2xl font-black text-[#0b2545] mt-4">XYZ Public School</h3>
+              <p className="text-slate-600 text-sm leading-relaxed mt-4">
+                Partnered with RoboLearn to transition their computer science classes from basic text editing to real, tactile hardware engineering.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+                  <span className="block text-2xl font-extrabold text-[#0b2545]">150+</span>
+                  <span className="block text-xs text-slate-400 mt-1">Students Trained</span>
+                </div>
+                <div className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+                  <span className="block text-2xl font-extrabold text-cyan-600">100%</span>
+                  <span className="block text-xs text-slate-400 mt-1">Teacher Certifications</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <h4 className="text-xs font-bold text-[#0b2545] uppercase tracking-wider">Key Project Results</h4>
+              
+              <div className="space-y-4">
+                <div className="flex gap-3 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                  <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                  <div>
+                    <span className="block font-bold text-slate-800 text-sm">Increased STEM Engagement</span>
+                    <span className="block text-slate-500 text-xs mt-1">Students scored 24% higher on general science logical reasonings.</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                  <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                  <div>
+                    <span className="block font-bold text-slate-800 text-sm">Olympiad Participations</span>
+                    <span className="block text-slate-500 text-xs mt-1">Two middle-school student squads qualified for National Robotics Olympiad.</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
