@@ -29,6 +29,8 @@ import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
 import AddCourse from "./pages/AddCourse";
 import TrackOrder from "./pages/TrackOrder";
+import LabPlanner from "./pages/LabPlanner";
+import VirtualLabTour from "./pages/VirtualLabTour";
 
 // auth pages
 import Login from "./pages/Login";
@@ -75,6 +77,8 @@ export default function App() {
               <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
               <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
               <Route path="/lab-setup" element={<PublicLayout><LabSetup /></PublicLayout>} />
+              <Route path="/lab-planner" element={<PublicLayout><LabPlanner /></PublicLayout>} />
+              <Route path="/lab-tour" element={<PublicLayout><VirtualLabTour /></PublicLayout>} />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
               <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />

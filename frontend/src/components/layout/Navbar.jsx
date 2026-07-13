@@ -9,6 +9,8 @@ const navLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
   { label: "Lab Setup", path: "/lab-setup" },
+  { label: "Lab Planner", path: "/lab-planner" },
+  { label: "Lab Tour", path: "/lab-tour" },
   { label: "Training", path: "/training" },
   { label: "Products", path: "/products" },
   { label: "Curriculum", path: "/curriculum" },
