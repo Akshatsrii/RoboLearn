@@ -31,6 +31,11 @@ import AddCourse from "./pages/AddCourse";
 import TrackOrder from "./pages/TrackOrder";
 import LabPlanner from "./pages/LabPlanner";
 import VirtualLabTour from "./pages/VirtualLabTour";
+import ImpactCalculator from "./pages/ImpactCalculator";
+import Simulator from "./pages/Simulator";
+import Showcase from "./pages/Showcase";
+import ShowcaseDetail from "./pages/ShowcaseDetail";
+import SchoolDashboard from "./pages/SchoolDashboard";
 
 // auth pages
 import Login from "./pages/Login";
@@ -79,6 +84,11 @@ export default function App() {
               <Route path="/lab-setup" element={<PublicLayout><LabSetup /></PublicLayout>} />
               <Route path="/lab-planner" element={<PublicLayout><LabPlanner /></PublicLayout>} />
               <Route path="/lab-tour" element={<PublicLayout><VirtualLabTour /></PublicLayout>} />
+              <Route path="/impact-calculator" element={<PublicLayout><ImpactCalculator /></PublicLayout>} />
+              <Route path="/simulator" element={<PublicLayout><Simulator /></PublicLayout>} />
+              <Route path="/showcase" element={<PublicLayout><Showcase /></PublicLayout>} />
+              <Route path="/showcase/:id" element={<PublicLayout><ShowcaseDetail /></PublicLayout>} />
+              <Route path="/school-dashboard" element={<PublicLayout><SchoolDashboard /></PublicLayout>} />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
               <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
