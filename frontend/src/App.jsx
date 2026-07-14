@@ -36,6 +36,8 @@ import Simulator from "./pages/Simulator";
 import Showcase from "./pages/Showcase";
 import ShowcaseDetail from "./pages/ShowcaseDetail";
 import SchoolDashboard from "./pages/SchoolDashboard";
+import VerifyCertificate from "./pages/VerifyCertificate";
+import ProposalGenerator from "./pages/ProposalGenerator";
 
 // auth pages
 import Login from "./pages/Login";
@@ -89,6 +91,8 @@ export default function App() {
               <Route path="/showcase" element={<PublicLayout><Showcase /></PublicLayout>} />
               <Route path="/showcase/:id" element={<PublicLayout><ShowcaseDetail /></PublicLayout>} />
               <Route path="/school-dashboard" element={<PublicLayout><SchoolDashboard /></PublicLayout>} />
+              <Route path="/verify" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+              <Route path="/proposal-generator" element={<PublicLayout><ProposalGenerator /></PublicLayout>} />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
               <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
