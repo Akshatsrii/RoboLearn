@@ -82,13 +82,31 @@ const KB = {
 function detectIntent(text) {
   const t = text.toLowerCase();
 
-  // Grade extraction
-  const gradeMatch = t.match(/(?:grade|class|std|standard)\s*(\d+)/i) ||
-                     t.match(/(\d+)(?:th|st|nd|rd)?\s*(?:grade|class|std)/i);
-  const gradeMentioned = gradeMatch ? gradeMatch[1] : null;
+  // Grade extraction (supporting single classes, e.g., Class 7, and ranges like 6-8, 6 to 8, 9-12)
+  let gradeMentioned = null;
+  const rangeMatch = t.match(/(\d+)\s*(?:-|to)\s*(\d+)/);
+  if (rangeMatch) {
+    const start = parseInt(rangeMatch[1]);
+    const end = parseInt(rangeMatch[2]);
+    if (start >= 1 && end <= 12) {
+      if (start <= 5 && end <= 5) gradeMentioned = "1-5";
+      else if (start >= 6 && end <= 8) gradeMentioned = "6-8";
+      else if (start >= 9 && end <= 12) gradeMentioned = "9-12";
+      else gradeMentioned = `${start}-${end}`;
+    }
+  } else {
+    const singleMatch = t.match(/(?:grade|class|std|standard)\s*(\d+)/i) ||
+                        t.match(/(\d+)(?:th|st|nd|rd)?\s*(?:grade|class|std)/i);
+    if (singleMatch) {
+      const g = parseInt(singleMatch[1]);
+      if (g >= 1 && g <= 5) gradeMentioned = "1-5";
+      else if (g >= 6 && g <= 8) gradeMentioned = "6-8";
+      else if (g >= 9 && g <= 12) gradeMentioned = "9-12";
+    }
+  }
 
   // Student count extraction
-  const stuMatch = t.match(/(\d+)\s*(?:students?|kids?|children|bachche|bacche)/i);
+  const stuMatch = t.match(/(\d+)\s*(?:students?|kids?|children|bachche|bacche|students)/i);
   const studentCount = stuMatch ? parseInt(stuMatch[1]) : null;
 
   // Budget extraction
@@ -106,8 +124,10 @@ function detectIntent(text) {
   if (/tour|virtual|lab tour|dekh|visit/i.test(t)) intents.push("tour");
   if (/hello|hi|helo|namaste|hey|start|help|kya|what|how|konsa/i.test(t) && intents.length === 0) intents.push("greeting");
 
-  // Lab recommendation intent — has grade + students
-  if (gradeMentioned || studentCount) intents.push("lab_recommendation");
+  // Lab recommendation intent — has grade or student details
+  if (gradeMentioned || studentCount || intents.includes("lab_setup")) {
+    intents.push("lab_recommendation");
+  }
 
   return { intents, gradeMentioned, studentCount, budget };
 }
@@ -143,7 +163,7 @@ function buildResponse({ intents, gradeMentioned, studentCount, budget }, conver
 
   // Products
   if (intents.includes("products") && !intents.includes("lab_recommendation")) {
-    const gradeFilter = gradeMentioned ? KB.gradeMap[gradeMentioned] : null;
+    const gradeFilter = gradeMentioned ? KB.gradeMap[gradeMentioned] || gradeMentioned : null;
     return {
       type: "products",
       products: KB.featuredProducts,
@@ -154,8 +174,8 @@ function buildResponse({ intents, gradeMentioned, studentCount, budget }, conver
 
   // Curriculum
   if (intents.includes("curriculum") && !intents.includes("lab_recommendation")) {
-    const gradeKey = gradeMentioned ? KB.gradeMap[gradeMentioned] : null;
-    const curr = gradeKey ? KB.curriculum[gradeKey] : null;
+    const gradeKey = gradeMentioned ? KB.gradeMap[gradeMentioned] || gradeMentioned : null;
+    const curr = KB.curriculum[gradeKey] || null;
     return {
       type: "curriculum",
       curriculum: curr,
@@ -173,8 +193,8 @@ function buildResponse({ intents, gradeMentioned, studentCount, budget }, conver
   }
 
   // Lab Recommendation — main flow
-  if (intents.includes("lab_recommendation") || intents.includes("lab_setup")) {
-    const gradeKey = gradeMentioned ? KB.gradeMap[gradeMentioned] : null;
+  if (intents.includes("lab_recommendation")) {
+    const gradeKey = gradeMentioned ? KB.gradeMap[gradeMentioned] || gradeMentioned : null;
 
     // Determine recommended package
     let pkg = null;
@@ -188,7 +208,7 @@ function buildResponse({ intents, gradeMentioned, studentCount, budget }, conver
     } else if (gradeKey === "1-5") pkg = KB.labPackages[0];
     else pkg = KB.labPackages[1]; // default
 
-    const curr = gradeKey ? KB.curriculum[gradeKey] : null;
+    const curr = KB.curriculum[gradeKey] || null;
 
     return {
       type: "lab_recommendation",
@@ -206,10 +226,10 @@ function buildResponse({ intents, gradeMentioned, studentCount, budget }, conver
     return {
       type: "greeting",
       quickReplies: [
-        "Lab setup recommendation chahiye",
-        "ATL grant ke baare mein batao",
-        "Grade 6–8 ke products dikhao",
-        "Curriculum kya hai?",
+        "Class 6–8 ke 30 students ka lab chahiye",
+        "ATL grant kya hota hai?",
+        "Arduino kits dikhao",
+        "Grade 9–12 curriculum kya hai?",
       ],
     };
   }
