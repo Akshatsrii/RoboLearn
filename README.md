@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/Akshatsrii/RoboLearn/main/007bb3ff-aead-43bd-a245-dd2fb1f9f329.png" width="100%" alt="RoboLearn Project Banner"/>
+
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:06b6d4&height=220&section=header&text=RoboLearn&fontSize=70&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Future-Ready%20Robotics%20%26%20STEM%20Education%20Platform&descAlignY=55&descSize=18" width="100%"/>
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=06B6D4&center=true&vCenter=true&width=700&lines=Robotics+%2B+AI+%2B+IoT+%2B+Coding+for+Schools;MERN+Stack+%7C+Role-Based+Dashboards+%7C+AI+Consultant;Built+by+Akshat+Srivastava" alt="Typing SVG" />
