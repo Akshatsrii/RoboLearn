@@ -4,8 +4,6 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,100:06b6d4&height=220&section=header&text=RoboLearn&fontSize=70&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Future-Ready%20Robotics%20%26%20STEM%20Education%20Platform&descAlignY=55&descSize=18" width="100%"/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=06B6D4&center=true&vCenter=true&width=700&lines=Robotics+%2B+AI+%2B+IoT+%2B+Coding+for+Schools;MERN+Stack+%7C+Role-Based+Dashboards+%7C+AI+Consultant;Built+by+Akshat+Srivastava" alt="Typing SVG" />
-
 <br/>
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-robo--learn--ten.vercel.app-06B6D4?style=for-the-badge)](https://robo-learn-ten.vercel.app/)
