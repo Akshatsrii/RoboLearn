@@ -7,19 +7,37 @@ import { useWishlist } from "../../context/WishlistContext";
 
 const navLinks = [
   { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
-  { label: "Lab Setup", path: "/lab-setup" },
-  { label: "Lab Planner", path: "/lab-planner" },
-  { label: "Lab Tour", path: "/lab-tour" },
-  { label: "Simulator", path: "/simulator" },
-  { label: "Showcase", path: "/showcase" },
-  { label: "Impact Calc", path: "/impact-calculator" },
-  { label: "School Portal", path: "/school-dashboard" },
-  { label: "Training", path: "/training" },
+  {
+    label: "Solutions",
+    dropdown: [
+      { label: "Lab Setup", path: "/lab-setup" },
+      { label: "Lab Planner", path: "/lab-planner" },
+      { label: "Virtual Lab Tour", path: "/lab-tour" },
+      { label: "Simulator", path: "/simulator" },
+      { label: "Impact Calculator", path: "/impact-calculator" },
+      { label: "Proposal Generator", path: "/proposal-generator" },
+    ],
+  },
+  {
+    label: "Learn",
+    dropdown: [
+      { label: "Training", path: "/training" },
+      { label: "Curriculum", path: "/curriculum" },
+      { label: "Resources", path: "/resources" },
+      { label: "Blog", path: "/blog" },
+      { label: "Case Studies", path: "/case-studies" },
+    ],
+  },
   { label: "Products", path: "/products" },
-  { label: "Curriculum", path: "/curriculum" },
-  { label: "Track Order", path: "/track-order" },
-  { label: "Blog", path: "/blog" },
+  {
+    label: "School",
+    dropdown: [
+      { label: "School Dashboard", path: "/school-dashboard" },
+      { label: "Showcase", path: "/showcase" },
+      { label: "Verify Certificate", path: "/verify" },
+      { label: "Track Order", path: "/track-order" },
+    ],
+  },
   { label: "Contact", path: "/contact" },
 ];
 
@@ -27,12 +45,15 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { cartCount, setIsCartOpen } = useCart();
   const { wishlistCount } = useWishlist();
   const menuRef = useRef(null);
+  const navRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -43,6 +64,8 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
     setUserMenuOpen(false);
+    setOpenDropdown(null);
+    setOpenMobileDropdown(null);
   }, [location]);
 
   useEffect(() => {
@@ -59,18 +82,30 @@ export default function Navbar() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
+  // Close nav dropdown on outside click
+  useEffect(() => {
+    const onClick = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) setOpenDropdown(null);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   const handleLogout = () => {
     logout();
     setUserMenuOpen(false);
     navigate("/");
   };
 
+  const isDropdownActive = (item) =>
+    item.dropdown?.some((sub) => location.pathname === sub.path);
+
   return (
     <>
       <style>{`
         @keyframes navDrop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes navItemIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes dropdownIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dropdownIn { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .nav-drawer { animation: navDrop .22s ease both; }
         .nav-item { animation: navItemIn .35s ease both; }
         .dropdown-in { animation: dropdownIn .15s ease both; }
@@ -100,18 +135,68 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-0.5">
-            {navLinks.map(({ label, path }) => {
-              const active = location.pathname === path;
+          <div ref={navRef} className="hidden lg:flex items-center gap-0.5">
+            {navLinks.map((item) => {
+              if (item.dropdown) {
+                const active = isDropdownActive(item);
+                const isOpen = openDropdown === item.label;
+                return (
+                  <div key={item.label} className="relative">
+                    <button
+                      onClick={() => setOpenDropdown(isOpen ? null : item.label)}
+                      className={`relative flex items-center gap-1 px-3 py-1.5 text-sm rounded-lg font-medium transition-all duration-150 ${
+                        active || isOpen
+                          ? "text-[#0b2545] font-semibold bg-slate-50"
+                          : "text-slate-600 hover:text-[#0b2545] hover:bg-slate-50"
+                      }`}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={13}
+                        className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      />
+                      <span
+                        className={`absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full bg-cyan-500 transition-all duration-200 ${
+                          active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                        }`}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="dropdown-in absolute top-full left-0 mt-2 w-52 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
+                        {item.dropdown.map((sub) => {
+                          const subActive = location.pathname === sub.path;
+                          return (
+                            <Link
+                              key={sub.path}
+                              to={sub.path}
+                              className={`flex items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
+                                subActive
+                                  ? "bg-cyan-50 text-cyan-700 font-semibold"
+                                  : "text-slate-700 hover:bg-slate-50 hover:text-[#0b2545]"
+                              }`}
+                            >
+                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${subActive ? "bg-cyan-500" : "bg-slate-300"}`} />
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              const active = location.pathname === item.path;
               return (
                 <Link
-                  key={path}
-                  to={path}
+                  key={item.path}
+                  to={item.path}
                   className={`relative px-3 py-1.5 text-sm rounded-lg font-medium transition-all duration-150 ${
                     active ? "text-[#0b2545] font-semibold" : "text-slate-600 hover:text-[#0b2545] hover:bg-slate-50"
                   }`}
                 >
-                  {label}
+                  {item.label}
                   <span
                     className={`absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full bg-cyan-500 transition-all duration-200 ${
                       active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
@@ -185,6 +270,12 @@ export default function Navbar() {
                         <LayoutDashboard size={15} /> Admin Dashboard
                       </Link>
                     )}
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                    >
+                      <User size={15} /> My Dashboard
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left"
@@ -253,23 +344,71 @@ export default function Navbar() {
           <div className="absolute inset-0 bg-[#061B33]/40 backdrop-blur-[2px]" />
 
           <div
-            className="nav-drawer absolute top-[64px] left-0 right-0 bg-white border-b border-slate-200 shadow-xl"
+            className="nav-drawer absolute top-[64px] left-0 right-0 bg-white border-b border-slate-200 shadow-xl max-h-[calc(100vh-64px)] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-4 py-4 flex flex-col gap-1">
-              {navLinks.map(({ label, path }, i) => {
-                const active = location.pathname === path;
+              {navLinks.map((item, i) => {
+                if (item.dropdown) {
+                  const active = isDropdownActive(item);
+                  const mobileOpen = openMobileDropdown === item.label;
+                  return (
+                    <div key={item.label}>
+                      <button
+                        style={{ animationDelay: `${i * 30}ms` }}
+                        onClick={() => setOpenMobileDropdown(mobileOpen ? null : item.label)}
+                        className={`nav-item w-full px-4 py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-between ${
+                          active || mobileOpen
+                            ? "bg-cyan-50 text-cyan-700 font-semibold"
+                            : "text-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className={`w-1.5 h-1.5 rounded-full ${active ? "bg-cyan-500" : "bg-slate-300"}`} />
+                          {item.label}
+                        </span>
+                        <ChevronDown
+                          size={14}
+                          className={`transition-transform duration-200 ${mobileOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+
+                      {mobileOpen && (
+                        <div className="ml-4 mt-1 flex flex-col gap-0.5 border-l-2 border-cyan-100 pl-3">
+                          {item.dropdown.map((sub) => {
+                            const subActive = location.pathname === sub.path;
+                            return (
+                              <Link
+                                key={sub.path}
+                                to={sub.path}
+                                className={`px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                                  subActive
+                                    ? "bg-cyan-50 text-cyan-700 font-semibold"
+                                    : "text-slate-600 hover:bg-slate-50 hover:text-[#0b2545]"
+                                }`}
+                              >
+                                {sub.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                const active = location.pathname === item.path;
                 return (
                   <Link
-                    key={path}
-                    to={path}
+                    key={item.path}
+                    to={item.path}
                     style={{ animationDelay: `${i * 30}ms` }}
                     className={`nav-item px-4 py-3 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 ${
                       active ? "bg-cyan-50 text-cyan-700 font-semibold" : "text-slate-700 hover:bg-slate-50"
                     }`}
                   >
                     <span className={`w-1.5 h-1.5 rounded-full ${active ? "bg-cyan-500" : "bg-transparent"}`} />
-                    {label}
+                    {item.label}
                   </Link>
                 );
               })}
@@ -286,6 +425,9 @@ export default function Navbar() {
                         Admin Dashboard
                       </Link>
                     )}
+                    <Link to="/dashboard" className="text-center py-3 rounded-xl border border-slate-200 text-slate-700 text-sm font-medium hover:border-cyan-400 hover:text-cyan-600 transition-colors">
+                      My Dashboard
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="text-center py-3 rounded-xl bg-red-50 text-red-600 text-sm font-semibold hover:bg-red-100 transition-colors"

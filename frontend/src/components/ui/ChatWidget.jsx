@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import {
   MessageCircle, X, Send, Bot, Sparkles, Loader2,
   ChevronRight, Phone, Calendar, Cpu, BookOpen, ShoppingBag,
@@ -304,16 +305,16 @@ function LabRecommendationCard({ pkg, curriculum, gradeMentioned, studentCount }
           {curriculum.topics.slice(0,3).map((t, i) => (
             <p key={i} className="text-xs text-sky-600 mb-0.5">• {t}</p>
           ))}
-          <a href={curriculum.link} className="text-xs text-sky-700 font-semibold flex items-center gap-1 mt-2 hover:underline">
+          <Link to={curriculum.link} className="text-xs text-sky-700 font-semibold flex items-center gap-1 mt-2 hover:underline">
             Full Curriculum <ArrowRight size={10}/>
-          </a>
+          </Link>
         </div>
       )}
 
-      <a href="/contact"
+      <Link to="/contact"
         className="flex items-center justify-center gap-2 w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
         <Calendar size={13}/> Book Free Lab Consultation
-      </a>
+      </Link>
     </div>
   );
 }
@@ -323,7 +324,7 @@ function ProductsCard({ products }) {
     <div className="mt-2 space-y-2">
       <p className="text-xs text-slate-600">Yahan kuch featured products hain:</p>
       {products.map((p, i) => (
-        <a key={i} href={p.link}
+        <Link key={i} to={p.link}
           className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 hover:border-cyan-300 hover:bg-cyan-50 transition group">
           <div className="flex items-center gap-2">
             <Package size={13} className="text-cyan-600"/>
@@ -333,11 +334,11 @@ function ProductsCard({ products }) {
             </div>
           </div>
           <span className="text-xs font-bold text-cyan-700 group-hover:text-cyan-800">{p.price}</span>
-        </a>
+        </Link>
       ))}
-      <a href="/products" className="flex items-center justify-center gap-1.5 text-xs font-semibold text-cyan-700 border border-cyan-200 rounded-xl py-2.5 hover:bg-cyan-50 transition">
+      <Link to="/products" className="flex items-center justify-center gap-1.5 text-xs font-semibold text-cyan-700 border border-cyan-200 rounded-xl py-2.5 hover:bg-cyan-50 transition">
         <ShoppingBag size={12}/> Full Catalog Dekho
-      </a>
+      </Link>
     </div>
   );
 }
@@ -365,9 +366,9 @@ function ATLCard({ data }) {
         <Zap size={14} className="text-amber-500 flex-shrink-0"/>
         <p className="text-xs text-slate-600"><strong>Timeline:</strong> {data.duration}</p>
       </div>
-      <a href="/contact" className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
+      <Link to="/contact" className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
         <Phone size={12}/> Get ATL Application Help
-      </a>
+      </Link>
     </div>
   );
 }
@@ -388,9 +389,9 @@ function CurriculumCard({ curriculum, allCurriculum }) {
           ))}
         </div>
       ))}
-      <a href="/curriculum" className="flex items-center justify-center gap-1.5 text-xs font-semibold text-sky-700 border border-sky-200 rounded-xl py-2.5 hover:bg-sky-50 transition">
+      <Link to="/curriculum" className="flex items-center justify-center gap-1.5 text-xs font-semibold text-sky-700 border border-sky-200 rounded-xl py-2.5 hover:bg-sky-50 transition">
         <BookOpen size={12}/> Full Curriculum Board
-      </a>
+      </Link>
     </div>
   );
 }
@@ -416,9 +417,9 @@ function TrainingCard() {
           </div>
         ))}
       </div>
-      <a href="/training" className="flex items-center justify-center gap-1.5 text-xs font-semibold bg-[#0b2545] text-white rounded-xl py-2.5 hover:bg-cyan-700 transition">
+      <Link to="/training" className="flex items-center justify-center gap-1.5 text-xs font-semibold bg-[#0b2545] text-white rounded-xl py-2.5 hover:bg-cyan-700 transition">
         Training Programs Dekho <ArrowRight size={11}/>
-      </a>
+      </Link>
     </div>
   );
 }
@@ -443,9 +444,9 @@ function BookingCard() {
           ))}
         </ul>
       </div>
-      <a href="/contact" className="flex items-center justify-center gap-2 w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
+      <Link to="/contact" className="flex items-center justify-center gap-2 w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs py-3 rounded-xl transition shadow-md">
         <Phone size={12}/> Book Free Consultation
-      </a>
+      </Link>
       <a href="tel:+91XXXXXXXXXX" className="flex items-center justify-center gap-2 w-full text-xs font-semibold text-slate-500 py-1.5 hover:text-slate-700 transition">
         Or call us directly →
       </a>
@@ -457,14 +458,14 @@ function TourCard() {
   return (
     <div className="mt-2 space-y-2">
       <p className="text-xs text-slate-600">Hamari virtual lab tour try karo — bilkul free!</p>
-      <a href="/lab-tour"
+      <Link to="/lab-tour"
         className="flex items-center justify-between bg-gradient-to-r from-[#0b2545] to-cyan-700 rounded-xl px-4 py-3 text-white group hover:opacity-95 transition">
         <div>
           <p className="text-sm font-bold">Virtual Lab Tour</p>
           <p className="text-xs text-cyan-300">8 interactive hotspots</p>
         </div>
         <ArrowRight size={16} className="text-cyan-400 group-hover:translate-x-1 transition-transform"/>
-      </a>
+      </Link>
     </div>
   );
 }
@@ -705,11 +706,11 @@ export default function ChatWidget() {
             </div>
 
             <div className="relative flex items-center gap-2">
-              <a href="/contact"
+              <Link to="/contact"
                 className="flex items-center gap-1.5 text-xs font-semibold bg-cyan-400/15 hover:bg-cyan-400/25 border border-cyan-400/30 text-cyan-300 px-2.5 py-1.5 rounded-lg transition"
                 onClick={() => setIsOpen(false)}>
                 <Calendar size={11}/> Book Call
-              </a>
+              </Link>
               <button onClick={handleReset} title="Reset chat"
                 className="text-white/50 hover:text-white/80 transition p-1.5 rounded-lg hover:bg-white/10">
                 <RotateCcw size={14}/>
@@ -778,10 +779,10 @@ export default function ChatWidget() {
               <p className="text-[10px] text-slate-400">
                 <span className="text-emerald-500 font-semibold">●</span> AI Consultant · Powered by RoboLearn KB
               </p>
-              <a href="/lab-tour" onClick={() => setIsOpen(false)}
+              <Link to="/lab-tour" onClick={() => setIsOpen(false)}
                 className="text-[10px] text-cyan-600 hover:underline font-medium">
                 Virtual Lab Tour →
-              </a>
+              </Link>
             </div>
           </div>
         </div>
