@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getGallery } from "../services/galleryService";
+import SEO from "../components/SEO";
 
 const categories = ["All", "labs", "workshops", "events", "competitions"];
 
@@ -19,6 +20,7 @@ export default function Gallery() {
 
   return (
     <div className="bg-white text-slate-900">
+      <SEO title="Gallery | RoboLearn" description="Photos from robotics labs, student workshops, competitions, and school events across India." path="/gallery" />
       <style>{`
         @keyframes dash { to { stroke-dashoffset: 0; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }

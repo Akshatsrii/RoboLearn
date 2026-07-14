@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { CheckCircle2, AlertTriangle, Award, GraduationCap, Calendar, ShieldCheck, ArrowLeft, Search } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Award, ShieldCheck, ArrowLeft, Search, Loader2 } from "lucide-react";
 import SEO from "../components/SEO";
-
-/* MOCK CERTIFICATES DATA STORE */
-const MOCK_CERTIFICATES = {
-  "CERT-RL-2024-0012": { student: "Aarav Gupta", grade: "Class 7", program: "Arduino Explorer", date: "15 May 2026", school: "Delhi Public School, Rohini", status: "Verified" },
-  "CERT-RL-2024-0015": { student: "Diya Malhotra", grade: "Class 8", program: "IoT Foundations", date: "22 May 2026", school: "Delhi Public School, Rohini", status: "Verified" },
-  "CERT-RL-2024-0018": { student: "Kabir Mehta", grade: "Class 6", program: "Scratch Master", date: "04 Jun 2026", school: "Delhi Public School, Rohini", status: "Verified" },
-};
+import { verifyCertificate } from "../services/certificateService";
 
 export default function VerifyCertificate() {
   const [searchParams] = useSearchParams();
   const [certId, setCertId] = useState("");
   const [result, setResult] = useState(null);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const idParam = searchParams.get("id");
@@ -24,13 +20,29 @@ export default function VerifyCertificate() {
     }
   }, [searchParams]);
 
-  const handleVerify = (idToLookup) => {
-    const cleanId = (idToLookup || certId).trim().toUpperCase();
+  const handleVerify = async (idOverride) => {
+    const cleanId = (idOverride || certId).trim().toUpperCase();
+    if (!cleanId) return;
     setSearched(true);
-    if (MOCK_CERTIFICATES[cleanId]) {
-      setResult({ id: cleanId, ...MOCK_CERTIFICATES[cleanId] });
-    } else {
-      setResult(null);
+    setLoading(true);
+    setResult(null);
+    setErrorMsg("");
+
+    try {
+      const res = await verifyCertificate(cleanId);
+      if (res.data?.success && res.data?.certificate) {
+        setResult(res.data.certificate);
+      } else {
+        setResult(null);
+      }
+    } catch (err) {
+      if (err.response?.status === 404) {
+        setResult(null);
+      } else {
+        setErrorMsg("Failed to connect to verification service. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,17 +79,32 @@ export default function VerifyCertificate() {
               />
               <button
                 onClick={() => handleVerify()}
-                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs px-4 py-3 rounded-xl flex items-center gap-1.5 transition shadow-lg"
+                disabled={loading}
+                className="bg-cyan-500 hover:bg-cyan-600 disabled:opacity-60 text-white font-bold text-xs px-4 py-3 rounded-xl flex items-center gap-1.5 transition shadow-lg"
               >
-                <Search size={14} /> Verify
+                {loading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />}
+                {loading ? "Verifying..." : "Verify"}
               </button>
             </div>
 
             {/* Verification Result Area */}
             {searched && (
               <div className="border-t border-white/10 pt-6">
-                {result ? (
-                  <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-4 animate-fade-up">
+                {loading ? (
+                  <div className="text-center text-slate-400 text-xs py-6 flex items-center justify-center gap-2">
+                    <Loader2 size={16} className="animate-spin text-cyan-400" />
+                    Checking certificate database...
+                  </div>
+                ) : errorMsg ? (
+                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5 flex items-start gap-3 text-yellow-400">
+                    <AlertTriangle size={18} className="shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-xs font-bold">Service Unavailable</h4>
+                      <p className="text-[10px] text-slate-400 mt-1">{errorMsg}</p>
+                    </div>
+                  </div>
+                ) : result ? (
+                  <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 space-y-4">
                     <div className="flex items-center gap-2 text-emerald-400">
                       <CheckCircle2 size={18} />
                       <span className="text-xs font-bold uppercase tracking-wider">Credential Authenticated</span>
@@ -86,7 +113,7 @@ export default function VerifyCertificate() {
                     <div className="space-y-3">
                       <div>
                         <span className="text-[10px] text-slate-400 uppercase font-bold block">Student / Recipient</span>
-                        <p className="text-sm font-extrabold text-white mt-0.5">{result.student}</p>
+                        <p className="text-sm font-extrabold text-white mt-0.5">{result.studentName}</p>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -100,11 +127,11 @@ export default function VerifyCertificate() {
                       </div>
                       <div>
                         <span className="text-[10px] text-slate-400 uppercase font-bold block">School Partner</span>
-                        <p className="text-xs font-semibold text-slate-300 mt-0.5">{result.school}</p>
+                        <p className="text-xs font-semibold text-slate-300 mt-0.5">{result.schoolName}</p>
                       </div>
                       <div className="flex justify-between items-center pt-2 border-t border-white/5 text-[10px] text-slate-400 font-mono">
-                        <span>ID: {result.id}</span>
-                        <span>Date Issued: {result.date}</span>
+                        <span>ID: {result.certId}</span>
+                        <span>Date Issued: {result.dateIssued ? new Date(result.dateIssued).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "—"}</span>
                       </div>
                     </div>
 

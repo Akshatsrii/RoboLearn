@@ -5,7 +5,7 @@ import { CheckCircle2, ChevronRight, CreditCard, ShieldCheck, MapPin, Truck, Ale
 import SEO from "../components/SEO";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { createPaymentIntent } from "../services/paymentService";
+import { createPaymentIntent, createRazorpayOrder, verifyRazorpayPayment, saveOrder } from "../services/paymentService";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51MockKeyRoboLearn12345");
 
@@ -85,6 +85,20 @@ function CheckoutInner() {
   };
   const grandTotal = cartTotal + shippingCost + taxCost - discountAmount;
 
+  const buildOrderPayload = (newOrderId, paymentId, method, status) => ({
+    orderId: newOrderId,
+    items: cart.map(i => ({ productId: i._id, name: i.name, price: i.price || 0, quantity: i.quantity })),
+    shippingDetails: { name: form.name, email: form.email, phone: form.phone, schoolName: form.schoolName, address: form.address, city: form.city, state: form.state, zip: form.zip },
+    paymentMethod: method,
+    paymentId: paymentId || "",
+    paymentStatus: status,
+    subtotal: cartTotal,
+    shippingCost,
+    tax: taxCost,
+    discount: discountAmount,
+    grandTotal,
+  });
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (cart.length === 0) return;
@@ -111,22 +125,19 @@ function CheckoutInner() {
         const intentRes = await createPaymentIntent({
           amount: grandTotal,
           email: form.email,
-          metadata: {
-            schoolName: form.schoolName || "",
-            phone: form.phone
-          }
+          metadata: { schoolName: form.schoolName || "", phone: form.phone }
         });
 
         const { clientSecret, isMock } = intentRes.data;
 
         // 2. If backend is running in mock mode (no STRIPE_SECRET_KEY), skip Stripe network API calls
         if (isMock) {
-          setTimeout(() => {
-            setOrderPlaced(true);
-            setOrderId("ROBO-MOCK-" + Math.floor(100000 + Math.random() * 900000));
-            clearCart();
-            setLoading(false);
-          }, 1500);
+          const mockId = "ROBO-MOCK-" + Math.floor(100000 + Math.random() * 900000);
+          await saveOrder(buildOrderPayload(mockId, "mock_stripe", "card", "paid")).catch(() => {});
+          setOrderPlaced(true);
+          setOrderId(mockId);
+          clearCart();
+          setLoading(false);
           return;
         }
 
@@ -136,16 +147,8 @@ function CheckoutInner() {
           payment_method: {
             card: cardElement,
             billing_details: {
-              name: form.name,
-              email: form.email,
-              phone: form.phone,
-              address: {
-                line1: form.address,
-                city: form.city,
-                state: form.state,
-                postal_code: form.zip,
-                country: "IN"
-              }
+              name: form.name, email: form.email, phone: form.phone,
+              address: { line1: form.address, city: form.city, state: form.state, postal_code: form.zip, country: "IN" }
             }
           }
         });
@@ -154,16 +157,82 @@ function CheckoutInner() {
           setPaymentError(result.error.message);
           setLoading(false);
         } else if (result.paymentIntent.status === "succeeded") {
+          const newOrderId = "ROBO-" + result.paymentIntent.id.substring(3, 10).toUpperCase();
+          await saveOrder(buildOrderPayload(newOrderId, result.paymentIntent.id, "card", "paid")).catch(() => {});
           setOrderPlaced(true);
-          setOrderId("ROBO-" + result.paymentIntent.id.substring(3, 10).toUpperCase());
+          setOrderId(newOrderId);
           clearCart();
           setLoading(false);
         }
-      } else {
-        // Mock success for UPI or COD
-        setTimeout(() => {
+
+      } else if (paymentMethod === "razorpay") {
+        // 1. Create Razorpay order on backend
+        const rzpRes = await createRazorpayOrder({ amount: grandTotal });
+        const { orderId: rzpOrderId, amount: rzpAmount, keyId, isMock: rzpMock } = rzpRes.data;
+
+        if (rzpMock) {
+          // Mock mode — simulate success
+          const newOrderId = "ROBO-RZP-" + Math.floor(100000 + Math.random() * 900000);
+          await saveOrder(buildOrderPayload(newOrderId, rzpOrderId, "razorpay", "paid")).catch(() => {});
           setOrderPlaced(true);
-          setOrderId("ROBO-" + Math.floor(100000 + Math.random() * 900000));
+          setOrderId(newOrderId);
+          clearCart();
+          setLoading(false);
+          return;
+        }
+
+        // 2. Load Razorpay SDK and open checkout modal
+        const rzpScript = await new Promise((resolve) => {
+          if (window.Razorpay) return resolve(true);
+          const s = document.createElement("script");
+          s.src = "https://checkout.razorpay.com/v1/checkout.js";
+          s.onload = () => resolve(true);
+          s.onerror = () => resolve(false);
+          document.body.appendChild(s);
+        });
+        if (!rzpScript) {
+          setPaymentError("Razorpay SDK failed to load. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        const rzp = new window.Razorpay({
+          key: keyId,
+          amount: rzpAmount,
+          currency: "INR",
+          order_id: rzpOrderId,
+          name: "RoboLearn",
+          description: "STEM Robotics Kit Purchase",
+          prefill: { name: form.name, email: form.email, contact: form.phone },
+          handler: async (response) => {
+            try {
+              await verifyRazorpayPayment({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              });
+              const newOrderId = "ROBO-" + response.razorpay_payment_id.substring(4, 10).toUpperCase();
+              await saveOrder(buildOrderPayload(newOrderId, response.razorpay_payment_id, "razorpay", "paid")).catch(() => {});
+              setOrderPlaced(true);
+              setOrderId(newOrderId);
+              clearCart();
+            } catch {
+              setPaymentError("Payment verification failed. Please contact support.");
+            } finally {
+              setLoading(false);
+            }
+          },
+          modal: { ondismiss: () => setLoading(false) },
+        });
+        rzp.open();
+
+      } else {
+        // UPI / COD — mock success & save order
+        const newOrderId = "ROBO-" + Math.floor(100000 + Math.random() * 900000);
+        setTimeout(async () => {
+          await saveOrder(buildOrderPayload(newOrderId, "", paymentMethod, paymentMethod === "cod" ? "pending" : "paid")).catch(() => {});
+          setOrderPlaced(true);
+          setOrderId(newOrderId);
           clearCart();
           setLoading(false);
         }, 2000);
@@ -371,7 +440,8 @@ function CheckoutInner() {
                 <div className="space-y-3">
                   {[
                     { id: "card", label: "Credit / Debit Card (Stripe)", desc: "Pay securely with international cards via Stripe." },
-                    { id: "upi", label: "UPI (Google Pay / PhonePe)", desc: "Quick checkout using mock UPI simulator." },
+                    { id: "razorpay", label: "Razorpay (UPI / Netbanking / Cards)", desc: "India's most trusted payment gateway — supports UPI, Cards, Netbanking." },
+                    { id: "upi", label: "UPI Simulator (Google Pay / PhonePe)", desc: "Demo mode UPI flow for testing purposes." },
                     { id: "cod", label: "Cash on Delivery (COD) / Pay on Delivery", desc: "Pay cash at your school gate on kit delivery." }
                   ].map((method) => (
                     <div key={method.id} className="space-y-4">

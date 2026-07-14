@@ -33,7 +33,7 @@ export default function Contact() {
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", schoolName: "", city: "", message: "", type: "general" });
     } catch {
-      setError("Something went wrong. Please try again or call us directly.");
+      setError("Message send nahi ho saka. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -151,13 +151,16 @@ export default function Contact() {
             <div className="lg:col-span-3 border border-slate-200 rounded-3xl p-8 shadow-sm">
               {success ? (
                 <div className="flex flex-col items-center justify-center py-14 text-center">
-                  <div className="w-16 h-16 rounded-full bg-cyan-50 flex items-center justify-center mb-5">
-                    <CheckCircle size={32} className="text-cyan-600" />
+                  <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mb-5">
+                    <CheckCircle size={32} className="text-emerald-500" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#0b2545] mb-2">Message sent</h3>
-                  <p className="text-slate-500 text-sm max-w-xs">
-                    Thanks for reaching out — we&rsquo;ll get back to you within 24 hours.
+                  <h3 className="text-xl font-bold text-[#0b2545] mb-2">Message Sent! ✅</h3>
+                  <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+                    Thank you, <strong>{form.name || "there"}</strong>! We have received your message and will contact you soon within 24 hours.
                   </p>
+                  <div className="mt-4 bg-cyan-50 border border-cyan-100 rounded-2xl px-5 py-3 text-xs text-cyan-700 font-medium">
+                    📩 A confirmation has been sent to your email.
+                  </div>
                   <button
                     onClick={() => setSuccess(false)}
                     className="mt-7 text-cyan-600 font-semibold text-sm hover:underline"

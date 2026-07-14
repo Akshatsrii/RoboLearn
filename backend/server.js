@@ -20,6 +20,7 @@ const resourceRoutes = require("./routes/resourceRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const certificateRoutes = require("./routes/certificateRoutes");
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use("/api/resources", resourceRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api", chatRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/certificates", certificateRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "RoboLearn Backend Running", version: "1.0.0" });
