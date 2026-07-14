@@ -4,12 +4,12 @@ import {
   School, Users, BookOpen, BarChart3, ShoppingBag, Award,
   Cpu, CalendarDays, TrendingUp, ChevronRight, ArrowRight,
   Package, GraduationCap, CheckCircle2, Bell, Download,
-  ClipboardList, Star
+  ClipboardList, Star, ShieldAlert, Plus, MessageSquare, ListTodo
 } from "lucide-react";
 import SEO from "../components/SEO";
 
 /* ============================================================
-   MOCK DATA  (replace with API calls in production)
+   MOCK DATA
    ============================================================ */
 const SCHOOL = {
   name: "Delhi Public School, Rohini",
@@ -22,50 +22,54 @@ const SCHOOL = {
   city: "Delhi",
 };
 
-const STATS = [
-  { icon: Users,      label: "Students Enrolled",   value: "90",   sub: "3 batches × 30",       color: "#06b6d4" },
-  { icon: BookOpen,   label: "Projects Completed",  value: "24",   sub: "8 per batch",           color: "#8b5cf6" },
-  { icon: Award,      label: "Certifications Given", value: "72",   sub: "Arduino + Explorer",   color: "#f59e0b" },
-  { icon: TrendingUp, label: "Avg. Skill Score",    value: "84%",  sub: "+12% from last term",  color: "#10b981" },
+const INITIAL_TICKETS = [
+  { id: "TK-7801", issue: "Ultrasonic sensor not reading distance", priority: "Medium", status: "In Progress", date: "12 Jul 2026", desc: "Two sensors from Batch B are returning 0cm values constantly.", history: ["Ticket Received (12 Jul)", "Engineer Assigned: Mr. Vikas (13 Jul)"] },
+  { id: "TK-6402", issue: "Arduino Nano board port driver error", priority: "Low", status: "Resolved", date: "02 Jun 2026", desc: "Laptops not detecting the board over USB.", history: ["Ticket Received (02 Jun)", "Driver package shared via email (03 Jun)", "Resolved (04 Jun)"] },
 ];
 
-const ORDERS = [
-  { id: "RL-2024-0041", item: "Standard STEM Kit ×30", date: "15 Mar 2024", status: "Delivered",   statusColor: "text-emerald-400" },
-  { id: "RL-2024-0078", item: "Sensor Add-on Pack ×10", date: "02 May 2024", status: "In Transit",  statusColor: "text-amber-400"   },
-  { id: "RL-2024-0091", item: "Arduino Mega ×5",       date: "18 Jun 2024", status: "Processing",  statusColor: "text-blue-400"    },
+const INITIAL_CERTIFICATES = [
+  { id: "CERT-RL-2024-0012", student: "Aarav Gupta", grade: "Class 7", program: "Arduino Explorer", date: "15 May 2026" },
+  { id: "CERT-RL-2024-0015", student: "Diya Malhotra", grade: "Class 8", program: "IoT Foundations", date: "22 May 2026" },
+  { id: "CERT-RL-2024-0018", student: "Kabir Mehta", grade: "Class 6", program: "Scratch Master", date: "04 Jun 2026" },
 ];
 
-const SESSIONS = [
-  { date: "Jul 20, 2024", topic: "IoT & Smart Home Sensors",    trainer: "Mr. Rajan Verma",  status: "Upcoming" },
-  { date: "Jun 14, 2024", topic: "Arduino C++ Fundamentals",    trainer: "Ms. Prachi Jain",  status: "Completed" },
-  { date: "May 10, 2024", topic: "Intro to Microcontrollers",   trainer: "Mr. Rajan Verma",  status: "Completed" },
+const CURRICULUM_MILESTONES = [
+  { id: 1, title: "Module 1: Basic LED Arrays & Wiring", completed: true },
+  { id: 2, title: "Module 2: Potentiometers & Variables", completed: true },
+  { id: 3, title: "Module 3: Ultrasonic Distance Mapping", completed: true },
+  { id: 4, title: "Module 4: Servo Motor Integration", completed: false },
+  { id: 5, title: "Module 5: Bluetooth Serial Control", completed: false },
 ];
 
-const RESOURCES = [
-  { title: "Term 1 Curriculum Guide",   type: "PDF", size: "2.3 MB" },
-  { title: "Arduino Starter Workbook",  type: "PDF", size: "5.1 MB" },
-  { title: "Project Assessment Rubric", type: "PDF", size: "0.8 MB" },
-  { title: "Safety Guidelines – Lab",   type: "PDF", size: "1.2 MB" },
-];
-
-const TABS = [
-  { id: "overview",   label: "Overview",   icon: BarChart3     },
-  { id: "orders",     label: "Orders",     icon: ShoppingBag   },
-  { id: "sessions",   label: "Training",   icon: CalendarDays  },
-  { id: "resources",  label: "Resources",  icon: Download      },
-];
-
-/* ============================================================
-   MAIN PAGE
-   ============================================================ */
 export default function SchoolDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [tickets, setTickets] = useState(INITIAL_TICKETS);
+  const [showNewTicket, setShowNewTicket] = useState(false);
+  const [newTicketForm, setNewTicketForm] = useState({ issue: "", priority: "Medium", desc: "" });
+
+  const handleCreateTicket = (e) => {
+    e.preventDefault();
+    const newTk = {
+      id: `TK-${Math.floor(1000 + Math.random() * 9000)}`,
+      issue: newTicketForm.issue,
+      priority: newTicketForm.priority,
+      status: "Received",
+      date: "Today",
+      desc: newTicketForm.desc,
+      history: ["Ticket Received (Just now)"]
+    };
+    setTickets(prev => [newTk, ...prev]);
+    setNewTicketForm({ issue: "", priority: "Medium", desc: "" });
+    setShowNewTicket(false);
+  };
+
+  const fmt = (n) => n.toLocaleString("en-IN");
 
   return (
     <>
       <SEO
         title="School Partner Dashboard | RoboLearn"
-        description="Manage your school's RoboLearn robotics program — track student progress, monitor orders, view training sessions, and download curriculum resources."
+        description="Manage your school's RoboLearn robotics program — track student progress, monitor support tickets, view training sessions, and download curriculum resources."
       />
       <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white">
 
@@ -88,7 +92,7 @@ export default function SchoolDashboard() {
             <div className="flex gap-3">
               <Link to="/contact"
                 className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors">
-                <Bell size={14} /> Contact RoboLearn
+                <Bell size={14} /> Contact Program Manager
               </Link>
               <Link to="/products"
                 className="flex items-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl text-sm hover:bg-white/10 transition-colors">
@@ -102,7 +106,12 @@ export default function SchoolDashboard() {
 
           {/* ── Stats ─────────────────────────────────────── */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {STATS.map(({ icon: Icon, label, value, sub, color }) => (
+            {[
+              { icon: Users, label: "Students Trained", value: "90", sub: "3 batches active", color: "#06b6d4" },
+              { icon: BookOpen, label: "Curriculum Progress", value: "60%", sub: "3/5 modules complete", color: "#8b5cf6" },
+              { icon: Award, label: "Issued Certificates", value: "72", sub: "Verified via lookup", color: "#f59e0b" },
+              { icon: Star, label: "Workshops Hosted", value: "8 sessions", sub: "Next: July 20th", color: "#10b981" },
+            ].map(({ icon: Icon, label, value, sub, color }) => (
               <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-5">
                 <Icon size={20} style={{ color }} className="mb-2" />
                 <div className="text-2xl font-extrabold text-white">{value}</div>
@@ -114,7 +123,12 @@ export default function SchoolDashboard() {
 
           {/* ── Tabs ──────────────────────────────────────── */}
           <div className="flex gap-2 mb-6 flex-wrap">
-            {TABS.map(({ id, label, icon: Icon }) => (
+            {[
+              { id: "overview", label: "Overview", icon: BarChart3 },
+              { id: "curriculum", label: "Curriculum", icon: ListTodo },
+              { id: "support", label: "Lab Support Portal", icon: ShieldAlert },
+              { id: "certificates", label: "Certificates", icon: Award },
+            ].map(({ id, label, icon: Icon }) => (
               <button key={id} onClick={() => setActiveTab(id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   activeTab === id
@@ -126,13 +140,13 @@ export default function SchoolDashboard() {
             ))}
           </div>
 
-          {/* ── Overview ──────────────────────────────────── */}
+          {/* ── Tab Contents ──────────────────────────────── */}
           {activeTab === "overview" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Program Info */}
               <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6">
                 <h2 className="font-bold text-white mb-4 flex items-center gap-2">
-                  <ClipboardList size={16} className="text-cyan-400" /> Program Details
+                  <ClipboardList size={16} className="text-cyan-400" /> Program Overview
                 </h2>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   {[
@@ -154,33 +168,22 @@ export default function SchoolDashboard() {
               {/* Quick Links */}
               <div className="space-y-4">
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                  <h3 className="font-semibold text-white mb-3 text-sm">Quick Actions</h3>
+                  <h3 className="font-semibold text-white mb-3 text-sm">Upcoming Workshops</h3>
                   <div className="space-y-2">
-                    {[
-                      { label: "View Curriculum",  to: "/curriculum", icon: BookOpen },
-                      { label: "Order New Kits",   to: "/products",   icon: Package },
-                      { label: "Book Training",    to: "/contact",    icon: GraduationCap },
-                      { label: "Impact Calculator",to: "/impact-calculator", icon: BarChart3 },
-                    ].map(({ label, to, icon: Icon }) => (
-                      <Link key={to} to={to}
-                        className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-colors group">
-                        <span className="flex items-center gap-2 text-sm text-slate-300 group-hover:text-white">
-                          <Icon size={14} className="text-cyan-400" /> {label}
-                        </span>
-                        <ChevronRight size={14} className="text-slate-500 group-hover:text-white" />
-                      </Link>
-                    ))}
+                    <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+                      <p className="text-xs font-bold text-cyan-400">July 20, 2026</p>
+                      <p className="text-xs font-bold text-white mt-1">IoT &amp; Smart Sensors Workshop</p>
+                      <p className="text-[10px] text-slate-400">Trainer: Mr. Rajan Verma</p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Next Milestone */}
                 <div className="bg-gradient-to-br from-violet-500/15 to-cyan-500/15 border border-violet-500/30 rounded-2xl p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <Star size={14} className="text-amber-400" />
                     <span className="text-sm font-bold text-white">Next Milestone</span>
                   </div>
                   <p className="text-slate-300 text-sm">Term 2 Project Exhibition</p>
-                  <p className="text-xs text-slate-500 mt-1">August 15, 2024</p>
                   <div className="mt-3 bg-white/10 rounded-full h-1.5">
                     <div className="bg-gradient-to-r from-cyan-500 to-violet-500 h-1.5 rounded-full" style={{ width: "60%" }} />
                   </div>
@@ -190,105 +193,129 @@ export default function SchoolDashboard() {
             </div>
           )}
 
-          {/* ── Orders ────────────────────────────────────── */}
-          {activeTab === "orders" && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-bold text-white">Order History</h2>
-                <Link to="/products" className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
-                  New Order <ArrowRight size={13} />
-                </Link>
-              </div>
-              {ORDERS.map(order => (
-                <div key={order.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                      <ShoppingBag size={18} className="text-cyan-400" />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">{order.item}</p>
-                      <p className="text-xs text-slate-400">{order.id} · Ordered {order.date}</p>
-                    </div>
-                  </div>
-                  <span className={`text-sm font-bold ${order.statusColor} bg-white/5 px-3 py-1 rounded-full`}>
-                    {order.status}
-                  </span>
-                </div>
-              ))}
-              <div className="text-center pt-4">
-                <Link to="/track-order" className="text-sm text-slate-400 hover:text-white transition-colors flex items-center justify-center gap-1">
-                  Track all orders <ChevronRight size={13} />
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* ── Training Sessions ─────────────────────────── */}
-          {activeTab === "sessions" && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-bold text-white">Training Sessions</h2>
-                <Link to="/contact" className="flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
-                  Book Session <ArrowRight size={13} />
-                </Link>
-              </div>
-              {SESSIONS.map((s, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                      s.status === "Upcoming" ? "bg-cyan-500/20 border border-cyan-500/30" : "bg-white/5"
-                    }`}>
-                      <CalendarDays size={18} className={s.status === "Upcoming" ? "text-cyan-400" : "text-slate-400"} />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">{s.topic}</p>
-                      <p className="text-xs text-slate-400">{s.date} · {s.trainer}</p>
-                    </div>
-                  </div>
-                  <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${
-                    s.status === "Upcoming"
-                      ? "bg-cyan-500/20 border border-cyan-500/30 text-cyan-400"
-                      : "bg-emerald-500/20 border border-emerald-500/30 text-emerald-400"
-                  }`}>
-                    {s.status === "Upcoming" ? "⏰ " : "✓ "}{s.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* ── Resources ─────────────────────────────────── */}
-          {activeTab === "resources" && (
-            <div className="space-y-4">
-              <h2 className="font-bold text-white mb-2">Curriculum Resources</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {RESOURCES.map((r, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-between hover:border-white/20 transition-all">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center">
-                        <Download size={16} className="text-red-400" />
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold text-sm">{r.title}</p>
-                        <p className="text-xs text-slate-400">{r.type} · {r.size}</p>
-                      </div>
-                    </div>
-                    <button className="flex items-center gap-1 text-xs text-cyan-400 font-semibold hover:text-cyan-300 transition-colors">
-                      <Download size={12} /> Download
-                    </button>
+          {/* Curriculum checklist tab */}
+          {activeTab === "curriculum" && (
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+              <h2 className="font-bold text-white flex items-center gap-2 mb-4">
+                <ListTodo size={16} className="text-cyan-400" /> Curriculum Progress Checklist
+              </h2>
+              <div className="space-y-3">
+                {CURRICULUM_MILESTONES.map((m) => (
+                  <div key={m.id} className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5">
+                    <input type="checkbox" readOnly checked={m.completed} className="accent-cyan-400 h-4 w-4 rounded cursor-default" />
+                    <span className={`text-xs font-semibold ${m.completed ? "text-slate-400 line-through" : "text-white"}`}>{m.title}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-                <BookOpen size={28} className="text-cyan-400 mx-auto mb-2" />
-                <p className="text-white font-bold mb-1">Need more resources?</p>
-                <p className="text-slate-400 text-sm mb-4">Contact your RoboLearn program manager for custom curriculum content.</p>
-                <Link to="/contact" className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors">
-                  <CheckCircle2 size={14} /> Request Resources
-                </Link>
+            </div>
+          )}
+
+          {/* Support Ticket tab */}
+          {activeTab === "support" && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="font-bold text-white flex items-center gap-2">
+                  <ShieldAlert size={16} className="text-rose-400" /> Lab Maintenance Tickets
+                </h2>
+                <button
+                  onClick={() => setShowNewTicket(true)}
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center gap-2 transition"
+                >
+                  <Plus size={14} /> File Support Ticket
+                </button>
+              </div>
+
+              {/* New Ticket Form Modal */}
+              {showNewTicket && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                  <div className="bg-slate-900 border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4">
+                    <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                      <h3 className="text-sm font-bold text-white">Create Maintenance Request</h3>
+                      <button onClick={() => setShowNewTicket(false)} className="text-slate-400 hover:text-white">✕</button>
+                    </div>
+                    <form onSubmit={handleCreateTicket} className="space-y-3">
+                      <div>
+                        <label className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Issue Subject</label>
+                        <input required value={newTicketForm.issue} onChange={e => setNewTicketForm(p => ({ ...p, issue: e.target.value }))} className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-xs text-white" placeholder="e.g. Broken soldering iron kit" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Priority Level</label>
+                        <select value={newTicketForm.priority} onChange={e => setNewTicketForm(p => ({ ...p, priority: e.target.value }))} className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-xs text-white">
+                          <option>Low</option>
+                          <option>Medium</option>
+                          <option>High</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 uppercase font-bold block mb-1">Details / Description</label>
+                        <textarea required rows={3} value={newTicketForm.desc} onChange={e => setNewTicketForm(p => ({ ...p, desc: e.target.value }))} className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-xs text-white" placeholder="Describe the hardware/cabling issue..." />
+                      </div>
+                      <button type="submit" className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2.5 rounded-xl text-xs transition">Submit Ticket</button>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* Tickets list */}
+              <div className="space-y-4">
+                {tickets.map((t) => (
+                  <div key={t.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+                    <div className="flex items-start justify-between flex-wrap gap-2">
+                      <div>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          t.priority === "High" ? "bg-red-500/20 text-red-400" : t.priority === "Medium" ? "bg-amber-500/20 text-amber-400" : "bg-blue-500/20 text-blue-400"
+                        }`}>
+                          {t.priority} Priority
+                        </span>
+                        <h4 className="font-extrabold text-sm text-white mt-2">{t.issue}</h4>
+                        <p className="text-[10px] text-slate-400 mt-1">Ticket ID: {t.id} · Filed {t.date}</p>
+                      </div>
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full ${t.status === "Resolved" ? "bg-emerald-500/20 text-emerald-400" : "bg-cyan-500/20 text-cyan-400"}`}>
+                        {t.status}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed bg-black/20 p-3 rounded-lg border border-white/5">{t.desc}</p>
+
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Resolution History</p>
+                      <div className="space-y-1">
+                        {t.history.map((h, i) => (
+                          <div key={i} className="flex items-center gap-2 text-xs text-slate-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                            <span>{h}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
+
+          {/* Certificates tab */}
+          {activeTab === "certificates" && (
+            <div className="space-y-4">
+              <h2 className="font-bold text-white mb-2">Issued Certificates</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {INITIAL_CERTIFICATES.map((cert) => (
+                  <div key={cert.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between hover:border-white/20 transition-all">
+                    <div>
+                      <Award size={20} className="text-amber-400 mb-2" />
+                      <p className="text-sm font-extrabold text-white">{cert.student}</p>
+                      <p className="text-xs text-slate-400">{cert.grade} · {cert.program}</p>
+                      <p className="text-[10px] text-slate-500 mt-1">Certificate ID: {cert.id}</p>
+                    </div>
+                    <Link to={`/verify?id=${cert.id}`} className="mt-4 text-xs text-cyan-400 font-bold hover:underline flex items-center gap-1">
+                      Verify Credential <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </>
