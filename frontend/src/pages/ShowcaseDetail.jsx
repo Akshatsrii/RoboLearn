@@ -89,16 +89,16 @@ export default function ShowcaseDetail() {
         title={`${proj.title} | Student Showcase | RoboLearn`}
         description={proj.description}
       />
-      <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900">
         <div className="max-w-5xl mx-auto px-6 pt-28 pb-24">
 
           {/* ── Back Link ──────────────────────────────────── */}
-          <Link to="/showcase" className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 text-sm font-semibold">
+          <Link to="/showcase" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors mb-8 text-sm font-semibold">
             <ArrowLeft size={16} /> Back to Showcase
           </Link>
 
           {/* ── Visual Showcase Hero Card ───────────────────── */}
-          <div className={`bg-gradient-to-br ${proj.gradient} border-2 ${proj.border} rounded-3xl p-8 mb-8`}>
+          <div className="bg-gradient-to-br from-[#0b2545] to-[#123057] border border-[#13315c] rounded-3xl p-8 mb-8 text-white shadow-md">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -161,17 +161,17 @@ export default function ShowcaseDetail() {
             <div className="space-y-6">
 
               {/* Problem Statement Section */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-md mb-3 flex items-center gap-2 text-rose-400">
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+                <h3 className="font-bold text-rose-700 text-md mb-3 flex items-center gap-2">
                   <ShieldAlert size={16} /> Problem Statement
                 </h3>
-                <p className="text-slate-300 leading-relaxed text-sm">{proj.problemStatement}</p>
+                <p className="text-slate-600 leading-relaxed text-sm">{proj.problemStatement}</p>
               </div>
 
               {/* Working Process / Step by Step */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-md mb-4 flex items-center gap-2">
-                  <Wrench size={16} className="text-cyan-400" /> Working &amp; Construction Process
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+                <h3 className="font-bold text-[#0b2545] text-md mb-4 flex items-center gap-2">
+                  <Wrench size={16} className="text-cyan-600" /> Working &amp; Construction Process
                 </h3>
                 <div className="space-y-4">
                   {proj.steps.map((step, i) => (
@@ -180,20 +180,20 @@ export default function ShowcaseDetail() {
                         style={{ background: `${proj.accentColor}20`, border: `1px solid ${proj.accentColor}50`, color: proj.accentColor }}>
                         {i + 1}
                       </div>
-                      <span className="text-slate-300 text-sm pt-0.5">{step}</span>
+                      <span className="text-slate-600 text-sm pt-0.5">{step}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Real World Impact */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h3 className="font-bold text-white text-md mb-3 flex items-center gap-2">
-                  <CheckCircle2 size={16} className="text-emerald-400" /> School Proof-of-Impact
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+                <h3 className="font-bold text-[#0b2545] text-md mb-3 flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-emerald-500" /> School Proof-of-Impact
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {proj.impact.split("·").map((item, i) => (
-                    <span key={i} className="bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold px-3.5 py-1.5 rounded-full">
+                    <span key={i} className="bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs font-semibold px-3.5 py-1.5 rounded-full">
                       {item.trim()}
                     </span>
                   ))}
@@ -205,25 +205,25 @@ export default function ShowcaseDetail() {
             <div className="space-y-6">
 
               {/* Student/Team profile */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <h3 className="font-bold text-white text-sm mb-3 flex items-center gap-2">
-                  <Users size={14} className="text-cyan-400" /> Student/Team Profile
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5">
+                <h3 className="font-bold text-[#0b2545] text-sm mb-3 flex items-center gap-2">
+                  <Users size={14} className="text-cyan-600" /> Student/Team Profile
                 </h3>
                 <div className="space-y-1">
-                  <p className="text-sm font-extrabold text-white">{proj.student}</p>
-                  <p className="text-xs text-slate-400">{proj.school}</p>
-                  <p className="text-xs text-slate-400">{proj.grade} Level Classmate</p>
+                  <p className="text-sm font-extrabold text-slate-800">{proj.student}</p>
+                  <p className="text-xs text-slate-500">{proj.school}</p>
+                  <p className="text-xs text-slate-500">{proj.grade} Level Classmate</p>
                 </div>
               </div>
 
               {/* Tech Stack / Components */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <h3 className="font-bold text-white text-sm mb-3 flex items-center gap-2">
-                  <Cpu size={14} className="text-cyan-400" /> Components Used
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5">
+                <h3 className="font-bold text-[#0b2545] text-sm mb-3 flex items-center gap-2">
+                  <Cpu size={14} className="text-cyan-600" /> Components Used
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {proj.tech.map((t, i) => (
-                    <span key={i} className="text-[10px] bg-white/5 border border-white/10 text-slate-300 px-2.5 py-1 rounded-md font-mono">
+                    <span key={i} className="text-[10px] bg-slate-50 border border-slate-200 text-slate-600 px-2.5 py-1 rounded-md font-mono">
                       {t}
                     </span>
                   ))}
@@ -231,12 +231,12 @@ export default function ShowcaseDetail() {
               </div>
 
               {/* Skills Learned */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <h3 className="font-bold text-white text-sm mb-3">Skills Gained</h3>
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5">
+                <h3 className="font-bold text-[#0b2545] text-sm mb-3">Skills Gained</h3>
                 <div className="space-y-2">
                   {proj.skillsLearned.map((skill, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-slate-300">
-                      <ChevronRight size={12} className="text-cyan-400" />
+                    <div key={i} className="flex items-center gap-2 text-xs text-slate-600">
+                      <ChevronRight size={12} className="text-cyan-600" />
                       <span>{skill}</span>
                     </div>
                   ))}
@@ -244,10 +244,10 @@ export default function ShowcaseDetail() {
               </div>
 
               {/* Order / Booking Banner */}
-              <div className="bg-gradient-to-r from-cyan-600 to-violet-600 rounded-2xl p-5">
+              <div className="bg-gradient-to-r from-[#0b2545] to-cyan-600 rounded-2xl p-5 shadow-sm">
                 <p className="text-white font-extrabold mb-1 text-sm">Want similar results?</p>
-                <p className="text-white/70 text-xs mb-4">Set up a STEM Lab program in your school to train innovators.</p>
-                <Link to="/contact" className="block text-center bg-white text-[#0b2545] font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-cyan-50 transition-colors">
+                <p className="text-white/80 text-xs mb-4">Set up a STEM Lab program in your school to train innovators.</p>
+                <Link to="/contact" className="block text-center bg-white text-[#0b2545] font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-cyan-50 transition-colors shadow">
                   Contact Lab Consultant
                 </Link>
               </div>

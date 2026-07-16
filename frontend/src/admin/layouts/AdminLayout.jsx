@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import {
   Zap, LayoutDashboard, Package, FileText, Image,
   GraduationCap, Users, LogOut, Menu,
-  Quote, School, BookOpen, FolderOpen,
+  Quote, School, BookOpen, FolderOpen, ShoppingCart,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -17,6 +17,7 @@ const navItems = [
   { label: "Resources", path: "/admin/resources", icon: FolderOpen },
   { label: "Testimonials", path: "/admin/testimonials", icon: Quote },
   { label: "Partners", path: "/admin/partners", icon: School },
+  { label: "Orders", path: "/admin/orders", icon: ShoppingCart },
   { label: "Leads", path: "/admin/leads", icon: Users },
 ];
 

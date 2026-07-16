@@ -1,29 +1,17 @@
 const express = require("express");
+const {
+  submitContact,
+  getContacts,
+  updateContactStatus,
+  deleteContact,
+} = require("../controllers/contactController");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// GET Contact
-router.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "Contact Route Working",
-  });
-});
-
-// POST Contact Form
-router.post("/", (req, res) => {
-  const { name, email, subject, message } = req.body;
-
-  res.status(201).json({
-    success: true,
-    message: "Contact form submitted successfully",
-    data: {
-      name,
-      email,
-      subject,
-      message,
-    },
-  });
-});
+router.post("/", submitContact);
+router.get("/", protect, adminOnly, getContacts);
+router.patch("/:id/status", protect, adminOnly, updateContactStatus);
+router.delete("/:id", protect, adminOnly, deleteContact);
 
 module.exports = router;

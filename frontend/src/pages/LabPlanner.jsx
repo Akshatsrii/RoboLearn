@@ -238,7 +238,7 @@ export default function LabPlanner() {
     }
   };
 
-  const inputCls = "w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition-colors text-sm bg-white";
+  const inputCls = "w-full border border-slate-200 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 transition-colors text-sm bg-white";
 
   const sectionBg = (step) => currentStep >= step ? "opacity-100" : "opacity-50 pointer-events-none";
 
@@ -257,8 +257,8 @@ export default function LabPlanner() {
         .anim-fadeup { animation: fadeUp .6s ease both; }
         .anim-slidein { animation: slideIn .5s ease both; }
         .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: #0b2545; cursor: pointer; border: 3px solid #f59e0b; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-        input[type=range]::-moz-range-thumb { height: 20px; width: 20px; border-radius: 50%; background: #0b2545; cursor: pointer; border: 3px solid #f59e0b; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: #0b2545; cursor: pointer; border: 3px solid #06b6d4; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        input[type=range]::-moz-range-thumb { height: 20px; width: 20px; border-radius: 50%; background: #0b2545; cursor: pointer; border: 3px solid #06b6d4; }
         @media (prefers-reduced-motion: reduce) { .anim-fadeup, .anim-slidein, .pulse-dot { animation: none !important; } }
       `}</style>
 
@@ -271,12 +271,12 @@ export default function LabPlanner() {
         }} />
 
         <div className="relative max-w-5xl mx-auto px-6 text-center anim-fadeup">
-          <span className="inline-flex items-center gap-2 bg-amber-400/15 text-amber-300 border border-amber-400/30 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 pulse-dot" />
+          <span className="inline-flex items-center gap-2 bg-cyan-400/15 text-cyan-300 border border-cyan-400/30 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 pulse-dot" />
             Interactive Lab Configurator
           </span>
           <h1 className="mt-7 text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] text-white">
-            Plan Your School's <span className="text-amber-400">STEM Lab</span> in Minutes
+            Plan Your School's <span className="text-cyan-400">STEM Lab</span> in Minutes
           </h1>
           <p className="mt-5 text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Tell us about your school — we'll instantly recommend the right lab type, kits, curriculum level, and infrastructure requirements.
@@ -288,7 +288,7 @@ export default function LabPlanner() {
               { icon: ClipboardCheck, label: "Custom Proposals" },
             ].map(({ icon: Icon, label }) => (
               <span key={label} className="flex items-center gap-1.5">
-                <Icon size={14} className="text-amber-400" /> {label}
+                <Icon size={14} className="text-cyan-400" /> {label}
               </span>
             ))}
           </div>
@@ -310,7 +310,7 @@ export default function LabPlanner() {
                 }`}>
                   <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black ${
                     currentStep > i + 1 ? "bg-emerald-500 text-white" :
-                    currentStep === i + 1 ? "bg-amber-400 text-[#0b2545]" :
+                    currentStep === i + 1 ? "bg-cyan-400 text-[#0b2545]" :
                     "bg-slate-200 text-slate-500"
                   }`}>
                     {currentStep > i + 1 ? "✓" : i + 1}
@@ -338,9 +338,9 @@ export default function LabPlanner() {
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
                   <div className="flex justify-between items-center mb-3">
                     <label className="text-xs font-bold text-[#0b2545] uppercase tracking-wider flex items-center gap-1.5">
-                      <Users size={14} className="text-amber-500" /> Number of Students
+                      <Users size={14} className="text-cyan-500" /> Number of Students
                     </label>
-                    <span className="bg-[#0b2545] text-amber-400 text-sm font-bold px-3 py-1 rounded-full">
+                    <span className="bg-[#0b2545] text-cyan-400 text-sm font-bold px-3 py-1 rounded-full">
                       {students} Students
                     </span>
                   </div>
@@ -357,18 +357,18 @@ export default function LabPlanner() {
                 {/* Grade Selection */}
                 <div>
                   <label className="block text-xs font-bold text-[#0b2545] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <GraduationCap size={14} className="text-amber-500" /> Target Grades
+                    <GraduationCap size={14} className="text-cyan-500" /> Target Grades
                   </label>
                   <div className="grid grid-cols-3 gap-3">
                     {gradeOptions.map((g) => (
                       <button key={g.id} onClick={() => toggleGrade(g.id)}
                         className={`p-3 border rounded-xl text-center transition-all duration-200 ${
                           selectedGrades.includes(g.id)
-                            ? "border-amber-500 bg-amber-50 ring-1 ring-amber-400"
+                            ? "border-cyan-500 bg-cyan-50 ring-1 ring-cyan-400"
                             : "border-slate-200 hover:bg-slate-50"
                         }`}>
-                        <span className={`block text-sm font-bold ${selectedGrades.includes(g.id) ? "text-amber-700" : "text-[#0b2545]"}`}>{g.label}</span>
-                        <span className={`block text-[10px] mt-0.5 ${selectedGrades.includes(g.id) ? "text-amber-500" : "text-slate-400"}`}>{g.tag}</span>
+                        <span className={`block text-sm font-bold ${selectedGrades.includes(g.id) ? "text-cyan-700" : "text-[#0b2545]"}`}>{g.label}</span>
+                        <span className={`block text-[10px] mt-0.5 ${selectedGrades.includes(g.id) ? "text-cyan-500" : "text-slate-400"}`}>{g.tag}</span>
                       </button>
                     ))}
                   </div>
@@ -377,18 +377,18 @@ export default function LabPlanner() {
                 {/* Room Size */}
                 <div>
                   <label className="block text-xs font-bold text-[#0b2545] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <Ruler size={14} className="text-amber-500" /> Available Room Size
+                    <Ruler size={14} className="text-cyan-500" /> Available Room Size
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {roomSizes.map((r) => (
                       <button key={r.id} onClick={() => setRoom(r.id)}
                         className={`p-3 border rounded-xl text-center transition-all duration-200 ${
                           room === r.id
-                            ? "border-amber-500 bg-amber-50 ring-1 ring-amber-400"
+                            ? "border-cyan-500 bg-cyan-50 ring-1 ring-cyan-400"
                             : "border-slate-200 hover:bg-slate-50"
                         }`}>
-                        <span className={`block text-xs font-bold ${room === r.id ? "text-amber-700" : "text-[#0b2545]"}`}>{r.label}</span>
-                        <span className={`block text-[10px] mt-0.5 ${room === r.id ? "text-amber-500" : "text-slate-400"}`}>{r.tag}</span>
+                        <span className={`block text-xs font-bold ${room === r.id ? "text-cyan-700" : "text-[#0b2545]"}`}>{r.label}</span>
+                        <span className={`block text-[10px] mt-0.5 ${room === r.id ? "text-cyan-500" : "text-slate-400"}`}>{r.tag}</span>
                       </button>
                     ))}
                   </div>
@@ -397,18 +397,18 @@ export default function LabPlanner() {
                 {/* Budget Range */}
                 <div>
                   <label className="block text-xs font-bold text-[#0b2545] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                    <IndianRupee size={14} className="text-amber-500" /> Budget Range
+                    <IndianRupee size={14} className="text-cyan-500" /> Budget Range
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {budgetRanges.map((b) => (
                       <button key={b.id} onClick={() => { setBudget(b.id); setCurrentStep(Math.max(currentStep, 2)); }}
                         className={`p-3 border rounded-xl text-left transition-all duration-200 ${
                           budget === b.id
-                            ? "border-amber-500 bg-amber-50 ring-1 ring-amber-400"
+                            ? "border-cyan-500 bg-cyan-50 ring-1 ring-cyan-400"
                             : "border-slate-200 hover:bg-slate-50"
                         }`}>
-                        <span className={`block text-sm font-bold ${budget === b.id ? "text-amber-700" : "text-[#0b2545]"}`}>{b.label}</span>
-                        <span className={`block text-[10px] mt-0.5 ${budget === b.id ? "text-amber-500" : "text-slate-400"}`}>{b.tag}</span>
+                        <span className={`block text-sm font-bold ${budget === b.id ? "text-cyan-700" : "text-[#0b2545]"}`}>{b.label}</span>
+                        <span className={`block text-[10px] mt-0.5 ${budget === b.id ? "text-cyan-500" : "text-slate-400"}`}>{b.tag}</span>
                       </button>
                     ))}
                   </div>
@@ -427,12 +427,12 @@ export default function LabPlanner() {
                     <button key={f.id} onClick={() => { setFocus(f.id); setCurrentStep(3); }}
                       className={`flex flex-col text-left p-4 border rounded-2xl transition-all duration-200 group ${
                         focus === f.id
-                          ? "border-amber-500 bg-amber-50 ring-1 ring-amber-400 shadow-sm"
+                          ? "border-cyan-500 bg-cyan-50 ring-1 ring-cyan-400 shadow-sm"
                           : "border-slate-200 hover:bg-slate-50 hover:border-slate-300"
                       }`}>
-                      <f.icon size={22} className={focus === f.id ? "text-amber-600" : "text-slate-400 group-hover:text-slate-600"} />
-                      <span className={`block text-sm font-bold mt-2.5 ${focus === f.id ? "text-amber-700" : "text-[#0b2545]"}`}>{f.label}</span>
-                      <span className={`block text-[10px] mt-1 leading-snug ${focus === f.id ? "text-amber-500" : "text-slate-400"}`}>{f.desc}</span>
+                      <f.icon size={22} className={focus === f.id ? "text-cyan-600" : "text-slate-400 group-hover:text-slate-600"} />
+                      <span className={`block text-sm font-bold mt-2.5 ${focus === f.id ? "text-cyan-700" : "text-[#0b2545]"}`}>{f.label}</span>
+                      <span className={`block text-[10px] mt-1 leading-snug ${focus === f.id ? "text-cyan-500" : "text-slate-400"}`}>{f.desc}</span>
                     </button>
                   ))}
                 </div>
@@ -445,7 +445,7 @@ export default function LabPlanner() {
 
                 {/* Lab Recommendation Card */}
                 <div className="bg-gradient-to-br from-[#0b2545] to-[#13315c] rounded-3xl p-6 text-white shadow-xl anim-fadeup">
-                  <div className="flex items-center gap-2 text-amber-400 text-[10px] font-bold uppercase tracking-widest mb-4">
+                  <div className="flex items-center gap-2 text-cyan-400 text-[10px] font-bold uppercase tracking-widest mb-4">
                     <Lightbulb size={13} /> Your Recommended Lab
                   </div>
                   <h2 className="text-xl font-bold leading-tight">{recommendation.labType}</h2>
@@ -456,27 +456,27 @@ export default function LabPlanner() {
                   <div className="grid grid-cols-2 gap-3 mt-5">
                     <div className="bg-white/10 rounded-xl p-3">
                       <span className="block text-[10px] text-slate-400 font-semibold">Workstations</span>
-                      <span className="text-lg font-extrabold text-amber-400">{recommendation.workstations}</span>
+                      <span className="text-lg font-extrabold text-cyan-400">{recommendation.workstations}</span>
                     </div>
                     <div className="bg-white/10 rounded-xl p-3">
                       <span className="block text-[10px] text-slate-400 font-semibold">Training Hours</span>
-                      <span className="text-lg font-extrabold text-amber-400">{recommendation.trainingHours}h</span>
+                      <span className="text-lg font-extrabold text-cyan-400">{recommendation.trainingHours}h</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Curriculum Level */}
-                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
-                  <div className="flex items-center gap-2 text-amber-700 text-[10px] font-bold uppercase tracking-widest mb-2">
+                <div className="bg-cyan-50 border border-cyan-200 rounded-2xl p-5">
+                  <div className="flex items-center gap-2 text-cyan-700 text-[10px] font-bold uppercase tracking-widest mb-2">
                     <BookOpen size={13} /> Curriculum Level
                   </div>
-                  <p className="text-sm font-semibold text-amber-900">{recommendation.curriculumLevel}</p>
+                  <p className="text-sm font-semibold text-cyan-900">{recommendation.curriculumLevel}</p>
                 </div>
 
                 {/* Suggested Kits */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
                   <div className="flex items-center gap-2 text-[#0b2545] text-[10px] font-bold uppercase tracking-widest mb-4">
-                    <Package size={13} className="text-amber-500" /> Suggested Kits & Equipment
+                    <Package size={13} className="text-cyan-500" /> Suggested Kits & Equipment
                   </div>
                   <div className="divide-y divide-slate-100 text-xs">
                     {recommendation.kits.map((kit, i) => (
@@ -485,7 +485,7 @@ export default function LabPlanner() {
                           <span className="font-semibold text-slate-700 block truncate">{kit.name}</span>
                           <span className="text-slate-400 text-[10px]">{kit.price}</span>
                         </div>
-                        <span className="bg-[#0b2545] text-amber-400 px-2 py-0.5 rounded text-[10px] font-bold shrink-0">
+                        <span className="bg-[#0b2545] text-cyan-400 px-2 py-0.5 rounded text-[10px] font-bold shrink-0">
                           ×{kit.qty}
                         </span>
                       </div>
@@ -496,7 +496,7 @@ export default function LabPlanner() {
                 {/* Requirements */}
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
                   <div className="flex items-center gap-2 text-[#0b2545] text-[10px] font-bold uppercase tracking-widest mb-3">
-                    <ClipboardCheck size={13} className="text-amber-500" /> Infrastructure Requirements
+                    <ClipboardCheck size={13} className="text-cyan-500" /> Infrastructure Requirements
                   </div>
                   <div className="space-y-2">
                     {recommendation.requirements.map((req, i) => (
@@ -520,7 +520,7 @@ export default function LabPlanner() {
                 {/* CTA Button */}
                 <button
                   onClick={() => setShowProposal(true)}
-                  className="w-full bg-amber-500 hover:bg-amber-600 text-[#0b2545] py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors shadow-lg text-sm"
+                  className="w-full bg-[#0b2545] hover:bg-cyan-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors shadow-lg text-sm"
                 >
                   <Send size={16} /> Request Custom Proposal
                 </button>
@@ -548,7 +548,7 @@ export default function LabPlanner() {
                   <div className="flex justify-between"><span className="text-slate-400">Students:</span><span className="font-bold text-slate-700">{students}</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">Focus:</span><span className="font-bold text-slate-700">{focusAreas.find(f => f.id === focus)?.label}</span></div>
                 </div>
-                <button onClick={() => { setShowProposal(false); setProposalSuccess(false); }} className="mt-6 text-amber-600 font-semibold text-sm hover:underline">Close</button>
+                <button onClick={() => { setShowProposal(false); setProposalSuccess(false); }} className="mt-6 text-cyan-600 font-semibold text-sm hover:underline">Close</button>
               </div>
             ) : (
               <>
@@ -572,7 +572,7 @@ export default function LabPlanner() {
                   <textarea name="message" rows={2} placeholder="Any special requirements or questions?" value={proposalForm.message} onChange={(e) => setProposalForm(p => ({ ...p, message: e.target.value }))} className={inputCls} />
                   {proposalError && <p className="text-red-500 text-xs font-semibold">{proposalError}</p>}
                   <button type="submit" disabled={proposalLoading}
-                    className="w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-[#0b2545] py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors shadow-md text-sm">
+                    className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-60 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors shadow-md text-sm">
                     {proposalLoading ? "Submitting..." : <><Send size={15} /> Submit Proposal Request</>}
                   </button>
                 </form>

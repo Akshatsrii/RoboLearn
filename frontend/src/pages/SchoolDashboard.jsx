@@ -52,8 +52,8 @@ export default function SchoolDashboard() {
       />
 
       {/* ── HERO ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#061B33] py-24 lg:py-28">
-        <svg className="absolute inset-0 w-full h-full opacity-[0.16]" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#040f1c] via-[#061b33] to-[#010812] py-24 lg:py-32 shadow-2xl">
+        <svg className="absolute inset-0 w-full h-full opacity-[0.25]" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" fill="none">
           <g stroke="#22d3ee" strokeWidth="1.2">
             <path className="circuit-line" d="M0 90 H260 V210 H520" />
             <path className="circuit-line" d="M1200 60 H880 V180 H640" />
@@ -64,32 +64,35 @@ export default function SchoolDashboard() {
           </g>
         </svg>
 
-        <div className="relative max-w-6xl mx-auto px-6 anim-fadeup">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <span className="inline-flex items-center gap-2 bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 px-4 py-1.5 rounded-full text-sm font-medium mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[140px] pointer-events-none mix-blend-screen" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[140px] pointer-events-none mix-blend-screen" />
+
+        <div className="relative max-w-6xl mx-auto px-6 anim-fadeup z-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md text-cyan-300 border border-white/10 px-5 py-2 rounded-full text-sm font-bold tracking-widest uppercase mb-6 shadow-[0_0_20px_rgba(34,211,238,0.15)]">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                 School Partner Portal
               </span>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] text-white">
-                School <span className="text-cyan-400">Dashboard</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-white tracking-tight drop-shadow-lg">
+                School <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Dashboard</span>
               </h1>
-              <p className="mt-4 text-slate-300 text-base max-w-xl leading-relaxed">
+              <p className="mt-6 text-slate-300 text-lg max-w-xl leading-relaxed font-medium">
                 Track your robotics program, manage lab support tickets, and monitor student certificate progress — all in one place.
               </p>
             </div>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
               <Link
                 to="/contact"
-                className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 py-4 rounded-2xl text-sm transition-all transform hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(34,211,238,0.3)]"
               >
-                <Bell size={14} /> Contact Program Manager
+                <Bell size={18} /> Contact Program Manager
               </Link>
               <Link
                 to="/products"
-                className="flex items-center gap-2 bg-white/10 border border-white/20 text-white px-5 py-2.5 rounded-xl text-sm hover:bg-white/20 transition-colors"
+                className="flex items-center justify-center gap-2 bg-white/5 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-2xl text-sm font-bold hover:bg-white/10 hover:border-white/30 transition-all transform hover:-translate-y-1 hover:shadow-lg"
               >
-                <ShoppingBag size={14} /> Order Supplies
+                <ShoppingBag size={18} /> Order Supplies
               </Link>
             </div>
           </div>
@@ -147,20 +150,21 @@ export default function SchoolDashboard() {
 
               {/* Info Cards — what you get when linked */}
               <div>
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">What's included in your program</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 px-1">What's included in your program</h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {[
                     { icon: BarChart3, title: "Progress Tracking", desc: "Monitor curriculum completion and batch progress in real time." },
                     { icon: ShieldAlert, title: "Lab Support Tickets", desc: "File and track hardware/software maintenance requests." },
                     { icon: Award, title: "Student Certificates", desc: "View and verify all certificates issued to your students." },
                     { icon: ClipboardList, title: "Curriculum Access", desc: "Download lesson plans, worksheets, and project guides." },
                   ].map(({ icon: Icon, title, desc }) => (
-                    <div key={title} className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-cyan-200 hover:shadow-sm transition-all">
-                      <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-3">
-                        <Icon size={18} className="text-[#0b2545]" />
+                    <div key={title} className="group relative overflow-hidden bg-white/80 backdrop-blur-xl border border-slate-200/80 rounded-3xl p-6 hover:border-cyan-400 hover:shadow-[0_20px_40px_-15px_rgba(34,211,238,0.15)] hover:-translate-y-1 transition-all duration-500">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 rounded-full blur-xl -mr-8 -mt-8 group-hover:scale-150 transition-transform duration-700" />
+                      <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 group-hover:bg-gradient-to-br group-hover:from-cyan-500 group-hover:to-blue-600 transition-all duration-500 relative z-10">
+                        <Icon size={20} className="text-[#0b2545] group-hover:text-white transition-colors duration-500" />
                       </div>
-                      <h4 className="font-bold text-[#0b2545] text-sm mb-1">{title}</h4>
-                      <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+                      <h4 className="font-extrabold text-[#0b2545] text-base mb-2 relative z-10">{title}</h4>
+                      <p className="text-sm text-slate-500 leading-relaxed font-medium relative z-10">{desc}</p>
                     </div>
                   ))}
                 </div>

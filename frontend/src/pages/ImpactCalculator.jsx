@@ -79,25 +79,25 @@ export default function ImpactCalculator() {
         title="School STEM Impact Calculator | RoboLearn"
         description="Calculate the real educational impact of a RoboLearn robotics program at your school — students impacted, training hours, projects, and certifications."
       />
-      <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900">
 
         {/* ── Hero ──────────────────────────────────────── */}
-        <section className="relative pt-28 pb-12 px-6 text-center overflow-hidden">
+        <section className="relative pt-28 pb-12 px-6 text-center overflow-hidden bg-[#061B33]">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl" />
+            <div className="absolute top-20 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl" />
           </div>
           <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <span className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-sm font-semibold px-4 py-2 rounded-full mb-6">
               <BarChart3 size={15} /> School Impact Calculator
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-5 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-5 leading-tight text-white">
               Measure Your School's{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">
                 Educational Impact
               </span>
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
               Select a program and input your student strength to calculate concrete metrics showing learning outcomes, project outputs, and teacher enablement.
             </p>
           </div>
@@ -111,23 +111,23 @@ export default function ImpactCalculator() {
               <button
                 key={prog.id}
                 onClick={() => setSelectedProgram(prog)}
-                className={`text-left p-6 rounded-2xl border-2 transition-all duration-300 ${
+                className={`text-left p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
                   selectedProgram.id === prog.id
-                    ? "border-cyan-500 bg-cyan-500/10 shadow-lg shadow-cyan-500/20"
-                    : "border-white/10 bg-white/5 hover:border-white/30"
+                    ? "border-cyan-500 bg-cyan-50 shadow-sm"
+                    : "border-slate-200 bg-white hover:border-cyan-400"
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full">
+                  <span className="text-xs font-bold text-cyan-700 bg-cyan-100 px-3 py-1 rounded-full">
                     {prog.badge}
                   </span>
-                  {selectedProgram.id === prog.id && <CheckCircle2 size={18} className="text-cyan-400" />}
+                  {selectedProgram.id === prog.id && <CheckCircle2 size={18} className="text-cyan-600" />}
                 </div>
-                <h3 className="font-bold text-white text-lg mb-2">{prog.name}</h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">{prog.name}</h3>
                 <div className="space-y-1">
                   {prog.outcomes.map((o, i) => (
-                    <div key={i} className="flex items-center gap-2 text-slate-400 text-sm">
-                      <ChevronRight size={12} className="text-cyan-400 flex-shrink-0" />
+                    <div key={i} className="flex items-center gap-2 text-slate-600 text-sm">
+                      <ChevronRight size={12} className="text-cyan-600 flex-shrink-0" />
                       {o}
                     </div>
                   ))}
@@ -140,58 +140,58 @@ export default function ImpactCalculator() {
 
             {/* ── Controls ──────────────────────────────────── */}
             <div className="lg:col-span-1 space-y-6">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h2 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
-                  <School size={18} className="text-cyan-400" /> Input parameters
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+                <h2 className="text-lg font-bold text-[#0b2545] mb-5 flex items-center gap-2">
+                  <School size={18} className="text-cyan-600" /> Input parameters
                 </h2>
 
                 {/* Students */}
                 <div className="mb-6">
-                  <label className="flex justify-between text-sm text-slate-300 mb-2">
+                  <label className="flex justify-between text-sm text-slate-600 mb-2">
                     <span className="flex items-center gap-1"><Users size={13} /> Students Enrolled</span>
-                    <span className="font-bold text-cyan-400">{students}</span>
+                    <span className="font-bold text-cyan-600">{students}</span>
                   </label>
                   <input type="range" min={10} max={1000} step={10} value={students}
                     onChange={e => setStudents(Number(e.target.value))}
-                    className="w-full accent-cyan-500" />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1"><span>10</span><span>1000</span></div>
+                    className="w-full accent-cyan-600 cursor-pointer" />
+                  <div className="flex justify-between text-xs text-slate-400 mt-1"><span>10</span><span>1000</span></div>
                 </div>
 
                 {/* Years */}
                 <div className="mb-6">
-                  <label className="flex justify-between text-sm text-slate-300 mb-2">
+                  <label className="flex justify-between text-sm text-slate-600 mb-2">
                     <span className="flex items-center gap-1"><CalendarDays size={13} /> Plan Horizon (Years)</span>
-                    <span className="font-bold text-cyan-400">{years} Yr</span>
+                    <span className="font-bold text-cyan-600">{years} Yr</span>
                   </label>
                   <input type="range" min={1} max={5} step={1} value={years}
                     onChange={e => setYears(Number(e.target.value))}
-                    className="w-full accent-cyan-500" />
-                  <div className="flex justify-between text-xs text-slate-500 mt-1"><span>1</span><span>5</span></div>
+                    className="w-full accent-cyan-600 cursor-pointer" />
+                  <div className="flex justify-between text-xs text-slate-400 mt-1"><span>1</span><span>5</span></div>
                 </div>
 
                 <button
                   onClick={() => { setStudents(120); setYears(3); setSelectedProgram(programs[1]); }}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
                 >
                   <RotateCcw size={13} /> Reset to defaults
                 </button>
               </div>
 
               {/* Recommended Program Card */}
-              <div className="bg-gradient-to-br from-violet-500/10 to-cyan-500/10 border border-violet-500/30 rounded-2xl p-6">
-                <h3 className="text-sm font-semibold text-slate-300 mb-3">Recommended Program Summary</h3>
+              <div className="bg-cyan-50/50 border border-cyan-100 rounded-2xl p-6">
+                <h3 className="text-sm font-semibold text-[#0b2545] mb-3">Recommended Program Summary</h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Class Focus</span>
-                    <span className="text-white font-bold">{selectedProgram.badge}</span>
+                    <span className="text-slate-500">Class Focus</span>
+                    <span className="text-slate-800 font-bold">{selectedProgram.badge}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Projects / Year</span>
-                    <span className="text-emerald-400 font-bold">{selectedProgram.projectsPerYear}</span>
+                    <span className="text-slate-500">Projects / Year</span>
+                    <span className="text-emerald-600 font-bold">{selectedProgram.projectsPerYear}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Hours / Student / Yr</span>
-                    <span className="text-cyan-400 font-bold">{selectedProgram.hoursPerWeek * selectedProgram.weeksPerYear} Hrs</span>
+                    <span className="text-slate-500">Hours / Student / Yr</span>
+                    <span className="text-cyan-600 font-bold">{selectedProgram.hoursPerWeek * selectedProgram.weeksPerYear} Hrs</span>
                   </div>
                 </div>
               </div>
@@ -201,27 +201,27 @@ export default function ImpactCalculator() {
             <div className="lg:col-span-2">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 {statCards.map(({ icon: Icon, label, key, suffix, color }) => (
-                  <div key={key} className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col gap-2 hover:border-white/20 transition-all justify-between">
+                  <div key={key} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col gap-2 hover:border-cyan-300 hover:shadow-md transition-all justify-between">
                     <div>
                       <Icon size={20} style={{ color }} className="mb-2" />
-                      <div className="text-xs text-slate-400 mb-1">{label}</div>
+                      <div className="text-xs text-slate-500 mb-1">{label}</div>
                     </div>
-                    <div className="text-xl font-extrabold text-white leading-tight">
+                    <div className="text-xl font-extrabold text-slate-900 leading-tight">
                       {fmt(calc[key])}
-                      {suffix && <span className="text-xs font-medium text-slate-400 ml-1 block mt-1">{suffix}</span>}
+                      {suffix && <span className="text-xs font-medium text-slate-500 ml-1 block mt-1">{suffix}</span>}
                     </div>
                   </div>
                 ))}
               </div>
 
               {/* Certifications */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <GraduationCap size={16} className="text-amber-400" /> Student Certifications
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-6">
+                <h3 className="font-semibold text-[#0b2545] mb-3 flex items-center gap-2">
+                  <GraduationCap size={16} className="text-amber-500" /> Student Certifications
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedProgram.certifications.map((c, i) => (
-                    <span key={i} className="bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-full">
+                    <span key={i} className="bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-full">
                       {c}
                     </span>
                   ))}
@@ -229,27 +229,27 @@ export default function ImpactCalculator() {
               </div>
 
               {/* Learning Outcomes */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-6">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <Lightbulb size={16} className="text-cyan-400" /> Real Learning Outcomes
+              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-6">
+                <h3 className="font-semibold text-[#0b2545] mb-3 flex items-center gap-2">
+                  <Lightbulb size={16} className="text-cyan-600" /> Real Learning Outcomes
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {selectedProgram.outcomes.map((o, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-slate-300">
-                      <CheckCircle2 size={14} className="text-emerald-400 flex-shrink-0" />{o}
+                    <div key={i} className="flex items-center gap-2 text-sm text-slate-700">
+                      <CheckCircle2 size={14} className="text-emerald-500 flex-shrink-0" />{o}
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* CTA */}
-              <div className="bg-gradient-to-r from-cyan-600 to-violet-600 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="bg-gradient-to-r from-[#0b2545] to-cyan-600 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
                 <div>
                   <p className="text-white font-bold text-lg">Ready to bring this to your school?</p>
-                  <p className="text-white/70 text-sm">Get a free consultation and custom proposal in 24 hours.</p>
+                  <p className="text-white/80 text-sm">Get a free consultation and custom proposal in 24 hours.</p>
                 </div>
                 <div className="flex gap-3 flex-wrap">
-                  <Link to="/contact" className="bg-white text-[#0b2545] font-bold px-5 py-2.5 rounded-xl hover:bg-cyan-50 transition-colors flex items-center gap-2 text-xs">
+                  <Link to="/contact" className="bg-white text-[#0b2545] font-bold px-5 py-2.5 rounded-xl hover:bg-cyan-50 transition-colors flex items-center gap-2 text-xs shadow">
                     Book Free Consultation <ArrowRight size={15} />
                   </Link>
                   <Link to="/lab-setup" className="border border-white/40 text-white px-5 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2 text-xs">

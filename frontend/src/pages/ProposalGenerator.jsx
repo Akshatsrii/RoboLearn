@@ -68,21 +68,21 @@ export default function ProposalGenerator() {
         title="Personalized Proposal Generator | RoboLearn"
         description="Principals can generate a customized, printable proposal for installing a STEM robotics lab in their school."
       />
-      <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white pt-24 pb-20 px-6">
+      <div className="min-h-screen bg-slate-50 text-slate-900 pt-24 pb-20 px-6">
         <div className="max-w-5xl mx-auto grid md:grid-cols-[1.1fr_1.3fr] gap-10">
 
           {/* Left Panel: Parameters Form */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 self-start shadow-xl">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 self-start shadow-md text-slate-800">
             <div>
-              <span className="text-xs font-bold text-cyan-400 uppercase bg-cyan-500/10 px-3 py-1 rounded-full inline-block mb-3">Principal Configurator</span>
-              <h1 className="text-2xl font-extrabold text-white">Generate Lab Proposal</h1>
-              <p className="text-xs text-slate-400 mt-1">Configure your target capacity and focus to instantly render your proposal document.</p>
+              <span className="text-xs font-bold text-cyan-700 uppercase bg-cyan-100 px-3 py-1 rounded-full inline-block mb-3">Principal Configurator</span>
+              <h1 className="text-2xl font-extrabold text-[#0b2545]">Generate Lab Proposal</h1>
+              <p className="text-xs text-slate-500 mt-1">Configure your target capacity and focus to instantly render your proposal document.</p>
             </div>
 
             <form onSubmit={handleSubmitRequest} className="space-y-4 text-slate-900">
               <div>
-                <label className="text-[10px] text-slate-400 uppercase font-bold block mb-1">School Name</label>
-                <input required value={formData.schoolName} onChange={e => setFormData(p => ({ ...p, schoolName: e.target.value }))} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-cyan-500/40" placeholder="e.g. Heritage School, Pune" />
+                <label className="text-[10px] text-slate-500 uppercase font-bold block mb-1">School Name</label>
+                <input required value={formData.schoolName} onChange={e => setFormData(p => ({ ...p, schoolName: e.target.value }))} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500 outline-none" placeholder="e.g. Heritage School, Pune" />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -122,11 +122,11 @@ export default function ProposalGenerator() {
               </div>
 
               {submitted ? (
-                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-center text-xs text-emerald-300 font-bold flex items-center justify-center gap-1.5">
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center text-xs text-emerald-800 font-bold flex items-center justify-center gap-1.5">
                   <CheckCircle2 size={13} /> Request Submitted Successfully!
                 </div>
               ) : (
-                <button type="submit" disabled={loading} className="w-full bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg">
+                <button type="submit" disabled={loading} className="w-full bg-[#0b2545] hover:bg-cyan-600 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg cursor-pointer">
                   <Send size={13} /> Request Official Proposal Signoff
                 </button>
               )}
@@ -134,36 +134,36 @@ export default function ProposalGenerator() {
           </div>
 
           {/* Right Panel: Rendered Proposal Document Preview */}
-          <div className="bg-[#0c182c] border-2 border-cyan-400/20 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-md relative text-slate-800">
             <div className="absolute top-4 right-4 flex gap-2 z-10">
-              <button onClick={() => window.print()} className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white transition" title="Print Proposal">
+              <button onClick={() => window.print()} className="p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 transition cursor-pointer" title="Print Proposal">
                 <Printer size={15} />
               </button>
             </div>
 
             {/* Document Header */}
-            <div className="border-b border-white/10 pb-5">
-              <div className="flex items-center gap-2 text-cyan-400 font-mono text-[10px] font-bold tracking-wider mb-2">
+            <div className="border-b border-slate-200 pb-5">
+              <div className="flex items-center gap-2 text-cyan-600 font-mono text-[10px] font-bold tracking-wider mb-2">
                 <FileText size={12} /> OFFICIAL LAB SPECIFICATION SHEET
               </div>
-              <h2 className="text-xl font-extrabold text-white leading-tight">{formData.schoolName || "[School Name Placeholder]"}</h2>
-              <p className="text-xs text-slate-400 mt-1">Proposed by: RoboLearn Academic Setup Team · Date: July 2026</p>
+              <h2 className="text-xl font-extrabold text-slate-900 leading-tight">{formData.schoolName || "[School Name Placeholder]"}</h2>
+              <p className="text-xs text-slate-500 mt-1">Proposed by: RoboLearn Academic Setup Team · Date: July 2026</p>
             </div>
 
             {/* Document Content */}
-            <div className="space-y-5 text-slate-300 text-xs">
+            <div className="space-y-5 text-slate-600 text-xs">
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Recommended Lab Setup</span>
-                <p className="text-sm font-extrabold text-cyan-300 mt-0.5">{proposal.labType}</p>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Recommended Lab Setup</span>
+                <p className="text-sm font-extrabold text-[#0b2545] mt-0.5">{proposal.labType}</p>
                 <p className="text-[10px] text-slate-500 mt-0.5">Est. Setup Investment Bracket: {proposal.estCost}</p>
               </div>
 
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block mb-1">Curriculum &amp; Course Syllabus Modules</span>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide block mb-1">Curriculum &amp; Course Syllabus Modules</span>
                 <div className="space-y-1">
                   {proposal.modules.map((mod, i) => (
-                    <div key={i} className="flex items-center gap-2 bg-white/5 border border-white/5 p-2 rounded-lg">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    <div key={i} className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-2 rounded-lg text-slate-700">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
                       <span>{mod}</span>
                     </div>
                   ))}
@@ -172,31 +172,31 @@ export default function ProposalGenerator() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block">Teacher Training Hour Allocation</span>
-                  <p className="text-xs font-bold text-white mt-1">{proposal.trainingHours} (NITI Aligned)</p>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide block">Teacher Training Hour Allocation</span>
+                  <p className="text-xs font-bold text-slate-800 mt-1">{proposal.trainingHours} (NITI Aligned)</p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block">Deployment Timeline</span>
-                  <p className="text-xs font-bold text-white mt-1">4–6 Weeks (End-to-End)</p>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide block">Deployment Timeline</span>
+                  <p className="text-xs font-bold text-slate-800 mt-1">4–6 Weeks (End-to-End)</p>
                 </div>
               </div>
 
               {/* Implementation timeline graphic */}
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide block mb-2">Implementation Roadmap</span>
-                <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 bg-black/30 p-3 rounded-lg border border-white/5">
-                  <div className="text-center"><span className="block font-bold text-cyan-300">W1</span>Procure</div>
-                  <ChevronRight size={12} className="text-slate-600" />
-                  <div className="text-center"><span className="block font-bold text-cyan-300">W2-3</span>Wiring</div>
-                  <ChevronRight size={12} className="text-slate-600" />
-                  <div className="text-center"><span className="block font-bold text-cyan-300">W4</span>Assembly</div>
-                  <ChevronRight size={12} className="text-slate-600" />
-                  <div className="text-center"><span className="block font-bold text-cyan-300">W5</span>Launch</div>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wide block mb-2">Implementation Roadmap</span>
+                <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                  <div className="text-center"><span className="block font-bold text-cyan-600">W1</span>Procure</div>
+                  <ChevronRight size={12} className="text-slate-400" />
+                  <div className="text-center"><span className="block font-bold text-cyan-600">W2-3</span>Wiring</div>
+                  <ChevronRight size={12} className="text-slate-400" />
+                  <div className="text-center"><span className="block font-bold text-cyan-600">W4</span>Assembly</div>
+                  <ChevronRight size={12} className="text-slate-400" />
+                  <div className="text-center"><span className="block font-bold text-cyan-600">W5</span>Launch</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-black/30 border border-white/5 p-3 rounded-xl text-center text-[10px] text-slate-500 font-mono">
+            <div className="bg-slate-50 border border-slate-100 p-3 rounded-xl text-center text-[10px] text-slate-500 font-mono">
               System Generated Specifications · RoboLearn CRM Lead Registered
             </div>
           </div>

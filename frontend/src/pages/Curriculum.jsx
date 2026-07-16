@@ -201,7 +201,7 @@ export default function Curriculum() {
   };
 
   return (
-    <div className="bg-slate-900 text-white min-h-screen pt-20 pb-16">
+    <div className="bg-slate-50 text-slate-900 min-h-screen pt-20 pb-16">
       <SEO
         title="Interactive STEM & Robotics Curriculum"
         description="NEP 2020 and CBSE aligned grade-wise robotics syllabus for primary, middle, and senior high schools, with sample coding projects and hardware kit requirements."
@@ -230,8 +230,8 @@ export default function Curriculum() {
 
       {/* ============ INTERACTIVE CURRICULUM EXPLORER ============ */}
       <section className="py-16 max-w-6xl mx-auto px-6">
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl">
-          <h3 className="text-lg font-bold text-cyan-400 mb-6 flex items-center gap-2">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md">
+          <h3 className="text-lg font-bold text-[#0b2545] mb-6 flex items-center gap-2">
             <Layers size={18} /> Drill-Down Curriculum Board
           </h3>
 
@@ -239,16 +239,16 @@ export default function Curriculum() {
             
             {/* Step 1: Grade Selection */}
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">1. Select Grade</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">1. Select Grade</p>
               <div className="space-y-2">
                 {Object.keys(EXPLORER_DATA).map((key) => (
                   <button
                     key={key}
                     onClick={() => handleGradeChange(key)}
-                    className={`w-full text-left p-3.5 rounded-xl border text-sm font-bold transition-all ${
+                    className={`w-full text-left p-3.5 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
                       selectedGrade === key
-                        ? "bg-[#0b2545] border-cyan-400 text-white shadow-lg"
-                        : "bg-white/5 border-white/10 text-slate-300 hover:border-white/30"
+                        ? "bg-[#0b2545] border-cyan-400 text-white shadow-md"
+                        : "bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100"
                     }`}
                   >
                     {EXPLORER_DATA[key].label}
@@ -259,16 +259,16 @@ export default function Curriculum() {
 
             {/* Step 2: Subject Selector */}
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">2. Select Subject</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">2. Select Subject</p>
               <div className="space-y-2">
                 {Object.keys(gradeData.subjects).map((key) => (
                   <button
                     key={key}
                     onClick={() => handleSubjectChange(key)}
-                    className={`w-full text-left p-3.5 rounded-xl border text-sm font-bold transition-all ${
+                    className={`w-full text-left p-3.5 rounded-xl border text-sm font-bold transition-all cursor-pointer ${
                       activeSubjectKey === key
-                        ? "bg-[#0b2545] border-cyan-400 text-white shadow-lg"
-                        : "bg-white/5 border-white/10 text-slate-300 hover:border-white/30"
+                        ? "bg-[#0b2545] border-cyan-400 text-white shadow-md"
+                        : "bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100"
                     }`}
                   >
                     {gradeData.subjects[key].label}
@@ -279,11 +279,11 @@ export default function Curriculum() {
 
             {/* Step 3: Level & Module Selector */}
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">3. Level &amp; Modules</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">3. Level &amp; Modules</p>
               <div className="space-y-4">
                 {/* Level Tag */}
-                <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-3 text-center">
-                  <span className="text-xs text-cyan-300 font-bold uppercase tracking-wider">Level: {levelData.label}</span>
+                <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-3 text-center">
+                  <span className="text-xs text-cyan-800 font-bold uppercase tracking-wider">Level: {levelData.label}</span>
                 </div>
                 
                 {/* Modules list */}
@@ -292,10 +292,10 @@ export default function Curriculum() {
                     <button
                       key={key}
                       onClick={() => setSelectedModule(key)}
-                      className={`w-full text-left p-3 rounded-xl border text-xs font-semibold transition-all ${
+                      className={`w-full text-left p-3 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
                         activeModuleKey === key
-                          ? "bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-md"
-                          : "bg-white/5 border-white/10 text-slate-300 hover:border-white/30"
+                          ? "bg-cyan-100 border-cyan-400 text-cyan-800 shadow-sm"
+                          : "bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-100"
                       }`}
                     >
                       {levelData.modules[key].label}
@@ -306,17 +306,17 @@ export default function Curriculum() {
             </div>
 
             {/* Step 4: Output Project & Skills Learned */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 lg:col-span-1">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">4. Suggested Projects</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 lg:col-span-1">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">4. Suggested Projects</p>
               
               <div className="space-y-4">
                 {moduleData.projects.map((proj, idx) => (
-                  <div key={idx} className="bg-gradient-to-br from-[#0b2545] to-[#123057] border border-cyan-400/20 rounded-xl p-4">
-                    <span className="text-xs font-bold text-cyan-300 uppercase tracking-wider block mb-1">Project</span>
-                    <h4 className="font-extrabold text-sm text-white mb-2">{proj.name}</h4>
+                  <div key={idx} className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 text-slate-800">
+                    <span className="text-xs font-bold text-cyan-600 uppercase tracking-wider block mb-1">Project</span>
+                    <h4 className="font-extrabold text-sm text-[#0b2545] mb-2">{proj.name}</h4>
                     
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Skills Learned</span>
-                    <p className="text-xs text-emerald-300 font-mono leading-relaxed bg-black/30 p-2.5 rounded-lg border border-white/5">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Skills Learned</span>
+                    <p className="text-xs text-emerald-700 font-mono leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-200">
                       {proj.skills}
                     </p>
                   </div>
@@ -328,18 +328,18 @@ export default function Curriculum() {
       </section>
 
       {/* ============ FEATURES ============ */}
-      <section className="py-20 bg-black/20">
+      <section className="py-20 bg-white border-t border-b border-slate-200">
         <div className="relative max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-cyan-400 font-semibold text-sm tracking-wide uppercase">Structured Syllabus</span>
-            <h2 className="mt-3 text-3xl font-bold text-white">Full-Suite Academic Curriculum Pack</h2>
+            <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">Structured Syllabus</span>
+            <h2 className="mt-3 text-3xl font-bold text-[#0b2545]">Full-Suite Academic Curriculum Pack</h2>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f) => (
-              <div key={f} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4 hover:border-cyan-400/40 hover:bg-white/[0.07] transition-all">
-                <CheckCircle size={18} className="text-cyan-400 flex-shrink-0" />
-                <span className="text-slate-200 font-medium text-sm">{f}</span>
+              <div key={f} className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-cyan-400/40 hover:bg-cyan-50/20 transition-all shadow-sm">
+                <CheckCircle size={18} className="text-cyan-600 flex-shrink-0" />
+                <span className="text-slate-700 font-medium text-sm">{f}</span>
               </div>
             ))}
           </div>

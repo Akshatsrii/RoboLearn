@@ -92,22 +92,22 @@ void loop() {
         title="Virtual STEM Playground | RoboLearn"
         description="Build virtual circuits and test logical programs with Arduino, LEDs, motors, and ultrasonic sensors."
       />
-      <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900">
 
         {/* ── Hero ──────────────────────────────────────── */}
-        <section className="relative pt-28 pb-12 px-6 text-center">
+        <section className="relative pt-28 pb-12 px-6 text-center bg-[#061B33]">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-16 left-1/3 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl" />
+            <div className="absolute top-16 left-1/3 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-indigo-500/5 rounded-full blur-3xl" />
           </div>
           <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/30 text-violet-300 text-sm font-semibold px-4 py-2 rounded-full mb-5">
+            <span className="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 text-sm font-semibold px-4 py-2 rounded-full mb-5">
               <Play size={14} /> Virtual Playground
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-              STEM <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Project Simulator</span>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
+              STEM <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Project Simulator</span>
             </h1>
-            <p className="text-slate-400 text-lg">
+            <p className="text-slate-300 text-lg">
               Drag components onto the breadboard canvas, click "Wire Components" to connect them, and run your Arduino loop in real-time!
             </p>
           </div>
@@ -117,8 +117,8 @@ void loop() {
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_320px] gap-6">
 
             {/* 1. COMPONENT DRAWER (Left) */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
-              <h3 className="text-sm font-bold text-slate-300 border-b border-white/10 pb-2">Components Box</h3>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 space-y-4">
+              <h3 className="text-sm font-bold text-[#0b2545] border-b border-slate-200 pb-2">Components Box</h3>
               <div className="space-y-3">
                 {SPARE_COMPONENTS.map(comp => {
                   const Icon = comp.icon;
@@ -130,16 +130,16 @@ void loop() {
                       disabled={placed}
                       className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${
                         placed
-                          ? "bg-white/5 border-dashed border-white/10 opacity-50 cursor-not-allowed"
-                          : "bg-white/5 border-white/10 hover:border-violet-500/50 hover:bg-white/[0.08]"
+                          ? "bg-slate-50 border-dashed border-slate-200 opacity-50 cursor-not-allowed"
+                          : "bg-slate-50 border-slate-200 hover:border-cyan-500/50 hover:bg-cyan-50/20 text-slate-700 cursor-pointer"
                       }`}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400 shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center text-cyan-600 shrink-0">
                         <Icon size={16} />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-white">{comp.name}</p>
-                        <p className="text-[10px] text-slate-400 leading-tight">{comp.desc}</p>
+                        <p className="text-xs font-bold text-[#0b2545]">{comp.name}</p>
+                        <p className="text-[10px] text-slate-500 leading-tight">{comp.desc}</p>
                       </div>
                     </button>
                   );
@@ -147,7 +147,7 @@ void loop() {
               </div>
               <button
                 onClick={handleReset}
-                className="w-full mt-4 flex items-center justify-center gap-2 border border-white/10 py-2.5 rounded-xl hover:bg-white/5 transition text-xs font-semibold text-slate-400 hover:text-white"
+                className="w-full mt-4 flex items-center justify-center gap-2 border border-slate-200 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs font-semibold text-slate-500 hover:text-slate-700 cursor-pointer"
               >
                 <RotateCcw size={12} /> Clear Board
               </button>
@@ -155,24 +155,24 @@ void loop() {
 
             {/* 2. MAIN CANVAS & SIMULATION (Center) */}
             <div className="space-y-6">
-              <div className="bg-slate-950 border-2 border-slate-800 rounded-3xl p-6 relative overflow-hidden min-h-[380px] flex flex-col justify-between">
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 relative overflow-hidden min-h-[380px] flex flex-col justify-between shadow-sm">
                 {/* Glow grids */}
                 <div className="absolute inset-0 opacity-[0.03]" style={{
-                  backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+                  backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)",
                   backgroundSize: "20px 20px"
                 }} />
 
                 {/* Header controls */}
                 <div className="relative z-10 flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-mono">BREADBOARD WORKSPACE</span>
+                  <span className="text-xs text-slate-500 font-mono">BREADBOARD WORKSPACE</span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setWired(w => !w)}
                       disabled={workspace.length < 2}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                         wired
-                          ? "bg-emerald-500/20 border border-emerald-500/40 text-emerald-300"
-                          : "bg-white/10 border border-white/20 text-white hover:bg-white/20 disabled:opacity-40"
+                          ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                          : "bg-[#0b2545] text-white hover:bg-cyan-600 disabled:opacity-40"
                       }`}
                     >
                       {wired ? "✓ Connected" : "Connect Wires"}
@@ -180,10 +180,10 @@ void loop() {
                     <button
                       onClick={() => setRunning(r => !r)}
                       disabled={!wired}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                         running
-                          ? "bg-rose-500 text-white shadow-lg shadow-rose-500/25 animate-pulse"
-                          : "bg-violet-600 text-white hover:bg-violet-700 disabled:opacity-40"
+                          ? "bg-rose-500 text-white shadow-md animate-pulse"
+                          : "bg-cyan-600 text-white hover:bg-cyan-500 disabled:opacity-40"
                       }`}
                     >
                       <Play size={12} />
@@ -193,7 +193,7 @@ void loop() {
                 </div>
 
                 {/* Canvas grid visualization */}
-                <div className="relative z-10 flex-1 my-6 border border-white/5 bg-[#091120]/60 rounded-2xl p-6 flex flex-wrap gap-4 items-center justify-center min-h-[220px]">
+                <div className="relative z-10 flex-1 my-6 border border-slate-800 bg-slate-950 rounded-2xl p-6 flex flex-wrap gap-4 items-center justify-center min-h-[220px]">
                   {/* Arduino Uno (static anchor) */}
                   <div className="bg-gradient-to-br from-cyan-900/60 to-cyan-800/40 border border-cyan-400/40 rounded-xl p-4 flex flex-col items-center relative w-28 text-center shadow-lg">
                     <Cpu className="text-cyan-300 mb-2" size={24} />
@@ -203,7 +203,7 @@ void loop() {
 
                   {/* Dynamic placed components */}
                   {workspace.includes("led") && (
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center relative w-24 text-center group shadow-md">
+                    <div className="bg-white/10 border border-white/20 rounded-xl p-4 flex flex-col items-center relative w-24 text-center group shadow-md text-slate-100">
                       <button onClick={() => removeComponent("led")} className="absolute -top-1 -right-1 bg-red-500/20 border border-red-500/40 text-red-400 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                         <Trash2 size={10} />
                       </button>
@@ -219,7 +219,7 @@ void loop() {
                   )}
 
                   {workspace.includes("motor") && (
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center relative w-24 text-center group shadow-md">
+                    <div className="bg-white/10 border border-white/20 rounded-xl p-4 flex flex-col items-center relative w-24 text-center group shadow-md text-slate-100">
                       <button onClick={() => removeComponent("motor")} className="absolute -top-1 -right-1 bg-red-500/20 border border-red-500/40 text-red-400 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                         <Trash2 size={10} />
                       </button>
@@ -233,7 +233,7 @@ void loop() {
                   )}
 
                   {workspace.includes("ultrasonic") && (
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center relative w-28 text-center group shadow-md">
+                    <div className="bg-white/10 border border-white/20 rounded-xl p-4 flex flex-col items-center relative w-28 text-center group shadow-md text-slate-100">
                       <button onClick={() => removeComponent("ultrasonic")} className="absolute -top-1 -right-1 bg-red-500/20 border border-red-500/40 text-red-400 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                         <Trash2 size={10} />
                       </button>
@@ -252,9 +252,9 @@ void loop() {
 
                 {/* Ultrasonic sensor interactive distance trigger */}
                 {workspace.includes("ultrasonic") && running && (
-                  <div className="relative z-10 bg-slate-900 border border-white/5 rounded-xl p-3 flex flex-col gap-2">
+                  <div className="relative z-10 bg-slate-800 border border-slate-700 rounded-xl p-3 flex flex-col gap-2">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-slate-400">Ultrasonic Obstacle Distance:</span>
+                      <span className="text-slate-300">Ultrasonic Obstacle Distance:</span>
                       <span className={`font-bold font-mono ${distance < 20 ? "text-red-400" : "text-cyan-400"}`}>{distance} cm</span>
                     </div>
                     <input
@@ -273,24 +273,24 @@ void loop() {
             </div>
 
             {/* 3. ARDUINO LOGIC SELECTOR & EDITOR (Right) */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 flex flex-col justify-between">
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-slate-300 border-b border-white/10 pb-2">Program Selector</h3>
+                <h3 className="text-sm font-bold text-[#0b2545] border-b border-slate-200 pb-2">Program Selector</h3>
                 
                 {/* Selector */}
                 <div className="space-y-2">
                   {[
-                    { id: "blink", label: "LED Blink Logic", icon: Lightbulb },
+                    { id: "blink", label: "LED Logic Control", icon: Lightbulb },
                     { id: "motor", label: "Motor Speed Control", icon: Zap },
                     { id: "ultrasonic", label: "Ultrasonic Distance Alert", icon: Radio },
                   ].map(prog => (
                     <button
                       key={prog.id}
                       onClick={() => { setCodeType(prog.id); setRunning(false); }}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all ${
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
                         codeType === prog.id
-                          ? "bg-violet-600/20 border-violet-500 text-violet-300 shadow-md"
-                          : "bg-white/5 border-white/10 text-slate-400 hover:border-white/20"
+                          ? "bg-cyan-50 border-cyan-400 text-cyan-700 shadow-sm font-bold"
+                          : "bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300"
                       }`}
                     >
                       <prog.icon size={13} />
@@ -301,15 +301,15 @@ void loop() {
 
                 {/* Code display */}
                 <div className="mt-4">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Arduino C++ Code</p>
-                  <pre className="bg-black/40 border border-white/5 rounded-xl p-3.5 font-mono text-[10px] text-green-300 overflow-x-auto max-h-52 leading-relaxed whitespace-pre">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">Arduino C++ Code</p>
+                  <pre className="bg-slate-950 border border-slate-800 rounded-xl p-3.5 font-mono text-[10px] text-green-400 overflow-x-auto max-h-52 leading-relaxed whitespace-pre">
                     {codeSnippet}
                   </pre>
                 </div>
               </div>
 
               {/* Inspiration */}
-              <div className="bg-gradient-to-r from-violet-600 to-cyan-600 rounded-2xl p-4 mt-6">
+              <div className="bg-gradient-to-r from-[#0b2545] to-cyan-600 rounded-2xl p-4 mt-6">
                 <p className="text-white font-bold text-xs mb-1">Want to build this for real?</p>
                 <p className="text-white/70 text-[10px] mb-3">Order the kits to execute physical logic in class.</p>
                 <div className="flex gap-2">

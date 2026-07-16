@@ -626,7 +626,7 @@ export default function VirtualLabTour() {
       `}</style>
 
       {/* ============ HERO HEADER ============ */}
-      <section className="bg-[#060e1d] pt-24 pb-8 px-6">
+      <section className="bg-[#061B33] pt-24 pb-8 px-6">
         <div className="max-w-6xl mx-auto hero-anim">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-slate-500 mb-4">
@@ -689,12 +689,12 @@ export default function VirtualLabTour() {
       </section>
 
       {/* ============ MAIN LAB CANVAS ============ */}
-      <section className="bg-[#060e1d] px-4 pb-8">
+      <section className="bg-slate-50 px-4 pb-8 pt-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col xl:flex-row gap-4">
 
             {/* Lab View */}
-            <div className="flex-1 relative rounded-2xl overflow-hidden border border-slate-700/50 shadow-2xl" style={{ minHeight: 480 }}>
+            <div className="flex-1 relative rounded-2xl overflow-hidden border border-slate-200 shadow-xl" style={{ minHeight: 480 }}>
               {/* Scan line effect */}
               <div className="scan-line absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent pointer-events-none z-10"/>
 
@@ -733,33 +733,33 @@ export default function VirtualLabTour() {
                   />
                 </div>
               ) : (
-                <div className="bg-[#0d1a30] rounded-2xl border border-slate-700/50 h-full flex flex-col p-6" style={{ minHeight: 480 }}>
+                <div className="bg-white rounded-2xl border border-slate-200 h-full flex flex-col p-6 shadow-sm" style={{ minHeight: 480 }}>
                   <div className="flex-1 flex flex-col items-center justify-center text-center">
-                    <div className="w-16 h-16 rounded-2xl bg-cyan-400/10 border border-cyan-400/25 flex items-center justify-center mb-4">
-                      <Cpu size={28} className="text-cyan-400"/>
+                    <div className="w-16 h-16 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center mb-4">
+                      <Cpu size={28} className="text-cyan-600"/>
                     </div>
-                    <h3 className="text-white font-bold mb-2">Explore the Lab</h3>
-                    <p className="text-slate-400 text-xs leading-relaxed mb-6">
+                    <h3 className="text-slate-900 font-bold mb-2">Explore the Lab</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-6">
                       Click any glowing hotspot on the lab floor plan to see detailed info about equipment, pricing & curriculum links.
                     </p>
                     <button onClick={startTour}
-                      className="flex items-center gap-2 bg-cyan-400 hover:bg-cyan-500 text-[#060e1d] font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg">
+                      className="flex items-center gap-2 bg-[#0b2545] hover:bg-cyan-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-md cursor-pointer">
                       <Play size={14}/> Start Auto Tour
                     </button>
                   </div>
 
                   {/* Hotspot quick list */}
                   <div className="mt-6 space-y-1.5">
-                    <p className="text-xs text-slate-500 font-semibold uppercase tracking-wide mb-2">Quick Access</p>
+                    <p className="text-xs text-slate-400 font-semibold uppercase tracking-wide mb-2">Quick Access</p>
                     {hotspots.map((h) => {
                       const c = colorMap[h.color];
                       const Icon = h.icon;
                       return (
                         <button key={h.id} onClick={() => handleHotspotClick(h.id)}
-                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white/5 transition text-left group">
+                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition text-left group">
                           <Icon size={13} className={c.text}/>
-                          <span className="text-xs text-slate-400 group-hover:text-white transition tour-label-scroll flex-1">{h.label}</span>
-                          <ChevronRight size={11} className="text-slate-600 group-hover:text-slate-400 transition flex-shrink-0"/>
+                          <span className="text-xs text-slate-600 group-hover:text-cyan-600 transition tour-label-scroll flex-1">{h.label}</span>
+                          <ChevronRight size={11} className="text-slate-400 group-hover:text-cyan-600 transition flex-shrink-0"/>
                         </button>
                       );
                     })}
@@ -772,7 +772,7 @@ export default function VirtualLabTour() {
       </section>
 
       {/* ============ STATS BAR ============ */}
-      <section className="bg-[#060e1d] border-t border-slate-800 px-6 py-8">
+      <section className="bg-white border-t border-b border-slate-200 px-6 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -782,8 +782,8 @@ export default function VirtualLabTour() {
               { label: "Setup Time", value: "4–6 weeks", sub: "From order to ready lab" },
             ].map((s, i) => (
               <div key={i} className="text-center">
-                <p className="text-2xl font-black text-cyan-400">{s.value}</p>
-                <p className="text-white font-semibold text-sm mt-0.5">{s.label}</p>
+                <p className="text-2xl font-black text-cyan-600">{s.value}</p>
+                <p className="text-slate-900 font-semibold text-sm mt-0.5">{s.label}</p>
                 <p className="text-slate-500 text-xs">{s.sub}</p>
               </div>
             ))}

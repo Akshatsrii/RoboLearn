@@ -13,15 +13,21 @@ const submitContact = async (req, res) => {
 // GET /api/contact (admin)
 const getContacts = async (req, res) => {
   try {
-    const { status, type, page = 1, limit = 20 } = req.query;
+    const { status, type, search, page = 1, limit = 50 } = req.query;
     const query = {};
     if (status) query.status = status;
     if (type) query.type = type;
-
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { schoolName: { $regex: search, $options: "i" } },
+      ];
+    }
     const skip = (page - 1) * limit;
     const total = await Contact.countDocuments(query);
     const contacts = await Contact.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit));
-    res.json({ success: true, data: contacts, total });
+    res.json({ success: true, data: contacts, total, pagination: { total, page: Number(page) } });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -42,4 +48,14 @@ const updateContactStatus = async (req, res) => {
   }
 };
 
-module.exports = { submitContact, getContacts, updateContactStatus };
+// DELETE /api/contact/:id (admin)
+const deleteContact = async (req, res) => {
+  try {
+    await Contact.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: "Deleted" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { submitContact, getContacts, updateContactStatus, deleteContact };

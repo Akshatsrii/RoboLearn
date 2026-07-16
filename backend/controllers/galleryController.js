@@ -2,11 +2,13 @@ const Gallery = require("../models/Gallery");
 
 const getGallery = async (req, res) => {
   try {
-    const { category } = req.query;
-    const query = { isActive: true };
+    const { category, search } = req.query;
+    const query = {};
     if (category) query.category = category;
-    const items = await Gallery.find(query).sort({ date: -1 });
-    res.json({ success: true, data: items });
+    if (search) query.title = { $regex: search, $options: "i" };
+    const total = await Gallery.countDocuments(query);
+    const items = await Gallery.find(query).sort({ createdAt: -1 });
+    res.json({ success: true, data: items, total, pagination: { total } });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -14,7 +16,7 @@ const getGallery = async (req, res) => {
 
 const createGalleryItem = async (req, res) => {
   try {
-    const item = await Gallery.create(req.body);
+    const item = await Gallery.create({ ...req.body, isActive: true });
     res.status(201).json({ success: true, data: item });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

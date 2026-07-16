@@ -57,6 +57,7 @@ import AdminResources from "./admin/pages/AdminResources";
 import AdminTestimonials from "./admin/pages/AdminTestimonials";
 import AdminPartners from "./admin/pages/AdminPartners";
 import AdminLeads from "./admin/pages/AdminLeads";
+import AdminOrders from "./admin/pages/AdminOrders";
 import ProtectedRoute from "./admin/components/ProtectedRoute";
 
 function PublicLayout({ children }) {
@@ -84,20 +85,56 @@ export default function App() {
               <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
               <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
               <Route path="/lab-setup" element={<PublicLayout><LabSetup /></PublicLayout>} />
-              <Route path="/lab-planner" element={<PublicLayout><LabPlanner /></PublicLayout>} />
-              <Route path="/lab-tour" element={<PublicLayout><VirtualLabTour /></PublicLayout>} />
-              <Route path="/impact-calculator" element={<PublicLayout><ImpactCalculator /></PublicLayout>} />
-              <Route path="/simulator" element={<PublicLayout><Simulator /></PublicLayout>} />
-              <Route path="/showcase" element={<PublicLayout><Showcase /></PublicLayout>} />
-              <Route path="/showcase/:id" element={<PublicLayout><ShowcaseDetail /></PublicLayout>} />
+              <Route path="/lab-planner" element={
+                <RequireAuth>
+                  <PublicLayout><LabPlanner /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/lab-tour" element={
+                <RequireAuth>
+                  <PublicLayout><VirtualLabTour /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/impact-calculator" element={
+                <RequireAuth>
+                  <PublicLayout><ImpactCalculator /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/simulator" element={
+                <RequireAuth>
+                  <PublicLayout><Simulator /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/showcase" element={
+                <RequireAuth>
+                  <PublicLayout><Showcase /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/showcase/:id" element={
+                <RequireAuth>
+                  <PublicLayout><ShowcaseDetail /></PublicLayout>
+                </RequireAuth>
+              } />
               <Route path="/school-dashboard" element={<PublicLayout><SchoolDashboard /></PublicLayout>} />
-              <Route path="/verify" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
-              <Route path="/proposal-generator" element={<PublicLayout><ProposalGenerator /></PublicLayout>} />
+              <Route path="/verify" element={
+                <RequireAuth>
+                  <PublicLayout><VerifyCertificate /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/proposal-generator" element={
+                <RequireAuth>
+                  <PublicLayout><ProposalGenerator /></PublicLayout>
+                </RequireAuth>
+              } />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
               <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />
               <Route path="/products/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
-              <Route path="/curriculum" element={<PublicLayout><Curriculum /></PublicLayout>} />
+              <Route path="/curriculum" element={
+                <RequireAuth>
+                  <PublicLayout><Curriculum /></PublicLayout>
+                </RequireAuth>
+              } />
               <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
               <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
               <Route path="/blog/:id" element={<PublicLayout><BlogDetail /></PublicLayout>} />
@@ -151,6 +188,7 @@ export default function App() {
                 <Route path="testimonials" element={<AdminTestimonials />} />
                 <Route path="partners" element={<AdminPartners />} />
                 <Route path="leads" element={<AdminLeads />} />
+                <Route path="orders" element={<AdminOrders />} />
               </Route>
 
               {/* 404 */}

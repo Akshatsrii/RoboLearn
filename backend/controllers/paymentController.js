@@ -149,3 +149,36 @@ exports.getUserOrders = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+// ── Admin: Get all orders ─────────────────────────────
+exports.getAllOrders = async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, search } = req.query;
+    const query = {};
+    if (status) query.paymentStatus = status;
+    if (search) query.orderId = { $regex: search, $options: "i" };
+    const skip = (page - 1) * limit;
+    const total = await Order.countDocuments(query);
+    const orders = await Order.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit));
+    res.json({ success: true, data: orders, total, pagination: { total, page: Number(page) } });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// ── Admin: Update order tracking step ────────────────
+exports.updateOrderTracking = async (req, res) => {
+  try {
+    const { stepIndex, completed, time } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: "Order not found" });
+    if (order.trackingSteps[stepIndex] !== undefined) {
+      order.trackingSteps[stepIndex].completed = completed;
+      if (time) order.trackingSteps[stepIndex].time = time;
+    }
+    await order.save();
+    res.json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

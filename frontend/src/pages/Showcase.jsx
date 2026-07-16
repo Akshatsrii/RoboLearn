@@ -80,25 +80,25 @@ export default function Showcase() {
         title="Student Innovation Showcase | RoboLearn"
         description="Discover award-winning robotics projects built by Indian students using RoboLearn kits. From AI waste sorters to Braille printers — the future is being built in classrooms."
       />
-      <div className="min-h-screen bg-gradient-to-br from-[#040d1a] via-[#071428] to-[#040d1a] text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900">
 
         {/* ── Hero ──────────────────────────────────────── */}
-        <section className="relative pt-28 pb-14 px-6 text-center overflow-hidden">
+        <section className="relative pt-28 pb-14 px-6 text-center overflow-hidden bg-[#061B33]">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-1/4 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl" />
+            <div className="absolute top-20 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl" />
           </div>
           <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-semibold px-4 py-2 rounded-full mb-6">
+            <span className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-sm font-semibold px-4 py-2 rounded-full mb-6">
               <Trophy size={15} /> Student Innovation Showcase
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-white">
               Where Students{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-rose-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">
                 Build the Future
               </span>
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
               Award-winning projects built by Indian students using RoboLearn kits. Real innovations. Real impact.
             </p>
             <div className="flex justify-center gap-8 mt-8">
@@ -108,7 +108,7 @@ export default function Showcase() {
                 { n: "22",   l: "States Represented" },
               ].map(s => (
                 <div key={s.l} className="text-center">
-                  <div className="text-2xl font-extrabold text-amber-400">{s.n}</div>
+                  <div className="text-2xl font-extrabold text-cyan-400">{s.n}</div>
                   <div className="text-xs text-slate-400">{s.l}</div>
                 </div>
               ))}
@@ -120,13 +120,13 @@ export default function Showcase() {
 
           {/* ── Filter ────────────────────────────────────── */}
           <div className="flex flex-wrap gap-2 mb-8 justify-center items-center">
-            <Filter size={16} className="text-slate-400" />
+            <Filter size={16} className="text-slate-500" />
             {CATEGORIES.map(cat => (
               <button key={cat} onClick={() => setFilter(cat)}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                   filter === cat
-                    ? "bg-amber-500 text-black"
-                    : "bg-white/5 border border-white/10 text-slate-300 hover:border-amber-400/50"
+                    ? "bg-[#0b2545] text-white shadow"
+                    : "bg-white border border-slate-200 text-slate-600 hover:border-cyan-400"
                 }`}>
                 {cat}
               </button>
@@ -136,38 +136,38 @@ export default function Showcase() {
           {/* ── Featured Projects ─────────────────────────── */}
           {filter === "All" && (
             <div className="mb-10">
-              <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Star size={18} className="text-amber-400" /> Featured Projects
+              <h2 className="text-xl font-bold text-[#0b2545] mb-4 flex items-center gap-2">
+                <Star size={18} className="text-cyan-600" /> Featured Projects
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {PROJECTS.filter(p => p.featured).map(proj => (
                   <Link key={proj.id} to={`/showcase/${proj.id}`}
-                    className={`relative bg-gradient-to-br ${proj.gradient} border-2 ${proj.border} rounded-2xl p-6 hover:scale-[1.02] transition-transform block`}>
+                    className="relative bg-white border border-slate-200 shadow-sm rounded-2xl p-6 hover:border-cyan-300 hover:shadow-md transition-all block">
                     <div className="absolute top-4 right-4 text-4xl">{proj.emoji}</div>
                     <div className="flex gap-2 mb-3">
-                      <span className="bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                      <span className="bg-cyan-50 border border-cyan-200 text-cyan-700 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
                         <Trophy size={10} /> Featured
                       </span>
-                      <span className="bg-white/10 text-slate-300 text-xs px-2 py-1 rounded-full">{proj.category}</span>
+                      <span className="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-full">{proj.category}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-1">{proj.title}</h3>
-                    <div className="text-sm text-slate-400 mb-3 flex items-center gap-2">
-                      <GraduationCap size={13} /> {proj.student} · {proj.school} · {proj.grade}
+                    <h3 className="text-xl font-bold text-[#0b2545] mb-1">{proj.title}</h3>
+                    <div className="text-sm text-slate-500 mb-3 flex items-center gap-2">
+                      <GraduationCap size={15} className="text-cyan-600" /> {proj.student} · {proj.school}
                     </div>
                     {proj.award && (
-                      <div className="flex items-center gap-1.5 text-xs text-amber-300 bg-amber-400/10 px-3 py-1.5 rounded-full w-fit mb-3">
-                        <Award size={11} /> {proj.award}
+                      <div className="flex items-center gap-1.5 text-xs text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full w-fit mb-3">
+                        <Award size={11} className="text-amber-600" /> {proj.award}
                       </div>
                     )}
-                    <p className="text-slate-300 text-sm line-clamp-2">{proj.description}</p>
+                    <p className="text-slate-600 text-sm line-clamp-2">{proj.description}</p>
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex gap-1 flex-wrap">
                         {proj.tech.slice(0, 3).map((t, i) => (
-                          <span key={i} className="text-xs bg-white/5 border border-white/10 text-slate-400 px-2 py-0.5 rounded-full">{t}</span>
+                          <span key={i} className="text-xs bg-slate-50 border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full">{t}</span>
                         ))}
                       </div>
                       <button onClick={e => { e.preventDefault(); toggleLike(proj.id); }}
-                        className={`flex items-center gap-1 text-sm transition-colors ${likedIds.has(proj.id) ? "text-red-400" : "text-slate-400 hover:text-red-400"}`}>
+                        className={`flex items-center gap-1 text-sm transition-colors cursor-pointer ${likedIds.has(proj.id) ? "text-red-500" : "text-slate-400 hover:text-red-500"}`}>
                         <Heart size={14} fill={likedIds.has(proj.id) ? "currentColor" : "none"} />
                         {proj.likes + (likedIds.has(proj.id) ? 1 : 0)}
                       </button>
@@ -179,34 +179,34 @@ export default function Showcase() {
           )}
 
           {/* ── All / Filtered Projects ───────────────────── */}
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Lightbulb size={18} className="text-cyan-400" />
+          <h2 className="text-xl font-bold text-[#0b2545] mb-4 flex items-center gap-2">
+            <Lightbulb size={18} className="text-cyan-600" />
             {filter === "All" ? "All Projects" : filter}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {visible.filter(p => filter !== "All" || !p.featured).map(proj => (
               <Link key={proj.id} to={`/showcase/${proj.id}`}
-                className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-white/30 hover:bg-white/[0.08] transition-all block">
+                className="bg-white border border-slate-200 shadow-sm rounded-2xl p-5 hover:border-cyan-300 hover:shadow-md transition-all block">
                 <div className="flex items-start justify-between mb-3">
                   <span className="text-3xl">{proj.emoji}</span>
                   <button onClick={e => { e.preventDefault(); toggleLike(proj.id); }}
-                    className={`flex items-center gap-1 text-sm transition-colors ${likedIds.has(proj.id) ? "text-red-400" : "text-slate-400 hover:text-red-400"}`}>
+                    className={`flex items-center gap-1 text-sm transition-colors cursor-pointer ${likedIds.has(proj.id) ? "text-red-500" : "text-slate-400 hover:text-red-500"}`}>
                     <Heart size={14} fill={likedIds.has(proj.id) ? "currentColor" : "none"} />
                     {proj.likes + (likedIds.has(proj.id) ? 1 : 0)}
                   </button>
                 </div>
-                <span className="text-xs font-semibold text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded-full">{proj.category}</span>
-                <h3 className="font-bold text-white mt-2 mb-1">{proj.title}</h3>
-                <p className="text-xs text-slate-400 mb-2 flex items-center gap-1">
-                  <GraduationCap size={11} /> {proj.student} · {proj.grade}
+                <span className="text-xs font-semibold text-cyan-700 bg-cyan-50 px-2 py-0.5 rounded-full">{proj.category}</span>
+                <h3 className="font-bold text-[#0b2545] mt-2 mb-1">{proj.title}</h3>
+                <p className="text-xs text-slate-500 mb-2 flex items-center gap-1">
+                  <GraduationCap size={11} className="text-cyan-600" /> {proj.student} · {proj.grade}
                 </p>
                 {proj.award && (
-                  <p className="text-xs text-amber-300 flex items-center gap-1 mb-2">
+                  <p className="text-xs text-amber-600 flex items-center gap-1 mb-2 font-medium">
                     <Trophy size={11} /> {proj.award}
                   </p>
                 )}
-                <p className="text-slate-400 text-sm line-clamp-2">{proj.description}</p>
-                <div className="flex items-center gap-1 mt-3 text-violet-400 text-xs font-semibold">
+                <p className="text-slate-600 text-sm line-clamp-2">{proj.description}</p>
+                <div className="flex items-center gap-1 mt-3 text-cyan-600 text-xs font-semibold">
                   View Details <ChevronRight size={12} />
                 </div>
               </Link>
@@ -214,15 +214,15 @@ export default function Showcase() {
           </div>
 
           {/* ── Submit CTA ────────────────────────────────── */}
-          <div className="mt-14 bg-gradient-to-r from-amber-600/20 to-rose-600/20 border border-amber-500/30 rounded-2xl p-8 text-center">
-            <Trophy size={32} className="text-amber-400 mx-auto mb-3" />
-            <h2 className="text-2xl font-extrabold text-white mb-2">Submit Your Project</h2>
-            <p className="text-slate-400 mb-6 max-w-lg mx-auto">
+          <div className="mt-14 bg-white border border-slate-200 shadow-sm rounded-2xl p-8 text-center text-slate-800">
+            <Trophy size={32} className="text-cyan-600 mx-auto mb-3" />
+            <h2 className="text-2xl font-extrabold text-[#0b2545] mb-2">Submit Your Project</h2>
+            <p className="text-slate-500 mb-6 max-w-lg mx-auto">
               Built something amazing with a RoboLearn kit? Submit it to be featured on our showcase and compete for
               national recognition.
             </p>
             <Link to="/contact"
-              className="bg-gradient-to-r from-amber-500 to-rose-500 text-white font-bold px-8 py-3 rounded-xl hover:opacity-90 transition-opacity inline-flex items-center gap-2">
+              className="bg-[#0b2545] hover:bg-cyan-600 text-white font-bold px-8 py-3 rounded-xl transition-colors inline-flex items-center gap-2 shadow">
               Submit My Project <ExternalLink size={15} />
             </Link>
           </div>
