@@ -22,7 +22,7 @@ const fallbackProducts = [
     level: "Beginner Kit",
     price: 2499,
     description: "Introductory physical computing building blocks, snap-fit chassis assembly, no soldering.",
-    imageUrl: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "2",
@@ -31,7 +31,7 @@ const fallbackProducts = [
     level: "Intermediate Kit",
     price: 3999,
     description: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.",
-    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "3",
@@ -40,7 +40,7 @@ const fallbackProducts = [
     level: "Advanced Kit",
     price: 5499,
     description: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.",
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "4",
@@ -49,7 +49,7 @@ const fallbackProducts = [
     level: "Advanced Kit",
     price: 4899,
     description: "Cloud communications node module with temperature, light, and soil humidity telemetry.",
-    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
   },
 
   // Experimental Tools
@@ -60,7 +60,7 @@ const fallbackProducts = [
     level: "Sensors",
     price: 180,
     description: "High accuracy ultrasonic distance measuring sensor compatible with Arduino and Raspberry Pi.",
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "6",
@@ -69,7 +69,7 @@ const fallbackProducts = [
     level: "Motors (Actuators)",
     price: 320,
     description: "12V high-torque metal gear motor suitable for robotics chassis and remote control vehicles.",
-    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "7",
@@ -78,7 +78,7 @@ const fallbackProducts = [
     level: "Controllers",
     price: 650,
     description: "Standard microcontroller development board for general electronics prototyping.",
-    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1608564697071-ddf911d81370?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "8",
@@ -87,7 +87,7 @@ const fallbackProducts = [
     level: "STEM Equipment",
     price: 1450,
     description: "Essential lab measurement tool for diagnostic testing of voltages, currents, and resistance parameters.",
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
   },
 
   // Educational Products
@@ -98,7 +98,7 @@ const fallbackProducts = [
     level: "Coding Kits",
     price: 1999,
     description: "Visual Scratch 3.0 drag-and-drop course guide block modules mapped to beginner kit setups.",
-    imageUrl: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "10",
@@ -107,7 +107,7 @@ const fallbackProducts = [
     level: "AI Learning Kits",
     price: 2999,
     description: "Interactive kit for training custom neural networks on microcontrollers with camera captures.",
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=600&q=80",
   },
   {
     _id: "11",
@@ -116,7 +116,7 @@ const fallbackProducts = [
     level: "IoT Learning Kits",
     price: 3499,
     description: "Complete greenhouse telemetry automation setup files, charts dashboards, and humidity triggers.",
-    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80",
   }
 ];
 

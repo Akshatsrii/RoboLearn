@@ -440,9 +440,9 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { id: "1", name: "Kids Robotics Kit", category: "Beginner", price: 2499, desc: "Introductory physical computing building blocks, snap-fit chassis assembly, no soldering.", img: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80" },
-              { id: "2", name: "Arduino Learning Kit", category: "Intermediate", price: 3999, desc: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.", img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" },
-              { id: "3", name: "AI Starter Kit", category: "Advanced", price: 5499, desc: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80" },
+              { id: "1", name: "Kids Robotics Kit", category: "Beginner", price: 2499, desc: "Introductory physical computing building blocks, snap-fit chassis assembly, no soldering.", img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" },
+              { id: "2", name: "Arduino Learning Kit", category: "Intermediate", price: 3999, desc: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.", img: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80" },
+              { id: "3", name: "AI Starter Kit", category: "Advanced", price: 5499, desc: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.", img: "https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?auto=format&fit=crop&w=400&q=80" },
               { id: "4", name: "IoT Experiment Kit", category: "Advanced", price: 4899, desc: "Cloud communications node module with temperature, light, and soil humidity telemetry.", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" }
             ].map((kit) => (
               <div key={kit.id} className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
