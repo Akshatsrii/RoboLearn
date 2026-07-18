@@ -38,6 +38,8 @@ import ShowcaseDetail from "./pages/ShowcaseDetail";
 import SchoolDashboard from "./pages/SchoolDashboard";
 import VerifyCertificate from "./pages/VerifyCertificate";
 import ProposalGenerator from "./pages/ProposalGenerator";
+import AIConsultant from "./pages/AIConsultant";
+import CurriculumGenerator from "./pages/CurriculumGenerator";
 
 // auth pages
 import Login from "./pages/Login";
@@ -124,6 +126,16 @@ export default function App() {
               <Route path="/proposal-generator" element={
                 <RequireAuth>
                   <PublicLayout><ProposalGenerator /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/ai-consultant" element={
+                <RequireAuth>
+                  <PublicLayout><AIConsultant /></PublicLayout>
+                </RequireAuth>
+              } />
+              <Route path="/curriculum-generator" element={
+                <RequireAuth>
+                  <PublicLayout><CurriculumGenerator /></PublicLayout>
                 </RequireAuth>
               } />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />

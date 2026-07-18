@@ -16,6 +16,7 @@ const navLinks = [
       { label: "Simulator", path: "/simulator" },
       { label: "Impact Calculator", path: "/impact-calculator" },
       { label: "Proposal Generator", path: "/proposal-generator" },
+      { label: "🤖 AI Consultant", path: "/ai-consultant" },
     ],
   },
   {
@@ -26,6 +27,7 @@ const navLinks = [
       { label: "Resources", path: "/resources" },
       { label: "Blog", path: "/blog" },
       { label: "Case Studies", path: "/case-studies" },
+      { label: "🤖 AI Curriculum", path: "/curriculum-generator" },
     ],
   },
   { label: "Products", path: "/products" },
