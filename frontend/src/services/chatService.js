@@ -1,58 +1,30 @@
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({
-  apiKey: import.meta.env.VITE_GEMINI_API_KEY,
-});
-
-const SYSTEM_PROMPT = `
-You are RoboLearn Assistant.
-
-About RoboLearn:
-- Rajasthan based Robotics & STEM education company.
-- Robotics Lab Setup.
-- Arduino, IoT, AI, PCB Design Training.
-- Teacher Training.
-- CBSE & NEP 2020 Curriculum.
-- Robotics Kits.
-- Contact: info@robolearn.in
-
-If the user asks anything about RoboLearn, answer using the above information.
-
-If they ask general questions, answer normally.
-
-Keep answers short and friendly.
-`;
+import { aiService } from "../ai/services/aiService";
+import { AssistantResponseSchema } from "../ai/schemas/assistantSchema";
+import { CHAT_ASSISTANT_SYSTEM_PROMPT, compileChatPrompt } from "../ai/prompts/templates";
 
 export async function sendChatMessage(history) {
   try {
-    const conversation = [
+    const mappedHistory = history.map((msg) => ({
+      role: msg.role === "bot" ? "model" : "user",
+      text: msg.text,
+    }));
+
+    const currentMsg = mappedHistory[mappedHistory.length - 1]?.text || "";
+    const precedingHistory = mappedHistory.slice(0, -1);
+
+    const compiledPrompt = compileChatPrompt(precedingHistory, currentMsg);
+
+    const response = await aiService.generateJSON(
+      compiledPrompt,
+      AssistantResponseSchema,
       {
-        role: "user",
-        parts: [
-          {
-            text: SYSTEM_PROMPT,
-          },
-        ],
-      },
-      ...history.map((msg) => ({
-        role: msg.role === "bot" ? "model" : "user",
-        parts: [
-          {
-            text: msg.text,
-          },
-        ],
-      })),
-    ];
-
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: conversation,
-      config: {
+        systemInstruction: CHAT_ASSISTANT_SYSTEM_PROMPT,
         temperature: 0.7,
-      },
-    });
+        useCache: true,
+      }
+    );
 
-    return response.text;
+    return response.data.text;
   } catch (err) {
     console.error("Gemini Error:", err);
     return "Sorry, I couldn't generate a response.";

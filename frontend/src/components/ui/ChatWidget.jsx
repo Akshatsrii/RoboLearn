@@ -6,6 +6,8 @@ import {
   RotateCcw, Zap, GraduationCap, IndianRupee, Users, ArrowRight,
   CheckCircle2, Star, Package
 } from "lucide-react";
+import { useAIChat } from "../../ai/hooks/useAIChat";
+
 
 /* ================================================================
    KNOWLEDGE BASE — Products, Curriculum, Services
@@ -584,10 +586,8 @@ const WELCOME = {
    ================================================================ */
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([WELCOME]);
+  const { messages, loading, sendMessage, resetChat } = useAIChat([WELCOME]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [conversationState, setConversationState] = useState({});
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -615,28 +615,15 @@ export default function ChatWidget() {
     const text = (textOverride ?? input).trim();
     if (!text || loading) return;
     setInput("");
-
-    const userMsg = { role: "user", text };
-    setMessages(prev => [...prev, userMsg]);
-    setLoading(true);
-
-    await new Promise(r => setTimeout(r, 600 + Math.random() * 500));
-
-    const parsed = detectIntent(text);
-    const response = buildResponse(parsed, conversationState, setConversationState);
-    const botText = buildBotTextForResponse(response);
-
-    setMessages(prev => [...prev, { role: "bot", text: botText, response }]);
-    setLoading(false);
-  }, [input, loading, conversationState]);
+    await sendMessage(text);
+  }, [input, loading, sendMessage]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
   const handleReset = () => {
-    setMessages([WELCOME]);
-    setConversationState({});
+    resetChat(WELCOME);
     setInput("");
   };
 
