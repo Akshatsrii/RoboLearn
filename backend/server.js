@@ -30,6 +30,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://robolearn-cev6.onrender.com",
+  "https://robo-learn-ten.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
