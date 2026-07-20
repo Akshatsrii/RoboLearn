@@ -24,6 +24,9 @@ import {
 import AnimatedCounter from "../components/AnimatedCounter";
 import TestimonialsSection from "../components/sections/TestimonialsSection";
 import SEO from "../components/SEO";
+import { motion } from "framer-motion";
+import Hero3D from "../components/home/Hero3D";
+import AIDemoSection from "../components/home/AIDemoSection";
 
 /* ---------------------------------------------------------
    Content
@@ -145,142 +148,23 @@ export default function Home() {
         }
       `}</style>
 
-      {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-[#061B33]">
-        {/* circuit-board backdrop */}
-        <svg
-          className="absolute inset-0 w-full h-full opacity-[0.18]"
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="xMidYMid slice"
-          fill="none"
-        >
-          <g stroke="#22d3ee" strokeWidth="1.2">
-            <path className="circuit-line" d="M0 120 H260 V260 H520" />
-            <path className="circuit-line" d="M1200 80 H880 V220 H640" />
-            <path className="circuit-line" d="M0 620 H300 V480 H560" />
-            <path className="circuit-line" d="M1200 700 H900 V560 H700" />
-          </g>
-          <g fill="#22d3ee">
-            <circle cx="260" cy="120" r="4" />
-            <circle cx="520" cy="260" r="4" />
-            <circle cx="880" cy="80" r="4" />
-            <circle cx="640" cy="220" r="4" />
-            <circle cx="300" cy="620" r="4" />
-            <circle cx="560" cy="480" r="4" />
-            <circle cx="900" cy="700" r="4" />
-            <circle cx="700" cy="560" r="4" />
-          </g>
-        </svg>
+      {/* ============ NEXT-GEN 3D HERO ============ */}
+      <Hero3D />
 
-        <div className="relative max-w-7xl mx-auto px-6 py-28 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left: copy */}
-          <div className="anim-fadeup">
-            <span className="inline-flex items-center gap-2 bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 px-4 py-1.5 rounded-full text-sm font-medium tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              India&rsquo;s Leading Robotics Education Platform
-            </span>
-
-            <h1 className="mt-7 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] text-white">
-              Empowering Schools with
-              <br />
-              <span className="text-cyan-400">Future-Ready STEM</span>
-              <br />
-              <span className="text-xl sm:text-2xl font-bold text-slate-300 tracking-wide block mt-2">(Core Engineering) Education</span>
-            </h1>
-
-            <p className="mt-6 text-lg text-slate-300 max-w-lg leading-relaxed">
-              Complete Robotics Lab Setup, Student Training, Teacher Development, and STEM Learning Solutions.
-            </p>
-
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/contact"
-                className="group inline-flex items-center justify-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-[#061B33] px-8 py-4 rounded-xl font-semibold transition-colors"
-              >
-                Schedule a Demo
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-              </Link>
-
-              <a
-                href="#curriculum-brochure"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert("RoboLearn Curriculum & Lab Installation Brochure Downloaded! (Sample PDF)");
-                }}
-                className="inline-flex items-center justify-center gap-2 border border-white/25 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/5 transition-colors"
-              >
-                Download Brochure
-              </a>
-            </div>
-
-            <div className="mt-10 flex items-center gap-6 text-slate-400 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-cyan-400" />
-                CBSE-aligned
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-cyan-400" />
-                On-site & remote support
-              </div>
-            </div>
-          </div>
-
-          {/* Right: animated visual */}
-          <div className="relative hidden lg:block">
-            <div className="relative mx-auto w-full max-w-md">
-              <div className="absolute -inset-6 rounded-[2rem] border border-cyan-400/20 anim-ring" />
-              <div className="relative rounded-[1.75rem] overflow-hidden border border-white/10 shadow-2xl shadow-cyan-500/10 anim-float">
-                <img
-                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80"
-                  alt="Students building a robotics kit"
-                  className="w-full h-[420px] object-cover"
-                  loading="eager"
-                />
-              </div>
-
-              <div className="absolute -bottom-8 -left-8 w-40 rounded-2xl overflow-hidden border-4 border-[#061B33] shadow-xl anim-float-slow">
-                <img
-                  src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80"
-                  alt="Arduino circuit board close-up"
-                  className="w-full h-28 object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="absolute -top-6 -right-6 bg-white text-[#061B33] rounded-xl px-4 py-3 shadow-xl anim-float-slow">
-                <p className="text-2xl font-bold text-cyan-600 leading-none">98%</p>
-                <p className="text-xs text-slate-500 mt-1">Teacher satisfaction</p>
-              </div>
-            </div>
-
-            {/* Animated stats strip — embedded in hero, per Day-6 spec */}
-            <div className="mt-12 grid grid-cols-3 gap-3 max-w-md mx-auto">
-              {[
-                { end: 50, suffix: "+", label: "Schools" },
-                { end: 10000, suffix: "+", label: "Students" },
-                { end: 100, suffix: "+", label: "Workshops" },
-              ].map((s) => (
-                <div key={s.label} className="text-center bg-white/5 border border-white/10 rounded-xl py-3">
-                  <AnimatedCounter
-                    end={s.end}
-                    suffix={s.suffix}
-                    className="block text-xl font-bold text-cyan-400"
-                  />
-                  <p className="text-[11px] text-slate-400 mt-1">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ============ AI DEMO ============ */}
+      <AIDemoSection />
 
       {/* ============ STATS ============ */}
-      <section className="py-14 bg-slate-50 border-b border-slate-100">
+      <section className="py-14 bg-slate-50 border-b border-slate-100 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {stats.map(({ end, suffix, label }) => (
-              <div
+            {stats.map(({ end, suffix, label }, idx) => (
+              <motion.div
                 key={label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:border-cyan-200 hover:shadow-md transition-all"
               >
                 <AnimatedCounter
@@ -288,17 +172,23 @@ export default function Home() {
                   suffix={suffix}
                   className="block text-3xl md:text-4xl font-bold text-[#0b2545]"
                 />
-                <p className="text-slate-500 mt-2 text-sm font-medium">{label}</p>
-              </div>
+                  <p className="text-slate-500 mt-2 text-sm font-medium">{label}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ============ WHY ROBOTICS EDUCATION ============ */}
-      <section className="py-24">
+      <section className="py-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto"
+          >
             <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">
               Why Robotics Education
             </span>
@@ -308,12 +198,16 @@ export default function Home() {
             <p className="mt-4 text-slate-600">
               Robotics gives students a hands-on reason to care about Math, Science, and Logic.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
-            {whyRobotics.map(({ icon: Icon, title, desc }) => (
-              <div
+            {whyRobotics.map(({ icon: Icon, title, desc }, idx) => (
+              <motion.div
                 key={title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-cyan-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-xl bg-cyan-50 flex items-center justify-center group-hover:bg-[#0b2545] transition-colors duration-300">
@@ -321,7 +215,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-base font-semibold mt-5 text-[#0b2545]">{title}</h3>
                 <p className="mt-2.5 text-slate-600 text-sm leading-relaxed">{desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -430,13 +324,19 @@ export default function Home() {
       </section>
 
       {/* ============ FEATURED ROBOTICS KITS ============ */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto mb-16"
+          >
             <span className="text-cyan-600 font-semibold text-sm tracking-wide uppercase">STEM Catalog</span>
             <h2 className="text-3xl font-extrabold text-[#0b2545] mt-3">Featured Robotics Kits</h2>
             <p className="text-slate-500 text-sm mt-2">Classroom-tested electronics, sensors, and microcontroller compiling kits mapping directly to CBSE standards.</p>
-          </div>
+          </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -444,8 +344,15 @@ export default function Home() {
               { id: "2", name: "Arduino Learning Kit", category: "Intermediate", price: 3999, desc: "Arduino core microcontroller board, multi-sensor shield array, breadboard connections.", img: "https://images.unsplash.com/photo-1561144257-e32e8efc6c4f?auto=format&fit=crop&w=400&q=80" },
               { id: "3", name: "AI Starter Kit", category: "Advanced", price: 5499, desc: "Computer vision and machine learning starter kits with ESP32 high-res camera shield.", img: "https://images.unsplash.com/photo-1531747118685-ca8fa6e08806?auto=format&fit=crop&w=400&q=80" },
               { id: "4", name: "IoT Experiment Kit", category: "Advanced", price: 4899, desc: "Cloud communications node module with temperature, light, and soil humidity telemetry.", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" }
-            ].map((kit) => (
-              <div key={kit.id} className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between">
+            ].map((kit, idx) => (
+              <motion.div 
+                key={kit.id} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:border-cyan-300 transition-all duration-300 flex flex-col justify-between"
+              >
                 <div>
                   <div className="w-full h-36 rounded-xl overflow-hidden mb-4 bg-slate-50 border border-slate-100">
                     <img src={kit.img} alt={kit.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -460,7 +367,7 @@ export default function Home() {
                     Details <ArrowRight size={12} />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 

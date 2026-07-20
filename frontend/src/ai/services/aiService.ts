@@ -64,7 +64,7 @@ class AIService {
     transform: (text: string) => T,
     config?: AIConfig
   ): Promise<AIServiceResponse<T>> {
-    const modelName = config?.model || "gemini-2.5-flash";
+    const modelName = config?.model || "gemini-2.0-flash";
     const useCache = config?.useCache !== false;
     const ttlMs = config?.ttlMs;
     const startTime = Date.now();
