@@ -40,7 +40,6 @@ import VerifyCertificate from "./pages/VerifyCertificate";
 import ProposalGenerator from "./pages/ProposalGenerator";
 import AIConsultant from "./pages/AIConsultant";
 import CurriculumGenerator from "./pages/CurriculumGenerator";
-import Playground from "./pages/Playground";
 
 // auth pages
 import Login from "./pages/Login";
@@ -139,7 +138,6 @@ export default function App() {
                   <PublicLayout><CurriculumGenerator /></PublicLayout>
                 </RequireAuth>
               } />
-              <Route path="/playground" element={<PublicLayout><Playground /></PublicLayout>} />
               <Route path="/training" element={<PublicLayout><Training /></PublicLayout>} />
               <Route path="/training/add-course" element={<PublicLayout><AddCourse /></PublicLayout>} />
               <Route path="/products" element={<PublicLayout><Products /></PublicLayout>} />

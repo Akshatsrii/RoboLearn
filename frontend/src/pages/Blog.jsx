@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Calendar, ArrowRight, Clock, Search } from "lucide-react";
 import { getBlogs } from "../services/blogService";
 import SEO from "../components/SEO";
-import { motion } from "framer-motion";
 
 const categoryStyles = {
   robotics: "bg-blue-50 text-blue-600",
@@ -142,12 +141,7 @@ export default function Blog() {
             <circle cx="880" cy="60" r="4" /><circle cx="640" cy="180" r="4" />
           </g>
         </svg>
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative max-w-4xl mx-auto px-6 text-center"
-        >
+        <div className="relative max-w-4xl mx-auto px-6 text-center anim-fadeup">
           <span className="inline-flex items-center gap-2 bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 px-4 py-1.5 rounded-full text-sm font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             Knowledge Hub
@@ -158,7 +152,7 @@ export default function Blog() {
           <p className="mt-4 text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Stay up to date with core engineering pedagogies, semiconductor initiatives in India, and smart classroom trends.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* FEATURED POST */}
@@ -166,12 +160,7 @@ export default function Blog() {
         <section className="py-20 bg-slate-50 border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-10 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
+              <div className="anim-fadeup">
                 <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${categoryStyles[featured.category] || "bg-slate-200 text-slate-700"}`}>
                   Featured {featured.category}
                 </span>
@@ -192,18 +181,11 @@ export default function Blog() {
                   Read Full Article
                   <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                 </Link>
-              </motion.div>
+              </div>
               {featured.coverImage && (
-                <motion.div 
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 group cursor-pointer"
-                >
-                  <img src={featured.coverImage} alt={featured.title} className="w-full h-64 lg:h-72 object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </motion.div>
+                <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                  <img src={featured.coverImage} alt={featured.title} className="w-full h-64 lg:h-72 object-cover" loading="lazy" />
+                </div>
               )}
             </div>
           </div>
@@ -213,36 +195,24 @@ export default function Blog() {
       {/* FILTERS + GRID */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
-            <h2 className="text-2xl font-bold text-[#0b2545]">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-12">
+            <h2 className="text-xl font-bold text-[#0b2545]">
               More Articles
             </h2>
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-              <div className="relative w-full sm:w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                <input
-                  type="text"
-                  placeholder="Search articles..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
-                />
-              </div>
-              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`capitalize text-xs font-semibold px-4 py-2 rounded-xl border transition-all ${
-                      activeCategory === cat
-                        ? "bg-[#0b2545] text-white border-[#0b2545] shadow-md scale-105"
-                        : "bg-white text-slate-600 border-slate-200 hover:border-cyan-300 hover:text-cyan-600 hover:bg-slate-50"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`capitalize text-xs font-semibold px-4 py-2 rounded-xl border transition-colors ${
+                    activeCategory === cat
+                      ? "bg-[#0b2545] text-white border-[#0b2545] shadow-sm"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-cyan-300 hover:text-cyan-600"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -260,46 +230,38 @@ export default function Blog() {
             <div className="text-center py-20 text-slate-500 text-sm">No articles match your selection.</div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((blog, idx) => (
-                <motion.div
+              {filtered.map((blog) => (
+                <Link
                   key={blog._id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  to={`/blog/${blog.slug || blog._id}`}
+                  className="group border border-slate-200 bg-white rounded-2xl overflow-hidden hover:shadow-md hover:border-cyan-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
                 >
-                  <Link
-                    to={`/blog/${blog.slug || blog._id}`}
-                    className="group border border-slate-200 bg-white rounded-2xl overflow-hidden hover:shadow-xl hover:border-cyan-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full justify-between"
-                  >
-                    <div>
-                      {blog.coverImage && (
-                        <div className="overflow-hidden h-48 border-b border-slate-100 relative">
-                          <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                        </div>
-                      )}
-                      <div className="p-5">
-                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full capitalize tracking-wide ${categoryStyles[blog.category] || "bg-slate-100 text-slate-600"}`}>
-                          {blog.category}
-                        </span>
-                        <h3 className="font-bold text-slate-900 mt-4 mb-2 leading-snug group-hover:text-cyan-600 transition-colors text-base line-clamp-2">
-                          {blog.title}
-                        </h3>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">{blog.excerpt}</p>
+                  <div>
+                    {blog.coverImage && (
+                      <div className="overflow-hidden h-44 border-b border-slate-100">
+                        <img src={blog.coverImage} alt={blog.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500" loading="lazy" />
                       </div>
-                    </div>
-                    <div className="p-5 pt-0 mt-auto">
-                      <div className="flex items-center gap-4 text-xs text-slate-400 mb-4 border-t border-slate-50 pt-4">
-                        <span className="flex items-center gap-1.5"><Calendar size={14} />{formatDate(blog.publishedAt)}</span>
-                        <span className="flex items-center gap-1.5"><Clock size={14} />{blog.readTime} min read</span>
-                      </div>
-                      <span className="flex items-center gap-1 text-cyan-600 text-sm font-semibold group-hover:gap-2 transition-all">
-                        Read Article <ArrowRight size={16} />
+                    )}
+                    <div className="p-5">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full capitalize ${categoryStyles[blog.category] || "bg-slate-100 text-slate-600"}`}>
+                        {blog.category}
                       </span>
+                      <h3 className="font-bold text-slate-900 mt-3 mb-2 leading-snug group-hover:text-cyan-600 transition-colors text-sm line-clamp-1">
+                        {blog.title}
+                      </h3>
+                      <p className="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2">{blog.excerpt}</p>
                     </div>
-                  </Link>
-                </motion.div>
+                  </div>
+                  <div className="p-5 pt-0 mt-auto">
+                    <div className="flex items-center gap-4 text-[10px] text-slate-400 mb-3.5">
+                      <span className="flex items-center gap-1"><Calendar size={11} />{formatDate(blog.publishedAt)}</span>
+                      <span className="flex items-center gap-1"><Clock size={11} />{blog.readTime} min read</span>
+                    </div>
+                    <span className="flex items-center gap-1 text-cyan-600 text-xs font-bold group-hover:gap-1.5 transition-all">
+                      Read More <ArrowRight size={13} />
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
           )}

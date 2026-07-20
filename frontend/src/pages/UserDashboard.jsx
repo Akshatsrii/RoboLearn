@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FileText, Calendar, BookOpen, ArrowRight, Package, Clock, CheckCircle2, Truck, ShoppingBag, User2, BarChart3, Flame, Medal, Zap, Trophy, ShieldCheck } from "lucide-react";
+import { FileText, Calendar, BookOpen, ArrowRight, Package, Clock, CheckCircle2, Truck, ShoppingBag, User2, BarChart3 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import SEO from "../components/SEO";
 import { getUserOrders } from "../services/orderService";
@@ -111,78 +111,6 @@ export default function UserDashboard() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-10 space-y-10">
-
-        {/* Gamification Profile */}
-        <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            
-            {/* Level Ring */}
-            <div className="relative w-32 h-32 flex-shrink-0">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" strokeWidth="8" />
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#0ea5e9" strokeWidth="8" strokeDasharray="282.7" strokeDashoffset="56.54" strokeLinecap="round" className="transition-all duration-1000" />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-black text-[#0b2545]">8</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Level</span>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="flex-1 w-full space-y-6">
-              <div className="flex items-end justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-[#0b2545]">Robotics Innovator</h3>
-                  <p className="text-slate-500 text-sm mt-1">2,400 / 3,000 XP to next level</p>
-                </div>
-                <div className="flex items-center gap-2 text-amber-500 font-bold bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
-                  <Flame size={16} className="animate-pulse" /> 14 Day Streak
-                </div>
-              </div>
-
-              {/* Progress bar */}
-              <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" style={{ width: '80%' }} />
-              </div>
-
-              {/* Badges */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
-                <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <Trophy size={20} className="text-blue-600" />
-                  </div>
-                  <div>
-                     <p className="text-xs font-bold text-[#0b2545]">Code Master</p>
-                     <p className="text-[10px] text-slate-500">100 runs</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                    <ShieldCheck size={20} className="text-emerald-600" />
-                  </div>
-                  <div>
-                     <p className="text-xs font-bold text-[#0b2545]">AI Explorer</p>
-                     <p className="text-[10px] text-slate-500">50 Queries</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200 opacity-50 grayscale">
-                  <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-                    <Zap size={20} className="text-slate-500" />
-                  </div>
-                  <div>
-                     <p className="text-xs font-bold text-[#0b2545]">Speed Demon</p>
-                     <p className="text-[10px] text-slate-500">Locked</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center bg-cyan-50 border border-cyan-200 rounded-xl p-3 cursor-pointer hover:bg-cyan-100 transition-colors">
-                  <span className="text-xs font-bold text-cyan-700 text-center flex items-center gap-1">
-                    <Medal size={14} /> Leaderboard
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Quick Links */}
         <section>
