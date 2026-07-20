@@ -29,7 +29,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://robolearn-1.onrender.com",
+  "https://robolearn-cev6.onrender.com",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 

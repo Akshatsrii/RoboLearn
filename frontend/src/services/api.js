@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://robolearn-1.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://robolearn-cev6.onrender.com/api",
   headers: { "Content-Type": "application/json" },
 });
 
